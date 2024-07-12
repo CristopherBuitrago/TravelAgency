@@ -47,7 +47,7 @@ CREATE TABLE airport (
 
 CREATE TABLE scale (
     id INT NOT NULL AUTO_INCREMENT,
-    number VARCHAR(10) NOT NULL,
+    scaleCode VARCHAR(10) NOT NULL,
     airport INT NOT NULL,
     CONSTRAINT Pk_scale PRIMARY KEY (id),
     CONSTRAINT Fk_scale_1 FOREIGN KEY (airport) REFERENCES airport(id)
