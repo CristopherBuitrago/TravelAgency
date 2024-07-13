@@ -1,14 +1,13 @@
---Create and use of database TravelAgency
+-- Create and use database TravelAgency
 DROP DATABASE IF EXISTS TravelAgency;
 CREATE DATABASE TravelAgency;
 USE TravelAgency;
 
 -- Customer Database
-
 CREATE TABLE document_type (
-    id INT NOT NULL AUTO_INCREMENT,
+    code VARCHAR(10) NOT NULL,
     name VARCHAR(40) NOT NULL,
-    CONSTRAINT Pk_document_type PRIMARY KEY (id)
+    CONSTRAINT Pk_document_type PRIMARY KEY (code)
 );
 
 CREATE TABLE customer (
@@ -16,26 +15,25 @@ CREATE TABLE customer (
     name VARCHAR(45) NOT NULL,
     lastName VARCHAR(45) NOT NULL,
     age INT NOT NULL,
-    documentType INT NOT NULL,
+    documentType VARCHAR(10) NOT NULL,
     documentNumber INT NOT NULL,
     CONSTRAINT Pk_customer PRIMARY KEY (id),
-    CONSTRAINT Fk_customer_1 FOREIGN KEY (document_type) REFERENCES document_type(id)
-);  
+    CONSTRAINT Fk_customer_1 FOREIGN KEY (documentType) REFERENCES document_type(code)
+);
 
 -- Airport Database
-
 CREATE TABLE country (
-    id INT NOT NULL AUTO_INCREMENT,
+    code VARCHAR(10) NOT NULL,
     name VARCHAR(45) NOT NULL,
-    CONSTRAINT Pk_country PRIMARY KEY (id)
+    CONSTRAINT Pk_country PRIMARY KEY (code)
 );
 
 CREATE TABLE city (
-    id INT NOT NULL AUTO_INCREMENT,
+    code VARCHAR(10) NOT NULL,
     name VARCHAR(30) NOT NULL,
-    country INT NOT NULL,
-    CONSTRAINT Pk_city PRIMARY KEY (id),
-    CONSTRAINT Fk_city_1 FOREIGN KEY (country) REFERENCES country(id)
+    country VARCHAR(10) NOT NULL,
+    CONSTRAINT Pk_city PRIMARY KEY (code),
+    CONSTRAINT Fk_city_1 FOREIGN KEY (country) REFERENCES country(code)
 );
 
 CREATE TABLE airline (
@@ -47,9 +45,9 @@ CREATE TABLE airline (
 CREATE TABLE airport (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(45) NOT NULL,
-    city INT NOT NULL,
+    city VARCHAR(10) NOT NULL,
     CONSTRAINT Pk_airport PRIMARY KEY (id),
-    CONSTRAINT Fk_airport_1 FOREIGN KEY (city) REFERENCES city(id)
+    CONSTRAINT Fk_airport_1 FOREIGN KEY (city) REFERENCES city(iso)
 );
 
 CREATE TABLE airport_has_airline (
@@ -61,30 +59,28 @@ CREATE TABLE airport_has_airline (
 );
 
 CREATE TABLE door (
-    id INT NOT NULL AUTO_INCREMENT,
-    code VARCHAR(45) NOT NULL,
+    code VARCHAR(10) NOT NULL,
     airport INT NOT NULL,
-    CONSTRAINT Pk_door PRIMARY KEY (id),
+    CONSTRAINT Pk_door PRIMARY KEY (code),
     CONSTRAINT Fk_door_1 FOREIGN KEY (airport) REFERENCES airport(id)
 );
 
 -- TripBooking Database
-
 CREATE TABLE flight_fare (
     id INT NOT NULL AUTO_INCREMENT,
-    description VARCHAR(20) NOT NULL,
+    title VARCHAR(20) NOT NULL,
     details TEXT NOT NULL,
     value DOUBLE NOT NULL,
-    CONSTRAINT Pk_flight_fare PRIMARY KEY (id),
+    CONSTRAINT Pk_flight_fare PRIMARY KEY (id)
 );
 
-CREATE TABLE scale(
+CREATE TABLE scale (
     id INT NOT NULL AUTO_INCREMENT,
     scaleCode VARCHAR(10),
     CONSTRAINT Pk_scale PRIMARY KEY (id)
 );
 
-CREATE scale_has_airport (
+CREATE TABLE scale_has_airport (
     scale INT NOT NULL,
     originAirport INT NOT NULL,
     destinationAirport INT NOT NULL,
@@ -92,7 +88,7 @@ CREATE scale_has_airport (
     CONSTRAINT Fk_scale_has_airport_1 FOREIGN KEY (scale) REFERENCES scale(id),
     CONSTRAINT Fk_scale_has_airport_2 FOREIGN KEY (originAirport) REFERENCES airport(id),
     CONSTRAINT Fk_scale_has_airport_3 FOREIGN KEY (destinationAirport) REFERENCES airport(id)
-)
+);
 
 CREATE TABLE trip (
     id INT NOT NULL AUTO_INCREMENT,
@@ -105,7 +101,7 @@ CREATE TABLE trip (
 
 CREATE TABLE payment_method (
     code VARCHAR(10) NOT NULL,
-    name VARCHAR(15) NOT NULL,
+    name VARCHAR(30) NOT NULL,
     description VARCHAR(50) NOT NULL,
     CONSTRAINT Pk_payment_method PRIMARY KEY (code)
 );
@@ -169,13 +165,12 @@ CREATE TABLE employee_revision (
 );
 
 -- Plane Database
-
 CREATE TABLE plane_status (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(10) NOT NULL,
     description TEXT NOT NULL,
     CONSTRAINT Pk_plane_status PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE plane_manufacture (
     id INT NOT NULL AUTO_INCREMENT,
@@ -188,7 +183,7 @@ CREATE TABLE plane_model (
     name VARCHAR(10) NOT NULL,
     planeManufacture INT NOT NULL,
     CONSTRAINT Pk_plane_model PRIMARY KEY (id),
-    CONSTRAINT Fk_plane_model_1 FOREIGN KEY (planeManufacture) REFERENCES plane_manufacture (id)
+    CONSTRAINT Fk_plane_model_1 FOREIGN KEY (planeManufacture) REFERENCES plane_manufacture(id)
 );
 
 CREATE TABLE plane (
@@ -199,7 +194,7 @@ CREATE TABLE plane (
     model INT NOT NULL,
     fabricationDate DATE NOT NULL,
     airline INT NOT NULL,
-    CONSTRAINT Pk_plane PRIMARY KEY (id, plate),
+    CONSTRAINT Pk_plane PRIMARY KEY (id),
     CONSTRAINT Fk_plane_1 FOREIGN KEY (model) REFERENCES plane_model(id),
     CONSTRAINT Fk_plane_2 FOREIGN KEY (status) REFERENCES plane_status(id),
     CONSTRAINT Fk_plane_3 FOREIGN KEY (airline) REFERENCES airline(id)
@@ -216,17 +211,16 @@ CREATE TABLE plane_revision (
     CONSTRAINT Fk_plane_revision_2 FOREIGN KEY (employee) REFERENCES employee(id)
 );
 
-
 -- Flight Connection Database
-
 CREATE TABLE passenger (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(45) NOT NULL,
     lastName VARCHAR(45) NOT NULL,
     age INT NOT NULL,
-    documentType INT NOT NULL,
+    documentType VARCHAR(10) NOT NULL,
     documentNumber INT NOT NULL,
-    CONSTRAINT Pk_passenger PRIMARY KEY (id)
+    CONSTRAINT Pk_passenger PRIMARY KEY (id),
+    CONSTRAINT Fk_passenger_1 FOREIGN KEY (documentType) REFERENCES document_type(code)
 );
 
 CREATE TABLE flight_connection (
@@ -238,7 +232,7 @@ CREATE TABLE flight_connection (
     arrivalTime TIME NOT NULL,
     availableChairs INT NOT NULL,
     CONSTRAINT Pk_flight_connection PRIMARY KEY (id),
-    CONSTRAINT Fk_flight_connection_1 FOREIGN KEY (trip) REFERENCES trip(id),   
+    CONSTRAINT Fk_flight_connection_1 FOREIGN KEY (trip) REFERENCES trip(id),
     CONSTRAINT Fk_flight_connection_2 FOREIGN KEY (plane) REFERENCES plane(id)
 );
 
@@ -248,7 +242,7 @@ CREATE TABLE passenger_has_seat (
     flightConnection INT NOT NULL,
     CONSTRAINT Pk_passenger_has_seat PRIMARY KEY (passenger, flightConnection),
     CONSTRAINT Fk_passenger_has_seat_1 FOREIGN KEY (passenger) REFERENCES passenger(id),
-    CONSTRAINT Fk_passenger_has_seat_2 FOREIGN KEY (flightConnection) REFERENCES flightConnection(id)
+    CONSTRAINT Fk_passenger_has_seat_2 FOREIGN KEY (flightConnection) REFERENCES flight_connection(id)
 );
 
 CREATE TABLE trip_crew (
@@ -266,7 +260,7 @@ CREATE TABLE permission (
     name VARCHAR(45) NOT NULL,
     description TEXT NOT NULL,
     CONSTRAINT Pk_permission PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE role (
     code VARCHAR(10) NOT NULL,
@@ -279,7 +273,7 @@ CREATE TABLE role_has_permission (
     role VARCHAR(10) NOT NULL,
     permission INT NOT NULL,
     CONSTRAINT Pk_role_has_permission PRIMARY KEY (role, permission),
-    CONSTRAINT Fk_role_has_permission_1 FOREIGN KEY (role) REFERENCES role(code),
+    CONSTRAINT Fk_role_has_permission_1 FOREIGN KEY (role) REFERENCES role(code)
 );
 
 CREATE TABLE user (
@@ -289,5 +283,5 @@ CREATE TABLE user (
     password VARCHAR(40) NOT NULL,
     role VARCHAR(10) NOT NULL,  
     CONSTRAINT Pk_user PRIMARY KEY (id),
-    CONSTRAINT Fk_user_1 FOREIGN KEY (role) REFERENCES role(id)
+    CONSTRAINT Fk_user_1 FOREIGN KEY (role) REFERENCES role(code)
 );
