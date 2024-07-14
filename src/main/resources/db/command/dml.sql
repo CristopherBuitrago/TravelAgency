@@ -543,4 +543,86 @@ INSERT INTO trip_crew (employee, flightConnection) VALUES
 
 
 -- User Database
+-- Inserciones para la tabla permission
+INSERT INTO permission (name, description) VALUES
+('register_airplane', 'Permite registrar un nuevo avión en el sistema con todos sus detalles'),
+('assign_employee_to_trip', 'Permite asignar empleados a un trayecto específico'),
+('view_airplane_info', 'Permite consultar la información de un avión registrado'),
+('view_trip_info', 'Permite consultar la información de un trayecto específico'),
+('register_airport', 'Permite registrar un nuevo aeropuerto en el sistema'),
+('view_airport_info', 'Permite consultar la información de un aeropuerto registrado'),
+('update_airplane_info', 'Permite actualizar la información de un avión registrado'),
+('delete_airplane', 'Permite eliminar un avión del sistema'),
+('assign_aircraft_to_trip', 'Permite asignar una aeronave a un trayecto específico'),
+('update_trip_info', 'Permite actualizar la información de un trayecto registrado'),
+('delete_trip', 'Permite eliminar un trayecto del sistema'),
+('update_airport_info', 'Permite actualizar la información de un aeropuerto registrado'),
+('delete_airport', 'Permite eliminar un aeropuerto del sistema'),
+('view_specific_flight_info', 'Permite consultar la información de un vuelo específico'),
+('view_trip_crew_assignment', 'Permite consultar la asignación de tripulación para un trayecto específico'),
+('view_trip_scales', 'Permite consultar las escalas asociadas a un trayecto específico'),
+('update_scale_info', 'Permite actualizar la información de una escala registrada'),
+('delete_scale', 'Permite eliminar una escala del sistema'),
+('register_flight_rate', 'Permite registrar una nueva tarifa de vuelo en el sistema'),
+('update_flight_rate_info', 'Permite actualizar la información de una tarifa de vuelo registrada'),
+('delete_flight_rate', 'Permite eliminar una tarifa de vuelo del sistema'),
+('view_flight_rate_info', 'Permite consultar la información de una tarifa de vuelo específica'),
+('register_document_type', 'Permite registrar un nuevo tipo de documento en el sistema'),
+('update_document_type_info', 'Permite actualizar la información de un tipo de documento registrado'),
+('delete_document_type', 'Permite eliminar un tipo de documento del sistema'),
+('view_document_type_info', 'Permite consultar la información de un tipo de documento específico'),
+('create_booking', 'Permite crear una nueva reserva de vuelo para un cliente'),
+('view_customer_info', 'Permite consultar la información de un cliente registrado'),
+('view_booking_info', 'Permite consultar las reservas de vuelo de un cliente o de un trayecto específico'),
+('register_customer', 'Permite registrar un nuevo cliente en el sistema'),
+('update_customer_info', 'Permite actualizar la información de un cliente registrado'),
+('delete_booking', 'Permite eliminar una reserva de vuelo existente'),
+('view_specific_flight_info_agent', 'Permite consultar la información de un vuelo específico (para agente)'),
+('view_trip_crew_assignment_agent', 'Permite consultar la asignación de tripulación para un trayecto específico (para agente)'),
+('view_trip_scales_agent', 'Permite consultar las escalas asociadas a un trayecto específico (para agente)'),
+('view_flight_rate_info_agent', 'Permite consultar la información de una tarifa de vuelo específica (para agente)'),
+('view_document_type_info_agent', 'Permite consultar la información de un tipo de documento específico (para agente)'),
+('register_maintenance_review', 'Permite registrar una revisión de mantenimiento para un avión'),
+('view_airplane_maintenance_history', 'Permite consultar el historial de revisiones de mantenimiento de un avión específico'),
+('update_maintenance_review', 'Permite actualizar la información de una revisión de mantenimiento'),
+('delete_maintenance_review', 'Permite eliminar una revisión de mantenimiento del sistema'),
+('search_available_flights', 'Permite a los clientes buscar vuelos disponibles según sus criterios de búsqueda'),
+('add_passenger_data', 'Permite a los clientes añadir los datos de los pasajeros que viajarán en el vuelo seleccionado'),
+('select_seats', 'Permite a los clientes seleccionar los asientos para los pasajeros en el vuelo seleccionado'),
+('confirm_payment', 'Permite a los clientes realizar el pago para confirmar la reserva del vuelo'),
+('view_booking_details', 'Permite a los clientes consultar los detalles de sus reservas de vuelo'),
+('update_booking_details', 'Permite a los clientes modificar los detalles de una reserva de vuelo existente');
+
+-- Inserciones para la tabla role
+INSERT INTO role (code, name, description) VALUES
+('admin', 'Administrador del Sistema', 'Acceso completo a todas las funciones administrativas'),
+('sales_agent', 'Agente de Ventas', 'Acceso a funciones relacionadas con la venta de vuelos'),
+('maintenance_technician', 'Técnico de Mantenimiento', 'Acceso a funciones relacionadas con el mantenimiento de aviones'),
+('customer', 'Cliente', 'Acceso a funciones relacionadas con la reserva y gestión de vuelos');
+
+
+-- Inserciones para la tabla role_has_permission
+INSERT INTO role_has_permission (role, permission) VALUES
+-- Permisos para el Administrador del Sistema (admin)
+('admin', 1), ('admin', 2), ('admin', 3), ('admin', 4), ('admin', 5), ('admin', 6), 
+('admin', 7), ('admin', 8), ('admin', 9), ('admin', 10), ('admin', 11), ('admin', 12), 
+('admin', 13), ('admin', 14), ('admin', 15), ('admin', 16), ('admin', 17), ('admin', 18), 
+('admin', 19), ('admin', 20), ('admin', 21), ('admin', 22), ('admin', 23), ('admin', 24), 
+('admin', 25);
+
+-- Permisos para el Agente de Ventas (sales_agent)
+('sales_agent', 26), ('sales_agent', 27), ('sales_agent', 28), ('sales_agent', 29), 
+('sales_agent', 30), ('sales_agent', 31), ('sales_agent', 32), ('sales_agent', 33), 
+('sales_agent', 34), ('sales_agent', 35), ('sales_agent', 36), ('sales_agent', 37), 
+('sales_agent', 38);
+
+-- Permisos para el Técnico de Mantenimiento (maintenance_technician)
+('maintenance_technician', 39), ('maintenance_technician', 40), ('maintenance_technician', 41), 
+('maintenance_technician', 42);
+
+-- Permisos para el Cliente (customer)
+('customer', 43), ('customer', 44), ('customer', 45), ('customer', 46), 
+('customer', 47), ('customer', 48);
+
+
 -- TODO: user details (role, permission, role_has_permission), plane details (plane_status, plane_manufacture, plane_model), 
