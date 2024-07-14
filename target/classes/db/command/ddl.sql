@@ -165,7 +165,7 @@ CREATE TABLE employee_revision (
 );
 
 -- Plane Database
---? fixed
+-- fixed
 CREATE TABLE plane_status (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
@@ -173,14 +173,14 @@ CREATE TABLE plane_status (
     CONSTRAINT Pk_plane_status PRIMARY KEY (id)
 );
 
---? fixed
+-- fixed
 CREATE TABLE plane_manufacture (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     CONSTRAINT Pk_plane_manufacture PRIMARY KEY (id)
 );
 
---? fixed
+-- fixed
 CREATE TABLE plane_model (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,

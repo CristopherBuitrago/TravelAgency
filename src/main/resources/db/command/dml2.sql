@@ -26,27 +26,14 @@ BEGIN
 END$$
 
 CREATE PROCEDURE search_customer (
-    IN in_id INT,
-    OUT customer_id INT,
-    OUT out_name VARCHAR(45),
-    OUT out_lastName VARCHAR(45),
-    OUT out_age INT,
-    OUT out_documentType VARCHAR(40)
+    IN in_id INT
 )
-BEGIN
-    DECLARE customer_not_found CONDITION FOR SQLSTATE '45000';
-    
+BEGIN    
     -- query
     SELECT c.id, c.name, c.lastName, c.age, dt.name
-    INTO customer_id, out_name, out_lastName, out_age, out_documentType
     FROM customer c
     JOIN document_type dt ON dt.id = c.documentType
     WHERE c.id = in_id;
-    
-    -- Si no se encontró el cliente, lanza una excepción
-    IF out_name IS NULL THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'The customer is not in the database';
-    END IF;
 END$$
 
 -- user routine
@@ -122,7 +109,7 @@ CREATE PROCEDURE find_user (
     IN id INT
 )
 BEGIN
-    --query
+    -- query
     SELECT u.id, u.username, u.email, r.name AS role
     FROM user u
     JOIN role r
@@ -172,8 +159,7 @@ BEGIN
 END$$
 
 CREATE PROCEDURE search_plane (
-	IN plate VARCHAR(10),
-
+	IN plate VARCHAR(10)
 )
 BEGIN
     -- Query to get the plane details
@@ -294,3 +280,5 @@ BEGIN
 		SET response = "Error registering revision";
 	END IF;
 END$$
+
+DELIMITER ;
