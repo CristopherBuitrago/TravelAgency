@@ -6,19 +6,20 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private int role;
+    private String roleCode;
+    private String roleName;
 
     // empty constructor
     public User() {
     }
 
     // full constructor
-    public User(int id, String username, String email, String password, int role) {
+    public User(int id, String username, String email, String password, String roleCode) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.roleCode = roleCode;
     }
 
     // getters and setters
@@ -54,13 +55,19 @@ public class User {
         this.password = password;
     }
 
-    public int getRole() {
-        return role;
+    public String getRoleCode() {
+        return roleCode;
     }
 
-    public void setRole(int role) {
-        this.role = role;
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
     }
 
-    
+    public String getRoleName () {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 }

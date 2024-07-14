@@ -55,7 +55,7 @@ CREATE PROCEDURE create_user(
     IN username VARCHAR(40),
     IN email VARCHAR(40),
     IN password VARCHAR(40),
-    IN role INT,
+    IN role VARCHAR(10),
     OUT response VARCHAR(30)
 )
 BEGIN
@@ -94,7 +94,7 @@ CREATE PROCEDURE update_user(
     IN newUsername VARCHAR(40),
     IN newEmail VARCHAR(40),
     IN newPassword VARCHAR(40),
-    IN newRole INT,
+    IN newRole VARCHAR(10),
     OUT response VARCHAR(40)
 )
 BEGIN
@@ -115,6 +115,33 @@ BEGIN
 	ELSE
 		SET response = "Error modifying user";
 	END IF;
+END$$
+
+-- added find user
+CREATE PROCEDURE find_user (
+    IN id INT
+)
+BEGIN
+    --query
+    SELECT u.id, u.username, u.email, r.name AS role
+    FROM user u
+    JOIN role r
+    ON r.id = u.role
+    WHERE u.id = id;
+END $$
+
+-- added view user_view
+CREATE VIEW user_view AS
+SELECT u.id, u.username, u.email, r.name AS role
+FROM user u
+JOIN role r
+ON r.id = u.role;
+
+-- added get_users
+CREATE PROCEDURE get_users()
+BEGIN 
+    -- select user_view
+    SELECT * FROM user_view;
 END$$
 
 -- plane routine
@@ -146,20 +173,11 @@ END$$
 
 CREATE PROCEDURE search_plane (
 	IN plate VARCHAR(10),
-    OUT id INT,
-    OUT plate VARCHAR(10),
-    OUT chairs INT,
-    OUT fabricationDate DATE,
-    OUT status VARCHAR(10),
-    OUT model VARCHAR(10),
-    OUT airline VARCHAR(30)
+
 )
 BEGIN
-	DECLARE plane_not_found CONDITION FOR SQLSTATE '45000';
-
     -- Query to get the plane details
     SELECT p.id, p.plate, p.chairs, p.fabricationDate, ps.name, pm.name, a.name
-    INTO id, plate, chairs, fabricationDate, status, model, airline
     FROM plane p
     JOIN plane_status ps
     ON ps.id = p.status
@@ -168,11 +186,7 @@ BEGIN
     JOIN airline a
     ON a.id = p.airline
     WHERE p.plate = plate;
-    
-    -- If no rows found, raise an exception
-    IF plate IS NULL THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'The plane is not in the database';
-    END IF;
+
 END$$
 
 CREATE PROCEDURE add_employee_flight (
