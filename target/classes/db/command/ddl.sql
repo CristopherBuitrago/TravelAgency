@@ -47,7 +47,7 @@ CREATE TABLE airport (
     name VARCHAR(45) NOT NULL,
     city VARCHAR(10) NOT NULL,
     CONSTRAINT Pk_airport PRIMARY KEY (id),
-    CONSTRAINT Fk_airport_1 FOREIGN KEY (city) REFERENCES city(iso)
+    CONSTRAINT Fk_airport_1 FOREIGN KEY (city) REFERENCES city(code)
 );
 
 CREATE TABLE airport_has_airline (
@@ -165,22 +165,25 @@ CREATE TABLE employee_revision (
 );
 
 -- Plane Database
+--? fixed
 CREATE TABLE plane_status (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(10) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
     CONSTRAINT Pk_plane_status PRIMARY KEY (id)
 );
 
+--? fixed
 CREATE TABLE plane_manufacture (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(45) NOT NULL,
+    name VARCHAR(255) NOT NULL,
     CONSTRAINT Pk_plane_manufacture PRIMARY KEY (id)
 );
 
+--? fixed
 CREATE TABLE plane_model (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(10) NOT NULL,
+    name VARCHAR(100) NOT NULL,
     planeManufacture INT NOT NULL,
     CONSTRAINT Pk_plane_model PRIMARY KEY (id),
     CONSTRAINT Fk_plane_model_1 FOREIGN KEY (planeManufacture) REFERENCES plane_manufacture(id)

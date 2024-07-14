@@ -10,15 +10,6 @@ INSERT INTO document_type (code, name) VALUES
 ("TI", "Tarjeta de identidad"),
 ("RC", "Registro Civil");
 
--- Inserciones para la tabla customer
-INSERT INTO customer (name, lastName, age, documentType, documentNumber) VALUES
-("Juan", "Pérez", 30, "CC", 1234567890),
-("María", "Gómez", 25, "TI", 2345678901),
-("Carlos", "Rodríguez", 40, "CE", 3456789012),
-("Ana", "Martínez", 22, "PP", 4567890123),
-("Luis", "Fernández", 35, "RC", 5678901234);
-
-
 -- Airport Database
 INSERT INTO country (code, name) VALUES
 ("USA", "Estados Unidos"),
@@ -242,79 +233,11 @@ INSERT INTO flight_fare (title, details, value) VALUES
 ("doble", "Viaje con una escala (parada), tiempo aproximado del vuelo: 6h", 1000),
 ("mix", "Viaje con más de una escala (parada), tiempo aproximado del vuelo: 8h", 500);
 
-INSERT INTO scale (scaleCode) VALUES
-("SCL001"), ("SCL002"), ("SCL003"),
-("SCL004"), ("SCL005"), ("SCL006"),
-("SCL007"), ("SCL008"), ("SCL009"),
-("SCL010"), ("SCL011"), ("SCL012"),
-("SCL013"), ("SCL014"), ("SCL015"),
-("SCL016"), ("SCL017"), ("SCL018"),
-("SCL019"), ("SCL020"), ("SCL021"),
-("SCL022"), ("SCL023"), ("SCL024"),
-("SCL025"), ("SCL026"), ("SCL027"),
-("SCL028"), ("SCL029"), ("SCL030"),
-("SCL031"), ("SCL032"), ("SCL033"),
-("SCL034"), ("SCL035"), ("SCL036"),
-("SCL037"), ("SCL038"), ("SCL039"),
-("SCL040");
-
-INSERT INTO scale_has_airport (scale, originAirport, destinationAirport) VALUES
-(1, 1, 2), (2, 2, 3), (3, 3, 4),
-(4, 4, 5), (5, 5, 6), (6, 6, 7),
-(7, 7, 8), (8, 8, 9), (9, 9, 10),
-(10, 10, 11), (11, 11, 12), (12, 12, 13),
-(13, 13, 14), (14, 14, 15), (15, 15, 16),
-(16, 16, 17), (17, 17, 18), (18, 18, 19),
-(19, 19, 20), (20, 20, 21), (21, 21, 22),
-(22, 22, 23), (23, 23, 24), (24, 24, 25),
-(25, 25, 26), (26, 26, 27), (27, 27, 28),
-(28, 28, 29), (29, 29, 30), (30, 30, 31),
-(31, 31, 32), (32, 32, 33), (33, 33, 34),
-(34, 34, 35), (35, 35, 36), (36, 36, 37),
-(37, 37, 38), (38, 38, 39), (39, 39, 40);
-
-INSERT INTO trip (date, price, scale) VALUES
-('2024-08-01', 150.00, 1), ('2024-08-02', 200.00, 2),
-('2024-08-03', 250.00, 3), ('2024-08-04', 300.00, 4),
-('2024-08-05', 350.00, 5), ('2024-08-06', 400.00, 6),
-('2024-08-07', 450.00, 7), ('2024-08-08', 500.00, 8),
-('2024-08-09', 550.00, 9), ('2024-08-10', 600.00, 10),
-('2024-08-11', 650.00, 11), ('2024-08-12', 700.00, 12),
-('2024-08-13', 750.00, 13), ('2024-08-14', 800.00, 14),
-('2024-08-15', 850.00, 15), ('2024-08-16', 900.00, 16),
-('2024-08-17', 950.00, 17), ('2024-08-18', 1000.00, 18),
-('2024-08-19', 1050.00, 19), ('2024-08-20', 1100.00, 20),
-('2024-08-21', 1150.00, 21), ('2024-08-22', 1200.00, 22),
-('2024-08-23', 1250.00, 23), ('2024-08-24', 1300.00, 24),
-('2024-08-25', 1350.00, 25), ('2024-08-26', 1400.00, 26),
-('2024-08-27', 1450.00, 27), ('2024-08-28', 1500.00, 28),
-('2024-08-29', 1550.00, 29), ('2024-08-30', 1600.00, 30),
-('2024-08-31', 1650.00, 31), ('2024-09-01', 1700.00, 32),
-('2024-09-02', 1750.00, 33), ('2024-09-03', 1800.00, 34),
-('2024-09-04', 1850.00, 35), ('2024-09-05', 1900.00, 36),
-('2024-09-06', 1950.00, 37), ('2024-09-07', 2000.00, 38),
-('2024-09-08', 2050.00, 39), ('2024-09-09', 2100.00, 40);
-
 INSERT INTO payment_method (code, name, description) VALUES
 ("TC", "Tarjeta de crédito", "Pago con tarjeta de crédito"),
 ("TD", "Tarjeta de débito", "Pago con tarjeta de débito"),
 ("EFEC", "Pago en efectivo", "Pago en efectivo"),
 ("TB", "Transferencia bancaria", "Pago por transferencia bancaria");
-
-INSERT INTO payment (paymentMethod, cardNumber, amount, paymentDate, customer) VALUES
-('TC', '3456', 180.00, '2024-02-05', 5),
-('TC', '1234', 150.00, '2024-03-01', 1),
-('TD', '5678', 200.00, '2024-04-02', 2),
-('TB', '9012', 120.00, '2024-05-04', 4),
-('EFEC', NULL, 100.00, '2024-06-03', 3);
-
-INSERT INTO customer_reservation (customer, trip, payment, flightFare, reservationDate) VALUES
-(1, 1, 2, 1, '2024-02-05'),
-(2, 2, 3, 2, '2024-03-01'),
-(3, 3, 4, 3, '2024-04-02'),
-(4, 4, 5, 1, '2024-05-04'),
-(5, 5, 6, 2, '2024-06-03');
-
 
 -- Employee Database
 INSERT INTO tripulation_role (name, description) VALUES
@@ -330,35 +253,6 @@ INSERT INTO tripulation_role (name, description) VALUES
 ("Air Traffic Controller", "A person responsible for controlling the flow of aircraft between airports"),
 ("Weather Forecaster", "A person responsible for predicting weather conditions and preparing for them"),
 ("Aircraft Maintenance Technician", "A person responsible for inspecting and maintaining the a craft's engines, electrical systems, and other critical components");    
-
-INSERT INTO employee (name, lastName, age, tripulationRole, admissionDate, airline, airport) VALUES
-('Juan', 'López', 35, 1, '2023-01-01', 1, 1),
-('María', 'González', 28, 2, '2023-02-01', 2, 2),
-('Pedro', 'Martínez', 40, 3, '2023-03-01', 3, 3),
-('Laura', 'Sánchez', 30, 4, '2023-04-01', 1, 4),
-('Carlos', 'Rodríguez', 32, 5, '2023-05-01', 2, 5),
-('Ana', 'Pérez', 25, 6, '2023-06-01', 3, 6),
-('Luis', 'Fernández', 38, 7, '2023-07-01', 1, 7),
-('Elena', 'Gómez', 27, 8, '2023-08-01', 2, 8),
-('Andrés', 'Díaz', 33, 9, '2023-09-01', 3, 9),
-('Gabriela', 'Hernández', 29, 10, '2023-10-01', 1, 10),
-('Santiago', 'Vargas', 36, 11, '2023-11-01', 2, 11),
-('Valeria', 'Torres', 31, 12, '2023-12-01', 3, 12);
-
-INSERT INTO employee_revision (employee, description, revisionDate) VALUES
-(1, 'Revision inicial del empleado Juan López.', '2024-01-01'),
-(2, 'Revisión de desempeño para María González.', '2024-02-01'),
-(3, 'Revisión anual para Pedro Martínez.', '2024-03-01'),
-(4, 'Evaluación trimestral para Laura Sánchez.', '2024-04-01'),
-(5, 'Seguimiento de objetivos para Carlos Rodríguez.', '2024-05-01'),
-(6, 'Revisión semestral para Ana Pérez.', '2024-06-01'),
-(7, 'Revisión de competencias para Luis Fernández.', '2024-07-01'),
-(8, 'Evaluación de habilidades técnicas para Elena Gómez.', '2024-08-01'),
-(9, 'Revisión de rendimiento para Andrés Díaz.', '2024-09-01'),
-(10, 'Revisión de metas alcanzadas para Gabriela Hernández.', '2024-10-01'),
-(11, 'Revisión de desempeño para Santiago Vargas.', '2024-11-01'),
-(12, 'Seguimiento de objetivos trimestrales para Valeria Torres.', '2024-12-01');
-
 
 -- Plane Database
 INSERT INTO plane_status (name, description) VALUES
@@ -415,133 +309,6 @@ INSERT INTO plane_model (name, planeManufacture) VALUES
 ('Caravan', 5);
 
 
-INSERT INTO plane (plate, chairs, status, model, fabricationDate, airline) VALUES
--- Aviones de Boeing (airline = 1)
-('AA001', 150, 1, 1, '2010-05-15', 1),
-('AA002', 300, 1, 2, '2005-09-20', 1),
-('AA003', 250, 2, 3, '2012-12-10', 1),
-('AA004', 350, 1, 4, '2015-07-01', 1),
-('AA005', 400, 3, 5, '2008-03-12', 1),
--- Aviones de Airbus (airline = 2)
-('DL001', 180, 1, 6, '2011-08-25', 2),
-('DL002', 220, 2, 7, '2007-11-30', 2),
-('DL003', 280, 1, 8, '2014-04-05', 2),
-('DL004', 350, 1, 9, '2016-09-15', 2),
-('DL005', 500, 1, 10, '2013-02-18', 2),
--- Aviones de Embraer (airline = 3)
-('UA001', 80, 1, 11, '2009-06-10', 3),
-('UA002', 100, 1, 12, '2017-11-22', 3),
-('UA003', 120, 1, 11, '2013-08-14', 3),
-('UA004', 90, 1, 12, '2015-05-30', 3),
-('UA005', 110, 1, 11, '2012-04-03', 3);
-
-
-INSERT INTO plane_revision (revisionDate, plane, description, employee) VALUES
--- Revisiones para aviones de Boeing (airline = 1)
-('2024-01-10', 1, 'Routine maintenance check.', 1),
-('2024-03-20', 2, 'Engine overhaul.', 4),
-('2024-05-15', 3, 'Electrical system inspection.', 7),
-('2024-07-05', 4, 'Avionics upgrade.', 10),
-('2024-09-28', 5, 'Interior refurbishment.', 1),
--- Revisiones para aviones de Airbus (airline = 2)
-('2024-02-12', 6, 'Routine maintenance check.', 2),
-('2024-04-25', 7, 'Engine overhaul.', 5),
-('2024-06-18', 8, 'Electrical system inspection.', 8),
-('2024-08-10', 9, 'Avionics upgrade.', 11),
-('2024-10-30', 10, 'Interior refurbishment.', 2),
--- Revisiones para aviones de Embraer (airline = 3)
-('2024-03-08', 11, 'Routine maintenance check.', 3),
-('2024-05-22', 12, 'Engine overhaul.', 6),
-('2024-07-14', 13, 'Electrical system inspection.', 9),
-('2024-09-05', 14, 'Avionics upgrade.', 12),
-('2024-11-19', 15, 'Interior refurbishment.', 3);
-
-
-
--- Flight Connection Database
-INSERT INTO passenger (name, lastName, age, documentType, documentNumber) VALUES
-('Juan', 'Pérez', 30, 'CC', 1234567890),
-('María', 'Gómez', 25, 'TI', 2345678901),
-('Carlos', 'Rodríguez', 40, 'CE', 3456789012),
-('Ana', 'Martínez', 22, 'PP', 4567890123),
-('Luis', 'Fernández', 35, 'RC', 5678901234);
-
-INSERT INTO flight_connection (connectionNumber, trip, plane, departureTime, arrivalTime, availableChairs) VALUES
-(1, 1, 1, '08:00:00', '10:00:00', 150),
-(2, 2, 2, '09:00:00', '11:30:00', 180),
-(3, 3, 3, '10:00:00', '12:45:00', 80),
-(4, 4, 4, '11:00:00', '13:30:00', 250),
-(5, 5, 5, '12:00:00', '14:15:00', 400),
-(6, 6, 6, '13:00:00', '15:30:00', 300),
-(7, 7, 7, '14:00:00', '16:45:00', 350),
-(8, 8, 8, '15:00:00', '17:00:00', 500),
-(9, 9, 9, '16:00:00', '18:30:00', 120),
-(10, 10, 10, '17:00:00', '19:15:00', 350),
-(11, 11, 11, '18:00:00', '20:00:00', 110),
-(12, 12, 12, '19:00:00', '21:30:00', 250),
-(13, 13, 13, '20:00:00', '22:15:00', 400),
-(14, 14, 14, '21:00:00', '23:00:00', 300),
-(15, 15, 15, '22:00:00', '00:30:00', 180),
-(16, 16, 16, '23:00:00', '01:15:00', 150),
-(17, 17, 17, '00:00:00', '02:30:00', 90),
-(18, 18, 18, '01:00:00', '03:45:00', 350),
-(19, 19, 19, '02:00:00', '04:15:00', 280),
-(20, 20, 20, '03:00:00', '05:30:00', 220),
-(21, 21, 21, '04:00:00', '06:00:00', 150),
-(22, 22, 22, '05:00:00', '07:30:00', 180),
-(23, 23, 23, '06:00:00', '08:15:00', 250),
-(24, 24, 24, '07:00:00', '09:00:00', 300),
-(25, 25, 25, '08:00:00', '10:30:00', 400),
-(26, 26, 26, '09:00:00', '11:15:00', 350),
-(27, 27, 27, '10:00:00', '12:45:00', 120),
-(28, 28, 28, '11:00:00', '13:30:00', 350),
-(29, 29, 29, '12:00:00', '14:15:00', 110),
-(30, 30, 30, '13:00:00', '15:00:00', 250),
-(31, 31, 31, '14:00:00', '16:30:00', 400),
-(32, 32, 32, '15:00:00', '17:15:00', 300),
-(33, 33, 33, '16:00:00', '18:30:00', 180),
-(34, 34, 34, '17:00:00', '19:45:00', 150),
-(35, 35, 35, '18:00:00', '20:30:00', 90),
-(36, 36, 36, '19:00:00', '21:15:00', 350),
-(37, 37, 37, '20:00:00', '22:00:00', 280),
-(38, 38, 38, '21:00:00', '23:30:00', 220),
-(39, 39, 39, '22:00:00', '00:15:00', 150),
-(40, 40, 40, '23:00:00', '01:30:00', 180);
-
-INSERT INTO passenger_has_seat (passenger, seatNumber, flightConnection) VALUES
--- Pasajeros en vuelos
-(1, 1, 1), (2, 2, 2), (3, 3, 3),
-(4, 4, 4), (5, 5, 5), (1, 6, 6),
-(2, 7, 7), (3, 8, 8), (4, 9, 9),
-(5, 10, 10), (1, 11, 11), (2, 12, 12),
-(3, 13, 13), (4, 14, 14), (5, 15, 15),
-(1, 16, 16), (2, 17, 17), (3, 18, 18),
-(4, 19, 19), (5, 20, 20), (1, 21, 21),
-(2, 22, 22), (3, 23, 23), (4, 24, 24),
-(5, 25, 25), (1, 26, 26), (2, 27, 27),
-(3, 28, 28), (4, 29, 29), (5, 30, 30),
-(1, 31, 31), (2, 32, 32), (3, 33, 33),
-(4, 34, 34), (5, 35, 35), (1, 36, 36),
-(2, 37, 37), (3, 38, 38), (4, 39, 39),
-(5, 40, 40);
-
-INSERT INTO trip_crew (employee, flightConnection) VALUES
-(1, 1), (2, 2), (3, 3),
-(4, 4), (5, 5), (6, 6),
-(7, 7), (8, 8), (9, 9),
-(10, 10), (11, 11), (12, 12),
-(1, 13), (2, 14), (3, 15),
-(4, 16), (5, 17), (6, 18),
-(7, 19), (8, 20), (9, 21),
-(10, 22), (11, 23), (12, 24),
-(1, 25), (2, 26), (3, 27),
-(4, 28), (5, 29), (6, 30),
-(7, 31), (8, 32), (9, 33),
-(10, 34), (11, 35), (12, 36),
-(1, 37), (2, 38), (3, 39),
-(4, 40);
-
-
 -- User Database
 -- Inserciones para la tabla permission
 INSERT INTO permission (name, description) VALUES
@@ -595,34 +362,34 @@ INSERT INTO permission (name, description) VALUES
 
 -- Inserciones para la tabla role
 INSERT INTO role (code, name, description) VALUES
-('admin', 'Administrador del Sistema', 'Acceso completo a todas las funciones administrativas'),
-('sales_agent', 'Agente de Ventas', 'Acceso a funciones relacionadas con la venta de vuelos'),
-('maintenance_technician', 'Técnico de Mantenimiento', 'Acceso a funciones relacionadas con el mantenimiento de aviones'),
-('customer', 'Cliente', 'Acceso a funciones relacionadas con la reserva y gestión de vuelos');
+('ADMIN', 'Administrador del Sistema', 'Acceso completo a todas las funciones administrativas'),
+('SA', 'Agente de Ventas', 'Acceso a funciones relacionadas con la venta de vuelos'),
+('MTECH', 'Técnico de Mantenimiento', 'Acceso a funciones relacionadas con el mantenimiento de aviones'),
+('CUSTOMER', 'Cliente', 'Acceso a funciones relacionadas con la reserva y gestión de vuelos');
 
 
 -- Inserciones para la tabla role_has_permission
 INSERT INTO role_has_permission (role, permission) VALUES
 -- Permisos para el Administrador del Sistema (admin)
-('admin', 1), ('admin', 2), ('admin', 3), ('admin', 4), ('admin', 5), ('admin', 6), 
-('admin', 7), ('admin', 8), ('admin', 9), ('admin', 10), ('admin', 11), ('admin', 12), 
-('admin', 13), ('admin', 14), ('admin', 15), ('admin', 16), ('admin', 17), ('admin', 18), 
-('admin', 19), ('admin', 20), ('admin', 21), ('admin', 22), ('admin', 23), ('admin', 24), 
-('admin', 25);
+('ADMIN', 1), ('ADMIN', 2), ('ADMIN', 3), ('ADMIN', 4), ('ADMIN', 5), ('ADMIN', 6), 
+('ADMIN', 7), ('ADMIN', 8), ('ADMIN', 9), ('ADMIN', 10), ('ADMIN', 11), ('ADMIN', 12), 
+('ADMIN', 13), ('ADMIN', 14), ('ADMIN', 15), ('ADMIN', 16), ('ADMIN', 17), ('ADMIN', 18), 
+('ADMIN', 19), ('ADMIN', 20), ('ADMIN', 21), ('ADMIN', 22), ('ADMIN', 23), ('ADMIN', 24), 
+('ADMIN', 25);
 
--- Permisos para el Agente de Ventas (sales_agent)
-('sales_agent', 26), ('sales_agent', 27), ('sales_agent', 28), ('sales_agent', 29), 
-('sales_agent', 30), ('sales_agent', 31), ('sales_agent', 32), ('sales_agent', 33), 
-('sales_agent', 34), ('sales_agent', 35), ('sales_agent', 36), ('sales_agent', 37), 
-('sales_agent', 38);
+-- Permisos para el Agente de Ventas (SA)
+INSERT INTO role_has_permission (role, permission) VALUES
+('SA', 26), ('SA', 27), ('SA', 28), ('SA', 29), 
+('SA', 30), ('SA', 31), ('SA', 32), ('SA', 33), 
+('SA', 34), ('SA', 35), ('SA', 36), ('SA', 37), 
+('SA', 38);
 
--- Permisos para el Técnico de Mantenimiento (maintenance_technician)
-('maintenance_technician', 39), ('maintenance_technician', 40), ('maintenance_technician', 41), 
-('maintenance_technician', 42);
+-- Permisos para el Técnico de Mantenimiento (MTECH)
+INSERT INTO role_has_permission (role, permission) VALUES
+('MTECH', 39), ('MTECH', 40), ('MTECH', 41), 
+('MTECH', 42);
 
 -- Permisos para el Cliente (customer)
-('customer', 43), ('customer', 44), ('customer', 45), ('customer', 46), 
-('customer', 47), ('customer', 48);
-
-
--- TODO: user details (role, permission, role_has_permission), plane details (plane_status, plane_manufacture, plane_model), 
+INSERT INTO role_has_permission (role, permission) VALUES
+('CUSTOMER', 43), ('CUSTOMER', 44), ('CUSTOMER', 45), ('CUSTOMER', 46), 
+('CUSTOMER', 47), ('CUSTOMER', 48);
