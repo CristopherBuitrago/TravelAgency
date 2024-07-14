@@ -18,7 +18,7 @@ public class UserRepository implements UserService {
     // implementation of methods from UserService interface
     @Override
     public void createUser(User user) {
-        String sql = "{CALL create_user(?,?,?,?)}";
+        String sql = "{CALL create_user(?,?,?,?,?)}";
 
         try{
             // establish connection
