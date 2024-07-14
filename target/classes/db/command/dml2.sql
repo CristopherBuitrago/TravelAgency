@@ -113,7 +113,7 @@ BEGIN
     SELECT u.id, u.username, u.email, r.name AS role
     FROM user u
     JOIN role r
-    ON r.id = u.role
+    ON r.code = u.role
     WHERE u.id = id;
 END $$
 
@@ -122,7 +122,7 @@ CREATE VIEW user_view AS
 SELECT u.id, u.username, u.email, r.name AS role
 FROM user u
 JOIN role r
-ON r.id = u.role;
+ON r.code = u.role;
 
 -- added get_users
 CREATE PROCEDURE get_users()
