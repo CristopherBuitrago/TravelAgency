@@ -237,7 +237,7 @@ BEGIN
            cr.trip, 
            p.amount, 
            ff.value, 
-           CONCAT(c.name, ' ', c.lastName)
+           CONCAT(c.name, ' ', c.lastName) AS customer
     INTO reserve_id,
          trip_id, 
          total_payed, 
