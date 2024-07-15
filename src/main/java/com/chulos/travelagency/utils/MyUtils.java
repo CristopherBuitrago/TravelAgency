@@ -1,4 +1,4 @@
-package com.chulos.travelagency;
+package com.chulos.travelagency.utils;
 
 import java.util.Scanner;
 
@@ -15,19 +15,15 @@ public class MyUtils {
         }
     }
 
-    // display message for seconds
+    // Display message for seconds and clear screen
     public static void displayMessageAndClearScreen(String message, int displayDurationSeconds) {
         System.out.println(message);
-
-        // Start a new thread to handle message display and screen clearing
-        new Thread(() -> {
-            try {
-                Thread.sleep(displayDurationSeconds * 1000);
-                clearScreen();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        try {
+            Thread.sleep(displayDurationSeconds * 1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        clearScreen();
     }
 
     // clear screen

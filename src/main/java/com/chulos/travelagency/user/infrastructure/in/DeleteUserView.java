@@ -3,8 +3,8 @@ package com.chulos.travelagency.user.infrastructure.in;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import com.chulos.travelagency.MyUtils;
 import com.chulos.travelagency.user.application.DeleteUserUseCase;
+import com.chulos.travelagency.utils.MyUtils;
 
 public class DeleteUserView {
     // Attributes
@@ -36,12 +36,8 @@ public class DeleteUserView {
                     // Delete user and get response
                     response = deleteUserUseCase.execute(id);
 
-                    // Handle responses
-                    if (response == null) {
-                        System.out.format("The user with id %d doesn't exist.%n", id);
-                    } else {
-                        System.out.println(response);
-                    }
+                    MyUtils.displayMessageAndClearScreen(response, 2);
+                    
                     break; // Break the loop after a valid input
                 } catch (InputMismatchException e) {
                     scanner.nextLine(); // Clear the invalid input

@@ -3,9 +3,9 @@ package com.chulos.travelagency.user.infrastructure.in;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import com.chulos.travelagency.MyUtils;
 import com.chulos.travelagency.user.application.FindUserUseCase;
 import com.chulos.travelagency.user.domain.entity.User;
+import com.chulos.travelagency.utils.MyUtils;
 
 public class FindUserView {
     // attributes
@@ -50,9 +50,10 @@ public class FindUserView {
                         System.out.println("                                                   Press enter to continue...                                          ");
                         scanner.nextLine();
                         MyUtils.clearScreen();
+                        
                         break;
                     }   else {
-                        System.out.format("The user with id %d doesn't exist.", id);
+                        MyUtils.displayMessageAndClearScreen("the user not exists.", 2);
                         break;
                     }
 

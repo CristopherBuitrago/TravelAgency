@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
-import com.chulos.travelagency.MyUtils;
 import com.chulos.travelagency.user.application.GetUsersUseCase;
 import com.chulos.travelagency.user.domain.entity.User;
+import com.chulos.travelagency.utils.MyUtils;
 
 public class GetUsersView {
     // attributes

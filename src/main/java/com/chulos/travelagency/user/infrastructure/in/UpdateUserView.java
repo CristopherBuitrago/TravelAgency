@@ -3,9 +3,9 @@ package com.chulos.travelagency.user.infrastructure.in;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import com.chulos.travelagency.MyUtils;
 import com.chulos.travelagency.user.application.UpdateUserUseCase;
 import com.chulos.travelagency.user.domain.entity.User;
+import com.chulos.travelagency.utils.MyUtils;
 
 public class UpdateUserView {
     // application use
@@ -67,7 +67,7 @@ public class UpdateUserView {
                     // Create new user
                     User user = new User(id, username, email, password, roleCode);
                     response = updateUserUseCase.execute(user); // Catch response
-                    System.out.println(response);
+                    MyUtils.displayMessageAndClearScreen(response, 2);
 
                     break; // Break the loop
                     

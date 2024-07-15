@@ -2,9 +2,9 @@ package com.chulos.travelagency.user.infrastructure.in;
 
 import java.util.Scanner;
 
-import com.chulos.travelagency.MyUtils;
 import com.chulos.travelagency.user.application.CreateUserUseCase;
 import com.chulos.travelagency.user.domain.entity.User;
+import com.chulos.travelagency.utils.MyUtils;
 
 public class CreateUserView {
     // Attributes
@@ -58,7 +58,7 @@ public class CreateUserView {
                 // Create new user
                 User user = new User(0, username, email, password, roleCode);
                 response = createUserUseCase.execute(user); // Catch response
-                System.out.println(response);
+                MyUtils.displayMessageAndClearScreen(response, 2);
 
                 break; // Break the loop
             }
