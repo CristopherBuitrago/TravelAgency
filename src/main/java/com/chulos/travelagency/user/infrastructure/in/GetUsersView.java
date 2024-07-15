@@ -8,12 +8,12 @@ import com.chulos.travelagency.MyUtils;
 import com.chulos.travelagency.user.application.GetUsersUseCase;
 import com.chulos.travelagency.user.domain.entity.User;
 
-public class GetUsersController {
+public class GetUsersView {
     // attributes
     private final GetUsersUseCase getUsersUserCase;
 
     //constructor
-    public GetUsersController(GetUsersUseCase getUsersUserCase) {
+    public GetUsersView(GetUsersUseCase getUsersUserCase) {
         this.getUsersUserCase = getUsersUserCase;
     }
 

@@ -7,12 +7,12 @@ import com.chulos.travelagency.MyUtils;
 import com.chulos.travelagency.user.application.FindUserUseCase;
 import com.chulos.travelagency.user.domain.entity.User;
 
-public class FindUserController {
+public class FindUserView {
     // attributes
     private final FindUserUseCase findUserUseCase;
 
     // constructor
-    public FindUserController(FindUserUseCase findUserUseCase) {
+    public FindUserView(FindUserUseCase findUserUseCase) {
         this.findUserUseCase = findUserUseCase;
     }
 

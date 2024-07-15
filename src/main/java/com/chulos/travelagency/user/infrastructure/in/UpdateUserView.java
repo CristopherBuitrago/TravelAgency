@@ -7,12 +7,12 @@ import com.chulos.travelagency.MyUtils;
 import com.chulos.travelagency.user.application.UpdateUserUseCase;
 import com.chulos.travelagency.user.domain.entity.User;
 
-public class UpdateUserController {
+public class UpdateUserView {
     // application use
     private final UpdateUserUseCase updateUserUseCase;
 
     // constructor
-    public UpdateUserController(UpdateUserUseCase updateUserUseCase) {
+    public UpdateUserView(UpdateUserUseCase updateUserUseCase) {
         this.updateUserUseCase = updateUserUseCase;
     }
 

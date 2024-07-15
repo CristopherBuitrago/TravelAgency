@@ -6,12 +6,12 @@ import com.chulos.travelagency.MyUtils;
 import com.chulos.travelagency.user.application.CreateUserUseCase;
 import com.chulos.travelagency.user.domain.entity.User;
 
-public class CreateUserController {
+public class CreateUserView {
     // Attributes
     private CreateUserUseCase createUserUseCase;
 
     // Constructor
-    public CreateUserController(CreateUserUseCase createUserUseCase) {
+    public CreateUserView(CreateUserUseCase createUserUseCase) {
         this.createUserUseCase = createUserUseCase;
     }
 

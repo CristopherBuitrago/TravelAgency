@@ -6,12 +6,12 @@ import java.util.Scanner;
 import com.chulos.travelagency.MyUtils;
 import com.chulos.travelagency.user.application.DeleteUserUseCase;
 
-public class DeleteUserController {
+public class DeleteUserView {
     // Attributes
     private final DeleteUserUseCase deleteUserUseCase;
 
     // Constructor
-    public DeleteUserController(DeleteUserUseCase deleteUserUseCase) {
+    public DeleteUserView(DeleteUserUseCase deleteUserUseCase) {
         this.deleteUserUseCase = deleteUserUseCase;
     }
 
