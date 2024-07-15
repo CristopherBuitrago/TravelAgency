@@ -18,25 +18,28 @@ public class Main {
         UserService userService = new UserRepository();
 
         //create user testing
-        CreateUserUseCase createUserUseCase = new CreateUserUseCase(userService);
-        CreateUserController createUserController = new CreateUserController(createUserUseCase);
-        createUserController.start();
+        //CreateUserUseCase createUserUseCase = new CreateUserUseCase(userService);
+        //CreateUserController createUserController = new CreateUserController(createUserUseCase);
+        //createUserController.start();
+
         //delete user testing
-        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userService);
-        DeleteUserController deleteUserController = new DeleteUserController(deleteUserUseCase);
-        deleteUserController.start();
+        //DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userService);
+        //DeleteUserController deleteUserController = new DeleteUserController(deleteUserUseCase);
+        //deleteUserController.start();
+
         //find user testing
-        FindUserUseCase findUserUseCase = new FindUserUseCase(userService);
-        FindUserController findUserController = new FindUserController(findUserUseCase);
-        findUserController.start();
+        //FindUserUseCase findUserUseCase = new FindUserUseCase(userService);
+        //FindUserController findUserController = new FindUserController(findUserUseCase);
+        //findUserController.start();
 
         //get users testing
-        GetUsersUseCase getUsersUseCase = new GetUsersUseCase(userService);
-        GetUsersController getUsersController = new GetUsersController(getUsersUseCase);
-        getUsersController.start();
+        //GetUsersUseCase getUsersUseCase = new GetUsersUseCase(userService);
+        //GetUsersController getUsersController = new GetUsersController(getUsersUseCase);
+        //getUsersController.start();
+
         //update user testing
-        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userService);
-        UpdateUserController updateUserController = new UpdateUserController(updateUserUseCase);
-        updateUserController.start();
+        //UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userService);
+        //UpdateUserController updateUserController = new UpdateUserController(updateUserUseCase);
+        //updateUserController.start();
     }
 }

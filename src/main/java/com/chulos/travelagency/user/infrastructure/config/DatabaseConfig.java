@@ -6,9 +6,9 @@
 
     public class DatabaseConfig {
         // attributes
-        private static final String URL = "jdbc:mysql://localhost:3306/travelagency";
-        private static final String USER = "root";
-        private static final String PASSWORD = "12345";
+        private static final String URL = "jdbc:mysql://localhost:3306/TravelAgency";
+        private static final String USER = "campus2023";
+        private static final String PASSWORD = "campus2023";
 
         // method to get connection
         public static Connection getConnection() throws SQLException {
