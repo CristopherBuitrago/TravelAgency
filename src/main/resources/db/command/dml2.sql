@@ -77,7 +77,7 @@ BEGIN
 END$$
 
 CREATE PROCEDURE update_user(
-	IN id INT,
+    IN id INT,
     IN newUsername VARCHAR(40),
     IN newEmail VARCHAR(40),
     IN newPassword VARCHAR(40),
@@ -85,23 +85,38 @@ CREATE PROCEDURE update_user(
     OUT response VARCHAR(40)
 )
 BEGIN
-	-- declare response
-    DECLARE response VARCHAR(40);
-    
-    -- update username
-    UPDATE user SET 
-		username = newUsername,
-        email = newEmail,
-        password = newPassword,
-        role = newRole
+    DECLARE userExists INT;
+    DECLARE roleExists INT;
+
+    -- Verificar si el usuario existe
+    SELECT COUNT(*) INTO userExists
+    FROM user
     WHERE id = id;
-    
-    -- set result
-    IF row_count() > 0 THEN
-		SET response = "User modified successfully!";
-	ELSE
-		SET response = "Error modifying user";
-	END IF;
+
+    IF userExists > 0 THEN
+        -- Verificar si el nuevo rol existe en la tabla de roles
+        SELECT COUNT(*) INTO roleExists
+        FROM role
+        WHERE code = newRole;
+
+        IF roleExists > 0 THEN
+            -- Actualizar el usuario si el rol existe
+            UPDATE user SET 
+                username = newUsername,
+                email = newEmail,
+                password = newPassword,
+                role = newRole
+            WHERE id = id;
+
+            SET response = 'User updated successfully';
+        ELSE
+            -- Si el rol no existe, asignar un mensaje de error a la respuesta
+            SET response = 'Role does not exist';
+        END IF;
+    ELSE
+        -- Si el usuario no existe, asignar un mensaje de error a la respuesta
+        SET response = 'User does not exist';
+    END IF;
 END$$
 
 -- added find user

@@ -5,10 +5,10 @@ import java.util.List;
 import com.chulos.travelagency.user.domain.entity.User;
 import com.chulos.travelagency.user.domain.service.UserService;
 
-public class GetUsersUserCase {
+public class GetUsersUseCase {
     private final UserService userService;
 
-    public GetUsersUserCase(UserService userService) {
+    public GetUsersUseCase(UserService userService) {
         this.userService = userService;
     }
 
