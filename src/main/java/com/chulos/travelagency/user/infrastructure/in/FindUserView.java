@@ -10,9 +10,10 @@ import com.chulos.travelagency.utils.MyUtils;
 public class FindUserView {
     // attributes
     private final FindUserUseCase findUserUseCase;
+    private Scanner scanner;
 
     // constructor
-    public FindUserView(FindUserUseCase findUserUseCase) {
+    public FindUserView(FindUserUseCase findUserUseCase, Scanner scanner) {
         this.findUserUseCase = findUserUseCase;
     }
 
@@ -22,48 +23,44 @@ public class FindUserView {
         int id;
         User user = null; 
 
-        try (Scanner scanner = new Scanner(System.in)) {
-            while (true) {
-                try {
-                    // input message
-                    System.out.println("FIND USER");
+        while (true) {
+            try {
+                // input message
+                System.out.println("FIND USER");
 
-                    // get user id
-                    System.out.print("Input user id: ");
-                    id = scanner.nextInt();
-                    scanner.nextLine(); // clean buffer
+                // get user id
+                System.out.print("Input user id: ");
+                id = scanner.nextInt();
+                scanner.nextLine(); // clean buffer
 
-                    // get user
-                    user = findUserUseCase.execute(id);
+                // get user
+                user = findUserUseCase.execute(id);
 
-                    if (user != null) {
-                        // clear screen
-                        MyUtils.clearScreen();
-                        // align format
-                        String leftAlignFormat = "| %-4d | %-40s | %-40s | %-35s |%n";
-                        // print head
-                        System.out.format("+------+------------------------------------------+------------------------------------------+-------------------------------------+%n");
-                        System.out.format("| ID   | Username                                 | Email                                    | Role                                |%n");
-                        System.out.format("+------+------------------------------------------+------------------------------------------+-------------------------------------+%n");
-                        System.out.format(leftAlignFormat, user.getId(), user.getUsername(), user.getEmail(), user.getRoleName());
-                        System.out.format("+------+------------------------------------------+------------------------------------------+-------------------------------------+%n");
-                        System.out.println("                                                   Press enter to continue...                                          ");
-                        scanner.nextLine();
-                        MyUtils.clearScreen();
-                        
-                        break;
-                    }   else {
-                        MyUtils.displayMessageAndClearScreen("the user not exists.", 2);
-                        break;
-                    }
-
-                } catch (InputMismatchException e) {
-                    scanner.nextLine(); // clean buffer
-                    MyUtils.displayMessageAndClearScreen("Error: only numbers are valid.", 2);
+                if (user != null) {
+                    // clear screen
+                    MyUtils.clearScreen();
+                    // align format
+                    String leftAlignFormat = "| %-4d | %-40s | %-40s | %-35s |%n";
+                    // print head
+                    System.out.format("+------+------------------------------------------+------------------------------------------+-------------------------------------+%n");
+                    System.out.format("| ID   | Username                                 | Email                                    | Role                                |%n");
+                    System.out.format("+------+------------------------------------------+------------------------------------------+-------------------------------------+%n");
+                    System.out.format(leftAlignFormat, user.getId(), user.getUsername(), user.getEmail(), user.getRoleName());
+                    System.out.format("+------+------------------------------------------+------------------------------------------+-------------------------------------+%n");
+                    System.out.println("                                                   Press enter to continue...                                          ");
+                    scanner.nextLine();
+                    MyUtils.clearScreen();
+                    
+                    break;
+                }   else {
+                    MyUtils.displayMessageAndClearScreen("the user not exists.", 2);
+                    break;
                 }
+
+            } catch (InputMismatchException e) {
+                scanner.nextLine(); // clean buffer
+                MyUtils.displayMessageAndClearScreen("Error: only numbers are valid.", 2);
             }
-        } catch (InputMismatchException e) {
-            e.printStackTrace();
         }
     }
 }

@@ -9,10 +9,12 @@ import com.chulos.travelagency.utils.MyUtils;
 public class DeleteUserView {
     // Attributes
     private final DeleteUserUseCase deleteUserUseCase;
+    private Scanner scanner;
 
     // Constructor
-    public DeleteUserView(DeleteUserUseCase deleteUserUseCase) {
+    public DeleteUserView(DeleteUserUseCase deleteUserUseCase, Scanner scanner) {
         this.deleteUserUseCase = deleteUserUseCase;
+        this.scanner = scanner;
     }
 
     // Start method
@@ -22,27 +24,25 @@ public class DeleteUserView {
         String response;
 
         // Try to get a valid number
-        try (Scanner scanner = new Scanner(System.in)) {
-            while (true) {
-                try {
-                    // Input message
-                    System.out.println("DELETE USER");
-                    // Get id
-                    System.out.print("Input user id: ");
-                    id = scanner.nextInt();
-                    scanner.nextLine(); // Clean the buffer
-                    System.out.println(); // Change of line
+        while (true) {
+            try {
+                // Input message
+                System.out.println("DELETE USER");
+                // Get id
+                System.out.print("Input user id: ");
+                id = scanner.nextInt();
+                scanner.nextLine(); // Clean the buffer
+                System.out.println(); // Change of line
 
-                    // Delete user and get response
-                    response = deleteUserUseCase.execute(id);
+                // Delete user and get response
+                response = deleteUserUseCase.execute(id);
 
-                    MyUtils.displayMessageAndClearScreen(response, 2);
-                    
-                    break; // Break the loop after a valid input
-                } catch (InputMismatchException e) {
-                    scanner.nextLine(); // Clear the invalid input
-                    MyUtils.displayMessageAndClearScreen("Error: only numbers are valid.", 2);
-                }
+                MyUtils.displayMessageAndClearScreen(response, 2);
+                
+                break; // Break the loop after a valid input
+            } catch (InputMismatchException e) {
+                scanner.nextLine(); // Clear the invalid input
+                MyUtils.displayMessageAndClearScreen("Error: only numbers are valid.", 2);
             }
         }
     }
