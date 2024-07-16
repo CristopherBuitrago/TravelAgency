@@ -1,4 +1,4 @@
-    package com.chulos.travelagency.user.infrastructure.config;
+    package com.chulos.travelagency.config;
 
     import java.sql.Connection;
     import java.sql.DriverManager;

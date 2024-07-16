@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.Types;
 
+import com.chulos.travelagency.config.DatabaseConfig;
 import com.chulos.travelagency.user.domain.entity.User;
 import com.chulos.travelagency.user.domain.service.UserService;
-import com.chulos.travelagency.user.infrastructure.config.DatabaseConfig;
 
 public class UserRepository implements UserService {
     // Attributes
