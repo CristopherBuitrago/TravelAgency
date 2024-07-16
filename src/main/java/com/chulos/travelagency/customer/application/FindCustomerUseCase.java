@@ -13,7 +13,7 @@ public class FindCustomerUseCase {
     }
 
     // execute method
-    public Customer findUserById(int id) {
+    public Customer execute(int id) {
         return customerService.findCustomerById(id);
     }
 }
