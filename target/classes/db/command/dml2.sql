@@ -2,27 +2,31 @@
 DELIMITER $$
 
 CREATE PROCEDURE create_customer (
-	IN in_name VARCHAR(45),
+    IN in_name VARCHAR(45),
     IN in_last_name VARCHAR(45),
     IN in_age INT,
-    IN in_docType_id INT,
+    IN in_docType VARCHAR(10),
     IN in_docNumber INT,
-	OUT out_message VARCHAR(45)
+    OUT out_message VARCHAR(45)
 )
 BEGIN
-	-- declare
-    DECLARE out_message VARCHAR(45);
-    
-    -- insert
-    INSERT INTO customer (name, lastName, age, documentType, documentNumber)
-    VALUES (in_name, in_last_name, in_age, in_docType_id, in_docNumber);
-    
-    -- verify
-    IF row_count() > 0 THEN
-		SET out_message = "Customer created successfully!";
-	ELSE
-		SET out_message = "Error creating customer";
-	END IF;
+    DECLARE docExists INT;
+
+    -- verify if the document type exists
+    SELECT COUNT(*) INTO docExists
+    FROM document_type dt
+    WHERE dt.code = in_docType;
+
+    IF docExists > 0 THEN
+        -- if docExists create customer
+        INSERT INTO customer (name, lastName, age, documentType, documentNumber) VALUES
+        (in_name, in_last_name, in_age, in_docType, in_docNumber);
+        -- set custom message
+        SET out_message = "Customer created successfully!";
+    ELSE
+        -- set a custom message if doc not exists
+        SET out_message = "Ups! The document type not exists. Please try again";
+    END IF;
 END$$
 
 CREATE PROCEDURE search_customer (
