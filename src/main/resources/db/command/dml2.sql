@@ -46,14 +46,19 @@ CREATE PROCEDURE create_user(
     OUT response VARCHAR(30)
 )
 BEGIN
-    -- insert data of user
-    INSERT INTO user (username, email, password, role) VALUES (username, email, password, role);
-    
-    -- set message
-    IF ROW_COUNT() > 0 THEN
+    DECLARE roleExists INT;
+
+    SELECT COUNT(*) INTO roleExists
+    FROM role
+    WHERE code = role;
+
+    IF roleExists > 0 THEN
+        -- crear el usuario si el rol existe
+        INSERT INTO user(username, email, password, role) VALUES (username, email, password, role);
         SET response = 'User created successfully';
     ELSE
-        SET response = 'Error creating user';
+        -- Si el rol no existe, asignar un mensaje de error a la respuesta
+        SET response = 'Role does not exist';
     END IF;
 END$$
 
@@ -62,18 +67,23 @@ CREATE PROCEDURE delete_user(
     OUT response VARCHAR(40)
 )
 BEGIN
-	-- declare response
-    DECLARE response VARCHAR(40);
-    
-    -- delete user
-    DELETE FROM user WHERE id = id;
-    
-    --
-    IF row_count() > 0 THEN
-		SET response = "User deleted";
-	ELSE
-		SET response = "Error deleting user";
-	END IF;
+	-- declare user exists
+    DECLARE userExists INT;
+
+    -- verify user exists
+    SELECT COUNT(*) INTO userExists
+    FROM user u
+    WHERE u.id = id;
+
+    IF userExists > 0 THEN
+        -- delete user
+        DELETE FROM user u WHERE u.id = id;
+        -- set response
+        SET response = "User created successfully!";
+    ELSE
+        -- if user not exists set a message
+        SET response = "Error: The user not exists.";
+    END IF;
 END$$
 
 CREATE PROCEDURE update_user(

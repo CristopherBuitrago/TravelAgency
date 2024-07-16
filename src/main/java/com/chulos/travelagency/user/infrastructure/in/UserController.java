@@ -99,6 +99,7 @@ public class UserController {
                     default:
                         // display a message
                         MyUtils.displayMessageAndClearScreen("Error: make sure you chose a valid option", 2);
+                        break;
                 }
             } catch (InputMismatchException e) {
                 scanner.nextLine(); // clean buffer

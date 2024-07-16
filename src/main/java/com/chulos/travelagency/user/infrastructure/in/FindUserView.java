@@ -15,6 +15,7 @@ public class FindUserView {
     // constructor
     public FindUserView(FindUserUseCase findUserUseCase, Scanner scanner) {
         this.findUserUseCase = findUserUseCase;
+        this.scanner = scanner;
     }
 
     // start method
