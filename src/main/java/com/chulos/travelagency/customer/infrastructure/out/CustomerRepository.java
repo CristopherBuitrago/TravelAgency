@@ -66,21 +66,57 @@ public class CustomerRepository implements CustomerService{
             // execute query
             resultSet = callableStatement.executeQuery();
 
+            // verify if customer is found
             if (resultSet.next()) {
                 // create new customer
                 customer = new Customer();
-                // TODO: set values to customer
-                
+                customer.setId(resultSet.getInt("id"));
+                customer.setName(resultSet.getString("name"));
+                customer.setLastName(resultSet.getString("last_name"));
+                customer.setAge(resultSet.getInt("age"));
+                customer.setDocumentType(resultSet.getString("document_type"));
             }
 
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
+        } finally {
+            closeResources();
         }
+
+        // return customer
+        return customer;
     }
 
     @Override
     public String updateCustomer(Customer customer) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "{CALL update_customer(?,?,?,?,?,?,?)}";
+
+        try {
+            // get connection
+            connection = DatabaseConfig.getConnection();
+            // prepare the call
+            callableStatement = connection.prepareCall(sql);
+            // get parameters
+            callableStatement.setInt(1, customer.getId());
+            callableStatement.setString(2, customer.getName());
+            callableStatement.setString(3, customer.getLastName());
+            callableStatement.setInt(4, customer.getAge());
+            callableStatement.setString(5, customer.getDocumentType());
+            callableStatement.setInt(6, customer.getDocumentNumber());
+            // register our parameters
+            callableStatement.registerOutParameter(7, Types.VARCHAR);
+            // execute the statement
+            callableStatement.executeUpdate();
+            // get the response
+            response = callableStatement.getString(7);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = "An error ocurred";
+        } finally {
+            closeResources();
+        }
+        // return the response
+        return response;
     }
 
     // Close resources method

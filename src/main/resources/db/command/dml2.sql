@@ -34,11 +34,53 @@ CREATE PROCEDURE find_customer (
 )
 BEGIN    
     -- query
-    SELECT c.id, c.name, c.lastName AS last_name, c.age, dt.name AS document_type
+    SELECT c.id, c.name, c.lastName AS last_name, c.age, c.documentType AS document_type
     FROM customer c
-    JOIN document_type dt 
-    ON dt.code = c.documentType
     WHERE c.id = in_id;
+END$$
+
+CREATE PROCEDURE update_customer(
+    IN in_id INT,
+    IN in_name VARCHAR(45),
+    IN in_last_name VARCHAR(45),
+    IN in_age INT,
+    IN in_docType VARCHAR(10),
+    IN in_docNumber INT,
+    OUT out_message VARCHAR(45)
+)
+BEGIN
+    DECLARE customerExists INT;
+    DECLARE docExists INT;
+
+    -- verify if user exists
+    SELECT COUNT(*) INTO customerExists
+    FROM customer
+    WHERE id = id;
+
+    IF customerExists > 0 THEN
+        -- verify if the docType is into database
+        SELECT COUNT(*) INTO docExists
+        FROM document_type
+        WHERE code = in_docType;
+
+        IF docExists > 0 THEN
+            -- update customer if doc exists
+            UPDATE customer SET 
+                name = in_name,
+                lastName = in_last_name,
+                age = in_age,
+                documentType = in_docType,
+                documentNumber = in_docNumber
+            WHERE id = id;
+            SET response = 'customer updated successfully!';
+        ELSE
+            -- if doc not exists assign an error response
+            SET response = 'Ups! Document type not exists.';
+        END IF;
+    ELSE
+        -- if the customer not exists set a message
+        SET response = 'Ups! The customer not exists, try again';
+    END IF;
 END$$
 
 -- user routine
