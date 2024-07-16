@@ -6,6 +6,8 @@ import com.chulos.travelagency.customer.domain.service.CustomerService;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Types;
 
 public class CustomerRepository implements CustomerService{
@@ -13,6 +15,7 @@ public class CustomerRepository implements CustomerService{
     String response = null;
     Connection connection = null;
     CallableStatement callableStatement = null;
+    ResultSet resultSet = null;
 
     // database methods
     @Override
@@ -40,6 +43,8 @@ public class CustomerRepository implements CustomerService{
             // if any error ocurred print 
             e.printStackTrace();
             response = "An error ocurred";
+        } finally {
+            closeResources();
         }
 
         // return the response
@@ -48,12 +53,45 @@ public class CustomerRepository implements CustomerService{
 
     @Override
     public Customer findCustomerById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "{CALL find_customer(?)}";
+        Customer customer = null;
+
+        try {
+            // get connection
+            connection = DatabaseConfig.getConnection();
+            // prepare call
+            callableStatement = connection.prepareCall(sql);
+            // set parameters
+            callableStatement.setInt(1, id);
+            // execute query
+            resultSet = callableStatement.executeQuery();
+
+            if (resultSet.next()) {
+                // create new customer
+                customer = new Customer();
+                // TODO: set values to customer
+                
+            }
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     @Override
     public String updateCustomer(Customer customer) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    // Close resources method
+    private void closeResources() {
+        try {
+            if (resultSet != null) resultSet.close();
+            if (callableStatement != null) callableStatement.close();
+            if (connection != null) connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
 }

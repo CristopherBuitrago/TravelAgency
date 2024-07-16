@@ -29,14 +29,15 @@ BEGIN
     END IF;
 END$$
 
-CREATE PROCEDURE search_customer (
+CREATE PROCEDURE find_customer (
     IN in_id INT
 )
 BEGIN    
     -- query
-    SELECT c.id, c.name, c.lastName, c.age, dt.name
+    SELECT c.id, c.name, c.lastName AS last_name, c.age, dt.name AS document_type
     FROM customer c
-    JOIN document_type dt ON dt.id = c.documentType
+    JOIN document_type dt 
+    ON dt.code = c.documentType
     WHERE c.id = in_id;
 END$$
 
