@@ -95,8 +95,10 @@ CREATE TABLE trip (
     date DATE NOT NULL,
     price DOUBLE NOT NULL,
     scale INT NOT NULL,
+    flightFare INT NOT NULL,
     CONSTRAINT Pk_trip PRIMARY KEY (id),
-    CONSTRAINT Fk_trip_1 FOREIGN KEY (scale) REFERENCES scale(id)
+    CONSTRAINT Fk_trip_1 FOREIGN KEY (scale) REFERENCES scale(id),
+    CONSTRAINT Fk_trip_2 FOREIGN KEY (flightFare) REFERENCES flight_fare(id)
 );
 
 CREATE TABLE payment_method (
@@ -215,17 +217,6 @@ CREATE TABLE plane_revision (
 );
 
 -- Flight Connection Database
-CREATE TABLE passenger (
-    id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(45) NOT NULL,
-    lastName VARCHAR(45) NOT NULL,
-    age INT NOT NULL,
-    documentType VARCHAR(10) NOT NULL,
-    documentNumber INT NOT NULL,
-    CONSTRAINT Pk_passenger PRIMARY KEY (id),
-    CONSTRAINT Fk_passenger_1 FOREIGN KEY (documentType) REFERENCES document_type(code)
-);
-
 CREATE TABLE flight_connection (
     id INT NOT NULL AUTO_INCREMENT,
     connectionNumber INT NOT NULL,
@@ -239,13 +230,25 @@ CREATE TABLE flight_connection (
     CONSTRAINT Fk_flight_connection_2 FOREIGN KEY (plane) REFERENCES plane(id)
 );
 
-CREATE TABLE passenger_has_seat (
-    passenger INT NOT NULL,
+CREATE TABLE seat (
     seatNumber INT NOT NULL,
-    flightConnection INT NOT NULL,
-    CONSTRAINT Pk_passenger_has_seat PRIMARY KEY (passenger, flightConnection),
-    CONSTRAINT Fk_passenger_has_seat_1 FOREIGN KEY (passenger) REFERENCES passenger(id),
-    CONSTRAINT Fk_passenger_has_seat_2 FOREIGN KEY (flightConnection) REFERENCES flight_connection(id)
+    flight INT NOT NULL,
+    CONSTRAINT Pk_passenger_has_seat PRIMARY KEY (seatNumber, flight),
+    CONSTRAINT Fk_passenger_has_seat_2 FOREIGN KEY (flight) REFERENCES flight_connection(id)
+);
+
+CREATE TABLE passenger (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(45) NOT NULL,
+    lastName VARCHAR(45) NOT NULL,
+    age INT NOT NULL,
+    documentType VARCHAR(10) NOT NULL,
+    documentNumber INT NOT NULL,
+    seatNumber INT NOT NULL,
+    seatFlight INT NOT NULL,
+    CONSTRAINT Pk_passenger PRIMARY KEY (id),
+    CONSTRAINT Fk_passenger_1 FOREIGN KEY (documentType) REFERENCES document_type(code),
+    CONSTRAINT Fk_passenger_2 FOREIGN KEY (seatNumber, seatFlight) REFERENCES seat(seatNumber, flight)
 );
 
 CREATE TABLE trip_crew (
