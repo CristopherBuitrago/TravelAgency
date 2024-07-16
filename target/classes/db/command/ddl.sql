@@ -75,30 +75,29 @@ CREATE TABLE flight_fare (
 );
 
 CREATE TABLE scale (
-    id INT NOT NULL AUTO_INCREMENT,
-    scaleCode VARCHAR(10),
-    CONSTRAINT Pk_scale PRIMARY KEY (id)
-);
-
-CREATE TABLE scale_has_airport (
-    scale INT NOT NULL,
+    code VARCHAR(10) NOT NULL,
     originAirport INT NOT NULL,
     destinationAirport INT NOT NULL,
-    CONSTRAINT Pk_scale_has_airport PRIMARY KEY (scale, originAirport, destinationAirport),
-    CONSTRAINT Fk_scale_has_airport_1 FOREIGN KEY (scale) REFERENCES scale(id),
-    CONSTRAINT Fk_scale_has_airport_2 FOREIGN KEY (originAirport) REFERENCES airport(id),
-    CONSTRAINT Fk_scale_has_airport_3 FOREIGN KEY (destinationAirport) REFERENCES airport(id)
+    CONSTRAINT Pk_scale PRIMARY KEY (code),
+    CONSTRAINT Fk_scale_1 FOREIGN KEY (originAirport) REFERENCES airport (id),
+    CONSTRAINT Fk_scale_2 FOREIGN KEY (destinationAirport) REFERENCES airport (id)
 );
 
 CREATE TABLE trip (
     id INT NOT NULL AUTO_INCREMENT,
     date DATE NOT NULL,
     price DOUBLE NOT NULL,
-    scale INT NOT NULL,
     flightFare INT NOT NULL,
     CONSTRAINT Pk_trip PRIMARY KEY (id),
-    CONSTRAINT Fk_trip_1 FOREIGN KEY (scale) REFERENCES scale(id),
     CONSTRAINT Fk_trip_2 FOREIGN KEY (flightFare) REFERENCES flight_fare(id)
+);
+
+CREATE TABLE trip_has_scale (
+    scale VARCHAR(10) NOT NULL,
+    trip INT NOT NULL,
+    CONSTRAINT Pk_trip_has_scale PRIMARY KEY (scale, trip),
+    CONSTRAINT Fk_trip_has_scale_1 FOREIGN KEY (scale) REFERENCES scale (code),
+    CONSTRAINT Fk_trip_has_scale_2 FOREIGN KEY (trip) REFERENCES trip (id)
 );
 
 CREATE TABLE payment_method (
