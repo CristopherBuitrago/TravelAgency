@@ -7,7 +7,7 @@ CREATE PROCEDURE create_customer (
     IN in_age INT,
     IN in_docType VARCHAR(10),
     IN in_docNumber INT,
-    OUT out_message VARCHAR(45)
+    OUT out_message VARCHAR(60)
 )
 BEGIN
     DECLARE docExists INT;

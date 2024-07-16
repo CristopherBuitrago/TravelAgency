@@ -22,6 +22,16 @@ public class Customer {
         this.documentType = documentType;
         this.documentNumber = documentNumber;
     }
+
+    // constructor without id
+    public Customer(String name, String lastName, int age, String documentType, int documentNumber) {
+        this.id = 0;
+        this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+        this.documentType = documentType;
+        this.documentNumber = documentNumber;
+    }
     
     // getters and setters
     public int getId() {
