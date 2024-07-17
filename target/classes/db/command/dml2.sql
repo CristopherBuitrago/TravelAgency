@@ -34,7 +34,7 @@ CREATE PROCEDURE find_customer (
 )
 BEGIN    
     -- query
-    SELECT c.id, c.name, c.lastName AS last_name, c.age, c.documentType AS document_type
+    SELECT c.id, c.name, c.lastName AS last_name, c.age, c.documentType AS document_type, c.documentNumber AS document_number
     FROM customer c
     WHERE c.id = in_id;
 END$$
@@ -55,7 +55,7 @@ BEGIN
     -- verify if user exists
     SELECT COUNT(*) INTO customerExists
     FROM customer
-    WHERE id = id;
+    WHERE id = in_id;
 
     IF customerExists > 0 THEN
         -- verify if the docType is into database
@@ -72,14 +72,14 @@ BEGIN
                 documentType = in_docType,
                 documentNumber = in_docNumber
             WHERE id = id;
-            SET response = 'customer updated successfully!';
+            SET out_message = 'customer updated successfully!';
         ELSE
-            -- if doc not exists assign an error response
-            SET response = 'Ups! Document type not exists.';
+            -- if doc not exists assign an error out_message
+            SET out_message = 'Ups! Document type not exists.';
         END IF;
     ELSE
         -- if the customer not exists set a message
-        SET response = 'Ups! The customer not exists, try again';
+        SET out_message = 'Ups! The customer not exists, try again';
     END IF;
 END$$
 

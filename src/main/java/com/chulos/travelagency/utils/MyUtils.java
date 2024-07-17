@@ -43,4 +43,26 @@ public class MyUtils {
             System.out.println("Error while clearing screen: " + e.getMessage());
         }
     }
+
+    // encrypt password
+    public static String encryptPassword(String password, int shift) {
+        // List of characters (extended to include uppercase, lowercase, and digits)
+        char[] values = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~!@#$%^&*()-_+={}[]|:;'><,./?".toCharArray();
+        StringBuilder encryptedPassword = new StringBuilder();
+
+        // Encrypt each character in the password
+        for (char c : password.toCharArray()) {
+            int index = new String(values).indexOf(c);
+            if (index == -1) {
+                // If the character is not in the list, leave it unchanged
+                encryptedPassword.append(c);
+            } else {
+                // Calculate the new index with the shift, wrapping around using modulo
+                int newIndex = (index + shift) % values.length;
+                encryptedPassword.append(values[newIndex]);
+            }
+        }
+
+        return encryptedPassword.toString();
+    }
 }

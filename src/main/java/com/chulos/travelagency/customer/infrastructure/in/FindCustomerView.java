@@ -7,13 +7,13 @@ import com.chulos.travelagency.customer.application.FindCustomerUseCase;
 import com.chulos.travelagency.customer.domain.entity.Customer;
 import com.chulos.travelagency.utils.MyUtils;
 
-public class FindUserView {
+public class FindCustomerView {
     // attributes
     private final FindCustomerUseCase findCustomerUseCase;
     private Scanner scanner;
 
     // constructor
-    public FindUserView(FindCustomerUseCase findCustomerUseCase, Scanner scanner) {
+    public FindCustomerView(FindCustomerUseCase findCustomerUseCase, Scanner scanner) {
         this.findCustomerUseCase = findCustomerUseCase;
         this.scanner = scanner;
     }

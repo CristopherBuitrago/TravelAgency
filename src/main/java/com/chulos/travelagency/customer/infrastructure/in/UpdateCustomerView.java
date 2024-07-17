@@ -3,39 +3,42 @@ package com.chulos.travelagency.customer.infrastructure.in;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import com.chulos.travelagency.customer.application.CreateCustomerUseCase;
+
+import com.chulos.travelagency.customer.application.UpdateCustomerUseCase;
 import com.chulos.travelagency.customer.domain.entity.Customer;
 import com.chulos.travelagency.utils.MyUtils;
 
-public class CreateCustomerView {
+public class UpdateCustomerView {
+    // attributes
+    private final UpdateCustomerUseCase updateCustomer;
+    private Scanner scanner;
     private static final int MAX_NAME_LENGTH = 45;
     private static final int MAX_LAST_NAME_LENGTH = 45;
     private static final int MAX_AGE = 100;
     private static final int MAX_DOC_TYPE_LENGTH = 10;
     private static final int MAX_DOC_NUMBER_LENGTH = 20;
-    
-    private final CreateCustomerUseCase createCustomerUseCase;
-    private final Scanner scanner;
 
-    public CreateCustomerView(CreateCustomerUseCase createCustomerUseCase, Scanner scanner) {
-        this.createCustomerUseCase = createCustomerUseCase;
+    // constructor
+    public UpdateCustomerView(UpdateCustomerUseCase updateCustomer, Scanner scanner) {
+        this.updateCustomer = updateCustomer;
         this.scanner = scanner;
     }
 
+    // start method
     public void start() {
         while (true) {
             try {
-                System.out.println("CREATE CUSTOMER");
-
-                String name = getInput("Input customer name: ");
-                String lastName = getInput("Input customer last name: ");
-                int age = getIntInput("Input customer age: ");
-                String docType = getInput("Input doc type (10 characters): ");
-                int docNumber = getIntInput("Input doc number: ");
+                System.out.println("UPDATE CUSTOMER");
+                int id = getIntInput("Input customer id: ");
+                String name = getInput("Input new customer name: ");
+                String lastName = getInput("Input new customer last name: ");
+                int age = getIntInput("Input new customer age: ");
+                String docType = getInput("Input new doc type (10 characters): ");
+                int docNumber = getIntInput("Input new doc number: ");
 
                 if (isInputValid(name, lastName, age, docType, docNumber)) {
-                    Customer customer = new Customer(0, name, lastName, age, docType, docNumber);
-                    String response = createCustomerUseCase.execute(customer);
+                    Customer customer = new Customer(id, name, lastName, age, docType, docNumber);
+                    String response = updateCustomer.execute(customer);
                     MyUtils.displayMessageAndClearScreen(response, 2);
                     break;
                 } else {

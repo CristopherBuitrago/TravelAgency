@@ -75,6 +75,7 @@ public class CustomerRepository implements CustomerService{
                 customer.setLastName(resultSet.getString("last_name"));
                 customer.setAge(resultSet.getInt("age"));
                 customer.setDocumentType(resultSet.getString("document_type"));
+                customer.setDocumentNumber(resultSet.getInt("document_number"));
             }
 
         } catch (Exception e) {
