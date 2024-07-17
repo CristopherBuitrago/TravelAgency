@@ -240,6 +240,20 @@ BEGIN
             SET response = "Incorrect password or email";
         END IF;
     ELSE
-        SET response = "Incorrect password or email";
+        SET response = "Incorrect password or email.";
     END IF;
+END$$
+
+CREATE PROCEDURE register(
+    IN username VARCHAR(40),
+    IN email VARCHAR(40),
+    IN password VARCHAR(40),
+    OUT response VARCHAR(100)
+)
+BEGIN
+    -- create the user
+    INSERT INTO user (username, email, password, role) VALUES
+    (username, email, password, "CUSTOMER");
+
+    SET response = CONCAT("Welcome ",username," - CUSTOMER");
 END$$
