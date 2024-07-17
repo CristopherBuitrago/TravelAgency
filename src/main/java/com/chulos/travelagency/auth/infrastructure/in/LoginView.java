@@ -27,7 +27,7 @@ public class LoginView {
             try {
                 // intro message
                 System.out.println("Login");
-                String email = getInput("Input username(40): ");
+                String email = getInput("Input email(40): ");
                 String password = getPassword("Input password(40): ");
 
                 // verify if is input valid
