@@ -203,154 +203,43 @@ BEGIN
     SELECT * FROM user_view;
 END$$
 
--- plane routine
+-- auth
 
-CREATE PROCEDURE add_plane (
-	IN plate VARCHAR(30),
-    IN chairs INT,
-    IN fabricationDate DATE,
-    IN status INT,
-    IN airline INT,
-    IN model INT,
-    OUT response VARCHAR(30)
+CREATE PROCEDURE login (
+    IN in_email VARCHAR(40),
+    IN in_password VARCHAR(40),
+    OUT response VARCHAR(100)
 )
 BEGIN
-	-- declare the response
-    DECLARE response VARCHAR(30);
+    DECLARE userExists INT;
+    DECLARE credentials INT;
+    DECLARE role VARCHAR(10);
+    DECLARE username VARCHAR(40);
     
-	-- insert int plane
-    INSERT INTO plane (plate, chairs, fabricationDate, status, model, airline)
-    VALUES (plate, chairs, fabricationDate, status, airline, model);
-    
-    -- set message
-    IF row_count() > 0 THEN
-		SET response = "Plane created successfully!";
-	ELSE
-		SET response = "Error creating plane";
-	END IF;
-END$$
+    -- Verify if the user exists
+    SELECT COUNT(*) INTO userExists
+    FROM user u
+    WHERE u.email = in_email;
 
-CREATE PROCEDURE search_plane (
-	IN plate VARCHAR(10)
-)
-BEGIN
-    -- Query to get the plane details
-    SELECT p.id, p.plate, p.chairs, p.fabricationDate, ps.name, pm.name, a.name
-    FROM plane p
-    JOIN plane_status ps
-    ON ps.id = p.status
-    JOIN plane_model pm
-    ON pm.id = p.model
-    JOIN airline a
-    ON a.id = p.airline
-    WHERE p.plate = plate;
+    IF userExists > 0 THEN
+        -- Verify credentials
+        SELECT COUNT(*) INTO credentials
+        FROM user u 
+        WHERE u.email = in_email AND u.password = in_password;
 
-END$$
+        IF credentials > 0 THEN
+            -- Get role and username
+            SELECT u.role, u.username INTO role, username
+            FROM user u 
+            WHERE u.email = in_email AND u.password = in_password;
 
-CREATE PROCEDURE add_employee_flight (
-	IN employeeId INT,
-    IN flightId INT,
-    OUT response VARCHAR(50)
-)
-BEGIN
-	-- declare response 
-    DECLARE response VARCHAR(50);
-    
-    -- insert into trip_crew
-    INSERT INTO trip_crew (employee, flightConnection)
-    VALUES (employeeId, flightId);
-    
-    -- set response
-    IF row_count() > 0 THEN
-		SET response = "Employee added successfully";
-	ELSE
-		SET response = "Error adding employee";
-	END IF;
-END$$
-
--- trip routine
-
-CREATE PROCEDURE create_reserve (
-	IN tripId INT,
-    IN paymentId INT,
-    IN flightFareId INT,
-    IN customerId INT,
-    OUT response VARCHAR(30)
-)
-BEGIN
-	-- declare response
-    DECLARE response VARCHAR(70);
-    
-    -- insert into customer_reservation
-    INSERT INTO customer_reservation (trip, payment, flightFare, customer)
-    VALUES (tripId, paymentId, flightFareId, customerId);
-    
-    -- set response
-    IF row_count() > 0 THEN
-		SET response = "Reservation created successfully!";
-	ELSE
-		SET response = "Error creating reservation";
-	END IF;
-END$$
-
-CREATE PROCEDURE search_reserve (
-    IN in_reserve INT,
-    OUT reserve_id INT,
-    OUT trip_id INT,
-    OUT total_payed DOUBLE,
-    OUT flight_cost DOUBLE,
-    OUT customer VARCHAR(40)
-)
-BEGIN
-    DECLARE reserve_not_found CONDITION FOR SQLSTATE '45000';
-
-    -- Query to get the reservation details
-    SELECT cr.id,
-           cr.trip, 
-           p.amount, 
-           ff.value, 
-           CONCAT(c.name, ' ', c.lastName) AS customer
-    INTO reserve_id,
-         trip_id, 
-         total_payed, 
-         flight_cost, 
-         customer
-    FROM customer_reservation cr
-    JOIN payment p ON p.id = cr.payment
-    JOIN flight_fare ff ON ff.id = cr.flightFare
-    JOIN customer c ON c.id = cr.customer
-    WHERE cr.id = in_reserve;
-
-    -- If no rows found, raise an exception
-    IF reserve_id IS NULL THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'The reservation is not in the database';
+            -- Set message
+            SET response = CONCAT("Welcome ", username, " - ", role);
+        ELSE
+            -- Set error message
+            SET response = "Incorrect password or email";
+        END IF;
+    ELSE
+        SET response = "Incorrect password or email";
     END IF;
 END$$
-
--- maintenance routine
-
-
-CREATE PROCEDURE regis_maintan_plane (
-	IN planeId INT,
-    IN revisionDate DATE,
-    IN description TEXT,
-    IN employeeId INT,
-    OUT response VARCHAR(50)
-)
-BEGIN
-	-- declare response
-    DECLARE response VARCHAR(50);
-    
-    -- insert into plane_revision
-    INSERT INTO plane_revision (revisionDate, plane, description, employee)
-    VALUES (revisionDate, planeId, description, employeeId);
-    
-    -- set response
-    IF row_count() > 0 THEN
-		SET response = "Revision registered successfully!";
-	ELSE
-		SET response = "Error registering revision";
-	END IF;
-END$$
-
-DELIMITER ;
