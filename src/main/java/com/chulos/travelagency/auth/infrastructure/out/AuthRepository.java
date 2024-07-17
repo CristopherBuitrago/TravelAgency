@@ -66,7 +66,7 @@ public class AuthRepository implements AuthService{
             response = callableStatement.getString(4);
         } catch (Exception e) {
             // if an error ocurred
-            response = "Error in the database, make sure that the parameters are ok.";
+            e.printStackTrace();
         } finally {
             closeResources();
         }

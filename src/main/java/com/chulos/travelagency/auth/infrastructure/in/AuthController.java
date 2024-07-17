@@ -56,9 +56,11 @@ public class AuthController {
                         // register menu
                         MyUtils.clearScreen();
                         registerView.start();
+                        break;
                     case 3:
                         // exit
                         MyUtils.displayMessageAndClearScreen("Exiting the application...", 2);
+                        break;
                     default:
                         MyUtils.displayMessageAndClearScreen("Choose a valid option", 2);
                         break;
