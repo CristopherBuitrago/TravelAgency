@@ -66,6 +66,7 @@ public class AuthController {
                         break;
                 }
             } catch (InputMismatchException e) {
+                scanner.nextLine();
                 MyUtils.displayMessageAndClearScreen("Only numbers are valid", 2);
             } catch (IllegalStateException e) {
                 System.out.println("ERROR: Scanner not exists.");
