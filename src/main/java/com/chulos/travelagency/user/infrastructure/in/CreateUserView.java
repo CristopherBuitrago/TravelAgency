@@ -44,7 +44,7 @@ public class CreateUserView {
             
             // Get password
             System.out.print("Input password (40 characters): ");
-            password = MyUtils.readPassword(scanner);
+            password = MyUtils.encryptPassword(MyUtils.readPassword(scanner), 5);
             System.out.println();
             
             // Get role code
