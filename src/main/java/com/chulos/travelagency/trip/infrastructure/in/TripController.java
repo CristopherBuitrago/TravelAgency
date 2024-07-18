@@ -74,6 +74,7 @@ public class TripController {
                         break;
                 }
             } catch (InputMismatchException e) {
+                scanner.nextLine();
                 MyUtils.displayMessageAndClearScreen("Ups! Only numbers are valid. Try again", 2);
             }
         }
