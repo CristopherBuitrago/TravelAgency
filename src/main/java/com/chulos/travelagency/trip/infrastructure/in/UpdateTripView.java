@@ -35,7 +35,8 @@ public class UpdateTripView {
                 // execute update and get response
                 String response = updateTripUseCase.execute(trip);
                 // display the response
-                MyUtils.displayMessageAndClearScreen(response, 2);                
+                MyUtils.displayMessageAndClearScreen(response, 2);
+                break;
             } catch (InputMismatchException e) {
                 scanner.nextLine(); // clear buffer
                 MyUtils.displayMessageAndClearScreen("Ups! Only numbers are valid. Please try again", 2);
