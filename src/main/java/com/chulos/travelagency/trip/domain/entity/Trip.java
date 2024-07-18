@@ -22,6 +22,14 @@ public class Trip {
         this.flightFareId = flightFareId;
     }
 
+    // constructor without flight fare id
+    public Trip(int id, Date date, double price, String flightFareTitle) {
+        this.id = id;
+        this.date = date;
+        this.price = price;
+        this.flightFareTitle = flightFareTitle;
+    }    
+
     // getters and setters
     public int getId() {
         return id;
