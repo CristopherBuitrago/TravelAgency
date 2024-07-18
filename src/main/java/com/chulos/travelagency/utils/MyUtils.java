@@ -1,5 +1,9 @@
 package com.chulos.travelagency.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MyUtils {
@@ -64,5 +68,30 @@ public class MyUtils {
         }
 
         return encryptedPassword.toString();
+    }
+
+    // method to get a date
+    public static Date getDateInput(String prompt, Scanner scanner) throws ParseException{
+        System.out.print(prompt);
+        String input = scanner.nextLine();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        formatter.setLenient(false); // Strict date parsing
+        return formatter.parse(input);
+    }
+
+    // method to get a double
+    public static double getDoubleInput(String prompt, Scanner scanner) throws InputMismatchException{
+        System.out.print(prompt);
+        double input = scanner.nextDouble();
+        scanner.nextLine(); // clear buffer
+        return input;
+    }
+
+    // method to get an int
+    public static int getIntInput(String prompt, Scanner scanner) throws InputMismatchException{
+        System.out.print(prompt);
+        int input = scanner.nextInt();
+        scanner.nextLine(); // clear buffer
+        return input;
     }
 }
