@@ -15,35 +15,83 @@ public class AuthRepository implements AuthService{
     Connection connection = null;
     CallableStatement callableStatement = null;
     String response  = null;
-
+//////////////////////////////////////////////
     @Override
     public String login(Auth auth) {
-        String sql = "{CALL login(?,?,?)}";
+        String sql = "{CALL login(?,?,?,?)}";
+        String response;
+        Connection connection = null;
+        CallableStatement callableStatement = null;
 
         try {
-            // get connection
+            // Get connection
             connection = DatabaseConfig.getConnection();
-            // prepare call
+            // Prepare call
             callableStatement = connection.prepareCall(sql);
-            // set parameters
-            callableStatement.setString(1,auth.getEmail());
+            // Set parameters
+            callableStatement.setString(1, auth.getEmail());
             callableStatement.setString(2, auth.getPassword());
-            // register out parameters
+            // Register out parameters
             callableStatement.registerOutParameter(3, Types.VARCHAR);
-            // execute the statement
-            callableStatement.executeQuery();
-            // get the response
+            callableStatement.registerOutParameter(4, Types.VARCHAR);
+            // Execute the statement
+            callableStatement.execute();
+            // Get the response
             response = callableStatement.getString(3);
+            String role = callableStatement.getString(4);
+
+            // Debugging messages
+            System.out.println("Response from DB: " + response);
+            System.out.println("Role from DB (raw): " + role);
+
+            // Remove any leading/trailing whitespace
+            if (role != null) {
+                role = role.trim();
+                System.out.println("Role from DB (trimmed): " + role);
+
+                switch (role) {
+                    case "ADMIN":
+                        System.out.println("I'm an Admin");
+                        break;
+                    case "MTECH":
+                        System.out.println("I'm a Mechanic");
+                        break;
+                    case "CUSTOMER":
+                        System.out.println("I'm a Mechanic");
+                        break;
+                    default:
+                        System.out.println("Unrecognized role.");
+                        break;
+                }
+            } else {
+                System.out.println("Incorrect credentials.");
+            }
 
         } catch (SQLException e) {
-            // if an error ocurred
+            // If an error occurred
             response = "Error in the database, make sure that the parameters are ok.";
-        } finally{
-            closeResources();
+            e.printStackTrace();
+        } finally {
+            // Close resources
+            if (callableStatement != null) {
+                try {
+                    callableStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return response;
     }
+///////////////////////////
 
     @Override
     public String register(User user) {
