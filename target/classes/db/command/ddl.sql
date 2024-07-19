@@ -114,9 +114,11 @@ CREATE TABLE payment (
     amount DOUBLE NOT NULL,
     paymentDate DATE NOT NULL,
     customer INT NOT NULL,
+    purchasedTrip INT NOT NULL,
     CONSTRAINT Pk_payment PRIMARY KEY (id),
     CONSTRAINT Fk_payment_1 FOREIGN KEY (paymentMethod) REFERENCES payment_method(code),
-    CONSTRAINT Fk_payment_2 FOREIGN KEY (customer) REFERENCES customer(id)
+    CONSTRAINT Fk_payment_2 FOREIGN KEY (customer) REFERENCES customer(id),
+    CONSTRAINT Fk_payment_3 FOREIGN KEY (purchasedTrip) REFERENCES trip(id)
 );
 
 CREATE TABLE customer_reservation (
