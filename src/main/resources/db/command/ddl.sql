@@ -126,13 +126,11 @@ CREATE TABLE customer_reservation (
     customer INT NOT NULL,
     trip INT NOT NULL,
     payment INT NOT NULL,
-    flightFare INT NOT NULL,
     reservationDate DATE NOT NULL,
     CONSTRAINT Pk_customer_reservation PRIMARY KEY (id),
     CONSTRAINT Fk_customer_reservation_1 FOREIGN KEY (customer) REFERENCES customer(id),
     CONSTRAINT Fk_customer_reservation_2 FOREIGN KEY (trip) REFERENCES trip(id),
-    CONSTRAINT Fk_customer_reservation_3 FOREIGN KEY (payment) REFERENCES payment(id),
-    CONSTRAINT Fk_customer_reservation_4 FOREIGN KEY (flightFare) REFERENCES flight_fare(id)
+    CONSTRAINT Fk_customer_reservation_3 FOREIGN KEY (payment) REFERENCES payment(id)
 );
 
 -- Employee Database
