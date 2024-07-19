@@ -15,7 +15,9 @@ public class AuthRepository implements AuthService{
     Connection connection = null;
     CallableStatement callableStatement = null;
     String response  = null;
-//////////////////////////////////////////////
+    
+    // =================================================
+    // Logica LOGIN
     @Override
     public String login(Auth auth) {
         String sql = "{CALL login(?,?,?,?)}";
@@ -26,6 +28,11 @@ public class AuthRepository implements AuthService{
         try {
             // Get connection
             connection = DatabaseConfig.getConnection();
+            if (connection != null) {
+                System.out.println("===========================================");
+                System.out.println("|     Successful Database Connection!     |");
+                System.out.println("===========================================");
+            }
             // Prepare call
             callableStatement = connection.prepareCall(sql);
             // Set parameters
@@ -41,8 +48,8 @@ public class AuthRepository implements AuthService{
             String role = callableStatement.getString(4);
 
             // Debugging messages
-            System.out.println("Response from DB: " + response);
-            System.out.println("Role from DB (raw): " + role);
+            // System.out.println("Response from DB: " + response);
+            // System.out.println("Role from DB (raw): " + role);
 
             // Remove any leading/trailing whitespace
             if (role != null) {
@@ -91,8 +98,9 @@ public class AuthRepository implements AuthService{
 
         return response;
     }
-///////////////////////////
 
+    // =================================================================
+    // Logica REGISTER
     @Override
     public String register(User user) {
         String sql = "{CALL register (?,?,?,?)}";

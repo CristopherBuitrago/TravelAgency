@@ -9,8 +9,8 @@ import com.chulos.travelagency.utils.MyUtils;
 
 public class LoginView {
     // attributes
-    private static final int MAX_EMAIL_LENGTH = 40;
-    private static final int MAX_PASSWORD_LENGTH = 40;
+    private static final int MAX_EMAIL_LENGTH = 30;
+    private static final int MAX_PASSWORD_LENGTH = 30;
 
     private final LoginUseCase loginUseCase;
     private final Scanner scanner;
@@ -23,31 +23,43 @@ public class LoginView {
 
     // start method
     public void start() {
+        int attempts = 2;
         while (true) {
             try {
                 // intro message
-                System.out.println("Login");
-                String email = getInput("Input email(40): ");
-                String password = getPassword("Input password(40): ");
+                System.out.println("===============================");
+                System.out.println("|            LOGIN            |");
+                System.out.println("===============================");
+                String email = getInput("\nInput Email(30): ");
+                String password = getPassword("Input Password(30): ");
 
                 // verify if is input valid
-               if (isInputValid(email, password)) {
+                if (isInputValid(email, password)) {
                     // create new user
                     Auth auth = new Auth(email, password);
 
                     // register and get response
-                    String response =loginUseCase.execute(auth);
-                    MyUtils.displayMessageAndClearScreen(response, 2);
+                    String response = loginUseCase.execute(auth);
+                    MyUtils.displayMessageAndClearScreen(response, 3);
+                    MyUtils.displayMessageAndClearScreen("Login Successful!", 3);
                     break;
                 } else {
-                    MyUtils.displayMessageAndClearScreen("Error: One of your answers exceeds the character limit. Try again", 3);
+                    attempts--;
+                    MyUtils.displayMessageAndClearScreen(
+                            "Error: One of your answers exceeds the character limit. Try again", 3);
                 }
+                if (attempts == 0) {
+                    MyUtils.displayMessageAndClearScreen(
+                            "Maximum number of attempts reached. Exiting the application...", 3);
+                    break;
+                }
+            }
 
-            } catch (NoSuchElementException e) {
-                MyUtils.displayMessageAndClearScreen("Ups! not line found.", 2);
+            catch (NoSuchElementException e) {
+                MyUtils.displayMessageAndClearScreen("Ups! not line found.", 3);
                 break;
             } catch (IllegalStateException e) {
-                MyUtils.displayMessageAndClearScreen("Ups! the scanner is closed.", 2);
+                MyUtils.displayMessageAndClearScreen("Ups! the scanner is closed.", 3);
                 break;
             }
         }
@@ -60,15 +72,15 @@ public class LoginView {
     }
 
     // get password
-    private String getPassword (String prompt) {
+    private String getPassword(String prompt) {
         System.out.print(prompt);
         return MyUtils.encryptPassword(MyUtils.readPassword(scanner), 5);
     }
 
     // is input valid
-    private boolean isInputValid (String email, String password) {
+    private boolean isInputValid(String email, String password) {
         return email.length() <= MAX_EMAIL_LENGTH &&
-               password.length() <= MAX_PASSWORD_LENGTH;
+                password.length() <= MAX_PASSWORD_LENGTH;
     }
 
 }
