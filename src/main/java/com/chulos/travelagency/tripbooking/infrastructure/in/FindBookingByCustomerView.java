@@ -38,7 +38,7 @@ public class FindBookingByCustomerView {
                     int pageSize = 3;
                     int totalBookings = bookings.size();
                     int totalPages = (int) Math.ceil((double) totalBookings / pageSize);
-                    String leftAlignFormat = "| %-4d | %-40s | %-10d | %-23.2f | %-10s |%n";
+                    String leftAlignFormat = "| %-4d | %-40s | %-10d | %-23.2f   | %-10s |%n";
 
                     for (int page = 1; page <= totalPages; page++) {
                         System.out.format("+------+------------------------------------------+------------+---------------------------+------------+%n");

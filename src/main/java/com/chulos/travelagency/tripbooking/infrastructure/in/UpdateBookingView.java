@@ -7,13 +7,13 @@ import com.chulos.travelagency.tripbooking.application.UpdateBookingUseCase;
 import com.chulos.travelagency.tripbooking.domain.entity.TripBooking;
 import com.chulos.travelagency.utils.MyUtils;
 
-public class UpdateTripBookingView {
+public class UpdateBookingView {
     // use application and scanner
     private final UpdateBookingUseCase updateBookingUseCase;
     private final Scanner scanner;
 
     // constructor to initialize the application and get the scanner
-    public UpdateTripBookingView(UpdateBookingUseCase updateBookingUseCase, Scanner scanner) {
+    public UpdateBookingView(UpdateBookingUseCase updateBookingUseCase, Scanner scanner) {
         this.updateBookingUseCase = updateBookingUseCase;
         this.scanner = scanner;
     }
