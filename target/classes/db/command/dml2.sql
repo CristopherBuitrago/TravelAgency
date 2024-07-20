@@ -235,64 +235,331 @@ CREATE PROCEDURE login (
     OUT response VARCHAR(100)
 )
 BEGIN
-    DECLARE userExists INT;
-    DECLARE credentials INT;
-    DECLARE role VARCHAR(10);
-    DECLARE username VARCHAR(40);
+	-- declare the response
+    DECLARE response VARCHAR(30);
     
-    -- Verify if the user exists
-    SELECT COUNT(*) INTO userExists
-    FROM user u
-    WHERE u.email = in_email;
-
-    IF userExists > 0 THEN
-        -- Verify credentials
-        SELECT COUNT(*) INTO credentials
-        FROM user u 
-        WHERE u.email = in_email AND u.password = in_password;
-
-        IF credentials > 0 THEN
-            -- Get role and username
-            SELECT u.role, u.username INTO role, username
-            FROM user u 
-            WHERE u.email = in_email AND u.password = in_password;
-
-            -- Set message
-            SET response = CONCAT("Welcome ", username, " - ", role);
-        ELSE
-            -- Set error message
-            SET response = "Incorrect password or email";
-        END IF;
-    ELSE
-        SET response = "Incorrect password or email.";
-    END IF;
+	-- insert int plane
+    INSERT INTO plane (plate, chairs, fabricationDate, status, model, airline)
+    VALUES (plate, chairs, fabricationDate, status, airline, model);
+    
+    -- set message
+    IF row_count() > 0 THEN
+		SET response = "Plane created successfully!";
+	ELSE
+		SET response = "Error creating plane";
+	END IF;
 END$$
 
--- Procedure for register
-CREATE PROCEDURE register(
-    IN username VARCHAR(40),
-    IN email VARCHAR(40),
-    IN password VARCHAR(40),
-    OUT response VARCHAR(100)
+CREATE PROCEDURE search_plane (
+	IN plate VARCHAR(10)
 )
 BEGIN
-    DECLARE emailExists INT;
+    -- Query to get the plane details
+    SELECT p.id, p.plate, p.chairs, p.fabricationDate, ps.name, pm.name, a.name
+    FROM plane p
+    JOIN plane_status ps
+    ON ps.id = p.status
+    JOIN plane_model pm
+    ON pm.id = p.model
+    JOIN airline a
+    ON a.id = p.airline
+    WHERE p.plate = plate;
 
-    -- verify if the email already exists
-    SELECT COUNT(*) INTO emailExists
-    FROM user u
-    WHERE u.email = email;
+END$$
 
-    IF emailExists > 0 THEN
-        -- set error if the message exists
-        SET response = "Invalid email. try again";
-    ELSE
-        -- Create the user
-        INSERT INTO user (username, email, password, role) VALUES
-        (username, email, password, "CUSTOMER");
+CREATE PROCEDURE add_employee_flight (
+	IN employeeId INT,
+    IN flightId INT,
+    OUT response VARCHAR(50)
+)
+BEGIN
+	-- declare response 
+    DECLARE response VARCHAR(50);
+    
+    -- insert into trip_crew
+    INSERT INTO trip_crew (employee, flightConnection)
+    VALUES (employeeId, flightId);
+    
+    -- set response
+    IF row_count() > 0 THEN
+		SET response = "Employee added successfully";
+	ELSE
+		SET response = "Error adding employee";
+	END IF;
+END$$
 
-        SET response = "CUSTOMER";
+-- trip routine
+
+CREATE PROCEDURE create_reserve (
+	IN tripId INT,
+    IN paymentId INT,
+    IN flightFareId INT,
+    IN customerId INT,
+    OUT response VARCHAR(30)
+)
+BEGIN
+	-- declare response
+    DECLARE response VARCHAR(70);
+    
+    -- insert into customer_reservation
+    INSERT INTO customer_reservation (trip, payment, flightFare, customer)
+    VALUES (tripId, paymentId, flightFareId, customerId);
+    
+    -- set response
+    IF row_count() > 0 THEN
+		SET response = "Reservation created successfully!";
+	ELSE
+		SET response = "Error creating reservation";
+	END IF;
+END$$
+
+CREATE PROCEDURE search_reserve (
+    IN in_reserve INT,
+    OUT reserve_id INT,
+    OUT trip_id INT,
+    OUT total_payed DOUBLE,
+    OUT flight_cost DOUBLE,
+    OUT customer VARCHAR(40)
+)
+BEGIN
+    DECLARE reserve_not_found CONDITION FOR SQLSTATE '45000';
+
+    -- Query to get the reservation details
+    SELECT cr.id,
+           cr.trip, 
+           p.amount, 
+           ff.value, 
+           CONCAT(c.name, ' ', c.lastName) AS customer
+    INTO reserve_id,
+         trip_id, 
+         total_payed, 
+         flight_cost, 
+         customer
+    FROM customer_reservation cr
+    JOIN payment p ON p.id = cr.payment
+    JOIN flight_fare ff ON ff.id = cr.flightFare
+    JOIN customer c ON c.id = cr.customer
+    WHERE cr.id = in_reserve;
+
+    -- If no rows found, raise an exception
+    IF reserve_id IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'The reservation is not in the database';
     END IF;
 END$$
 
-DELIMITER ;
+-- maintenance routine
+
+
+CREATE PROCEDURE regis_maintan_plane (
+	IN planeId INT,
+    IN revisionDate DATE,
+    IN description TEXT,
+    IN employeeId INT,
+    OUT response VARCHAR(50)
+)
+BEGIN
+	-- declare response
+    DECLARE response VARCHAR(50);
+    
+    -- insert into plane_revision
+    INSERT INTO plane_revision (revisionDate, plane, description, employee)
+    VALUES (revisionDate, planeId, description, employeeId);
+    
+    -- set response
+    IF row_count() > 0 THEN
+		SET response = "Revision registered successfully!";
+	ELSE
+		SET response = "Error registering revision";
+	END IF;
+END$$
+
+CREATE PROCEDURE add_trip_booking(
+    IN in_customer_id INT,
+    IN in_trip_id INT,
+    IN in_booking_date DATE,
+    OUT response VARCHAR(200)
+)
+this_proc:BEGIN
+    DECLARE customerExists INT;
+    DECLARE tripExists INT;
+    DECLARE bookingExists INT;
+    DECLARE clientDidPayment INT;
+    DECLARE paymentId INT;
+    
+    -- verify if the customer exists    
+    SELECT COUNT(*) INTO customerExists
+    FROM customer c
+    WHERE c.id = in_customer_id;
+    
+    IF (customerExists = 0) THEN
+        -- if the customer doesn't exist, set error message
+        SET response = "Ups! it seems that the client does not exist.";
+        LEAVE this_proc;
+    END IF;
+    
+    -- verify if the trip exists    
+    SELECT COUNT(*) INTO tripExists
+    FROM trip t
+    WHERE t.id = in_trip_id;
+    
+    IF (tripExists = 0) THEN
+        -- if the trip doesn't exist, set error message
+        SET response = "Ups! it seems that the trip does not exist.";
+        LEAVE this_proc;
+    END IF;
+    
+    -- verify if the customer has made a booking
+    SELECT COUNT(*) INTO bookingExists
+    FROM customer_reservation cr
+    WHERE cr.customer = in_customer_id AND cr.trip = in_trip_id;
+    
+    IF (bookingExists > 0) THEN
+        -- set an error message
+        SET response = "Ups! it seems that the customer made a booking before.";
+        LEAVE this_proc;
+    END IF;
+    
+    -- verify if the customer did the payment for the trip
+    SELECT p.id INTO paymentId
+    FROM payment p
+    WHERE p.customer = in_customer_id AND p.purchasedTrip = in_trip_id
+    LIMIT 1;
+    
+    SET clientDidPayment = (paymentId IS NOT NULL);
+    
+    IF (clientDidPayment = 0) THEN
+        -- if the client didn't do the payment, set an error message
+        SET response = "Ups! it seems that the customer has not made the payment yet.";
+        LEAVE this_proc;
+    END IF;
+    
+    -- insert into customer_reservation
+    INSERT INTO customer_reservation (customer, trip, payment, reservationDate)
+    VALUES (in_customer_id, in_trip_id, paymentId, in_booking_date);
+    
+    -- Set a successful message
+    SET response = "Trip booking registered successfully!";
+END$$
+
+
+-- delete trip booking
+CREATE PROCEDURE delete_trip_booking(
+	IN in_trip_booking_id INT,
+    OUT response VARCHAR(200)
+)
+BEGIN
+	DECLARE tripBookingExists INT;
+	
+    -- verify if the trip exists
+    SELECT COUNT(*) INTO tripBookingExists
+    FROM  customer_reservation cr
+    WHERE cr.id + in_trip_booking_id;
+    
+    IF (tripBookingExists > 0 ) THEN
+		-- if trip exists, delete trip
+        DELETE FROM customer_reservation WHERE id = in_trip_id;
+        
+        -- set successfull message
+        SET response = "Trip booking deleted successfully!";
+	ELSE
+		-- set an error message
+        SET response = "Ups! Trip booking not found.";
+	END IF;
+END$$
+
+-- find trip by id
+CREATE PROCEDURE find_booking_id (
+	IN in_trip_booking_id INT
+)
+BEGIN
+	-- query
+    SELECT c.name AS customer, cr.trip AS trip_id, p.amount AS payment_amount, cr.flightFare AS flight_fare_id
+    FROM customer_reservation cr
+    JOIN customer c
+    ON c.id = cr.customer
+    JOIN payment p
+    ON p.customer = c.id
+    WHERE cr.id = in_trip_booking_id;
+END$$
+
+CREATE PROCEDURE find_booking_customer(
+	IN in_customer_id INT
+)
+BEGIN
+	-- query
+    SELECT cr.id, c.name AS customer, cr.trip AS trip_id, p.amount AS payment_amount, cr.flightFare AS flight_fare_id
+    FROM customer_reservation cr
+    JOIN customer c
+    ON c.id = cr.customer
+    JOIN payment p
+    ON p.customer = c.id
+    WHERE c.id = in_customer_id;
+END$$
+
+CREATE PROCEDURE update_trip_booking(
+	IN in_trip_booking_id INT,
+    IN in_customer_id INT,
+    IN in_trip_id INT,
+    IN in_payment_id INT,
+    OUT response VARCHAR(200)
+)
+this_proc:BEGIN
+	DECLARE tripBookingExists INT;
+    DECLARE customerExists INT;
+    DECLARE tripExists INT;
+    DECLARE paymentExists INT;
+    
+    -- verify if the trip booking exists
+    SELECT COUNT(*) INTO tripBookingExists
+    FROM customer_reservation cr
+    WHERE cr.id = in_trip_booking_id;
+    
+    IF (tripBookingExists = 0) THEN
+        -- if the trip booking doesn't exist, set error message
+        SET response = "Ups! it seems that the trip booking does not exist.";
+        LEAVE this_proc;
+    END IF;
+    
+    -- verify if the customer exists
+    SELECT COUNT(*) INTO customerExists
+    FROM customer c
+    WHERE c.id = in_customer_id;
+    
+    IF (customerExists = 0) THEN
+        -- if the customer doesn't exist, set error message
+        SET response = "Ups! it seems that the customer does not exist.";
+        LEAVE this_proc;
+    END IF;
+    
+    -- verify if the trip exists
+    SELECT COUNT(*) INTO tripExists
+    FROM trip t
+    WHERE t.id = in_trip_id;
+    
+    IF (tripExists = 0) THEN
+        -- if the trip doesn't exist, set error message
+        SET response = "Ups! it seems that the trip does not exist.";
+        LEAVE this_proc;
+    END IF;
+    
+    -- verify if the payment exists
+    SELECT COUNT(*) INTO paymentExists
+    FROM payment p
+    WHERE p.id = in_payment_id;
+    
+    IF (paymentExists = 0) THEN
+        -- if the payment doesn't exist, set error message
+        SET response = "Ups! it seems that the payment does not exist.";
+        LEAVE this_proc;
+    END IF;
+    
+    -- update the trip booking
+    UPDATE customer_reservation
+    SET customer = in_customer_id,
+        trip = in_trip_id,
+        payment = in_payment_id
+    WHERE id = in_trip_booking_id;
+    
+    -- set a successful message
+    SET response = "Trip booking updated successfully!";
+END$$
