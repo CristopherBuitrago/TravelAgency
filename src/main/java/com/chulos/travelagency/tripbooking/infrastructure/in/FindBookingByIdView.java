@@ -7,13 +7,13 @@ import com.chulos.travelagency.tripbooking.application.FindBookingByIdUseCase;
 import com.chulos.travelagency.tripbooking.domain.entity.TripBooking;
 import com.chulos.travelagency.utils.MyUtils;
 
-public class FinBookingByIdView {
+public class FindBookingByIdView {
     // use application and use the scanner
     private final FindBookingByIdUseCase findBookingByIdUseCase;
     private final Scanner scanner;
 
     // constructor to initialize application and get scanner
-    public FinBookingByIdView(FindBookingByIdUseCase findBookingByIdUseCase, Scanner scanner) {
+    public FindBookingByIdView(FindBookingByIdUseCase findBookingByIdUseCase, Scanner scanner) {
         this.findBookingByIdUseCase = findBookingByIdUseCase;
         this.scanner = scanner;
     }
@@ -37,12 +37,12 @@ public class FinBookingByIdView {
                     // clear screen
                     MyUtils.clearScreen();
                     // align format
-                    String leftAlignFormat = "| %-4d | %-40s | %-10d | %-23.2f | %-10s |%n";
+                    String leftAlignFormat = "| %-4d | %-40s | %-10d | %-23.2f   | %-10s |%n";
                     // print head
                     System.out.format("+------+------------------------------------------+------------+---------------------------+------------+%n");
                     System.out.format("| ID   | Customer                                 | Trip ID    | Payment Amount            | Date       |%n");
                     System.out.format("+------+------------------------------------------+------------+---------------------------+------------+%n");
-                    System.out.format(leftAlignFormat, tripBooking.getId(), tripBooking.getCustomerId(), tripBooking.getTripId(), tripBooking.getPayment(), tripBooking.getReservationDate());
+                    System.out.format(leftAlignFormat, tripBooking.getId(), tripBooking.getCustomer(), tripBooking.getTripId(), tripBooking.getPayment(), tripBooking.getReservationDate());
                     System.out.format("+------+------------------------------------------+------------+---------------------------+------------+%n");
                     System.out.println("                                      Press enter to continue...                                    ");
                     scanner.nextLine();

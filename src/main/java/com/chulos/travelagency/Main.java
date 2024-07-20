@@ -4,11 +4,15 @@ import java.util.Scanner;
 
 import com.chulos.travelagency.tripbooking.application.AddBookingUseCase;
 import com.chulos.travelagency.tripbooking.application.DeleteBookingUseCase;
+import com.chulos.travelagency.tripbooking.application.FindBookingByIdUseCase;
 import com.chulos.travelagency.tripbooking.application.FindBookingCustomerUseCase;
+import com.chulos.travelagency.tripbooking.application.UpdateBookingUseCase;
 import com.chulos.travelagency.tripbooking.domain.service.TripBookingService;
 import com.chulos.travelagency.tripbooking.infrastructure.in.AddBookingView;
 import com.chulos.travelagency.tripbooking.infrastructure.in.DeleteBookingView;
 import com.chulos.travelagency.tripbooking.infrastructure.in.FindBookingByCustomerView;
+import com.chulos.travelagency.tripbooking.infrastructure.in.FindBookingByIdView;
+import com.chulos.travelagency.tripbooking.infrastructure.in.UpdateBookingView;
 import com.chulos.travelagency.tripbooking.infrastructure.out.TripBookingRepository;
 
 public class Main {
@@ -21,14 +25,24 @@ public class Main {
         // AddBookingView addBookingView = new AddBookingView(addBookingUseCase, scanner);
         // addBookingView.start();
 
-        // delete booking (Function: if booking not exists, TODO: Test deletion)
+        // delete booking (Functional)
         // DeleteBookingUseCase deleteBookingUseCase = new DeleteBookingUseCase(tripBookingService);
         // DeleteBookingView deleteBookingView = new DeleteBookingView(deleteBookingUseCase, scanner);
         // deleteBookingView.start();
 
-        // find booking by customer (TODO: Fix find booking by customer)
+        // find booking by customer (Functional)
         // FindBookingCustomerUseCase findBookingCustomerUseCase = new FindBookingCustomerUseCase(tripBookingService);
         // FindBookingByCustomerView findBookingByCustomerView = new FindBookingByCustomerView(findBookingCustomerUseCase, scanner);
         // findBookingByCustomerView.start();
+
+        // find trip by id (Functional)
+        // FindBookingByIdUseCase findBookingByIdUseCase = new FindBookingByIdUseCase(tripBookingService);
+        // FindBookingByIdView findBookingByIdView = new FindBookingByIdView(findBookingByIdUseCase, scanner);
+        // findBookingByIdView.start();
+
+        // update trip booking (Functional)
+        // UpdateBookingUseCase updateBookingUseCase = new UpdateBookingUseCase(tripBookingService);
+        // UpdateBookingView updateBookingView = new UpdateBookingView(updateBookingUseCase, scanner);
+        // updateBookingView.start();
     }   
 }

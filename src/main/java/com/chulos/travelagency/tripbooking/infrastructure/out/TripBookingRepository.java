@@ -116,7 +116,7 @@ public class TripBookingRepository implements TripBookingService{
 
     @Override
     public TripBooking findBookingById(int id) {
-        String sql = "{CALL find_booking_id}";
+        String sql = "{CALL find_booking_id(?)}";
         TripBooking newTripBooking = null;
 
         try {
@@ -152,7 +152,7 @@ public class TripBookingRepository implements TripBookingService{
 
     @Override
     public String updateBooking(TripBooking tripBooking) {
-        String sql = "{CALL update_trip_booking(?,?,?,?,?)}";
+        String sql = "{CALL update_trip_booking (?,?,?,?,?)}";
 
         try {
             // get connection
@@ -166,6 +166,8 @@ public class TripBookingRepository implements TripBookingService{
             callableStatement.setInt(4, tripBooking.getPaymentId());
             // register out parameters
             callableStatement.registerOutParameter(5, Types.VARCHAR);
+            // execute the call
+            callableStatement.execute();
             // get response
             response = callableStatement.getString(5);
         } catch (SQLException e) {
