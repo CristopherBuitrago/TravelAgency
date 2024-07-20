@@ -64,10 +64,10 @@ public class FindBookingByCustomerView {
                             }
                             scanner.nextLine();
                             MyUtils.clearScreen();
-                        } else {
-                            return;
                         }
                     }
+
+                    return;
                 } else {
                     MyUtils.displayMessageAndClearScreen("Ups!, the customer does not have trip bookings yet.",3);
                 }
