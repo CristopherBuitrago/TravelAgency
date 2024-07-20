@@ -13,7 +13,7 @@ public class FindBookingCustomerUseCase {
         this.tripBookingService = tripBookingService;
     }
 
-    public List<TripBooking> findBookingByCustomer(int customerId) {
+    public List<TripBooking> execute(int customerId) {
         return tripBookingService.findBookingByCustomer(customerId);
     }
 }
