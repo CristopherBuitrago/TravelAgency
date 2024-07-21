@@ -1,5 +1,9 @@
 package com.chulos.travelagency.payment.domain.service;
 
-public interface PaymentService {
+import com.chulos.travelagency.payment.domain.entity.Payment;
 
+public interface PaymentService {
+    String createEfectPayment (Payment payment);
+    String createTcPayment (Payment payment);
+    String createTdPayment (Payment payment);
 }

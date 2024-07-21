@@ -94,4 +94,11 @@ public class MyUtils {
         scanner.nextLine(); // clear buffer
         return input;
     }
+
+    // method to get a string
+    public static String getInput(String prompt, Scanner scanner) {
+        System.out.print(prompt);
+        String input = scanner.nextLine();
+        return input;
+    }
 }
