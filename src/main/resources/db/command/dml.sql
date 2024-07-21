@@ -236,8 +236,7 @@ INSERT INTO flight_fare (title, details, value) VALUES
 INSERT INTO payment_method (code, name, description) VALUES
 ("TC", "Tarjeta de crédito", "Pago con tarjeta de crédito"),
 ("TD", "Tarjeta de débito", "Pago con tarjeta de débito"),
-("EFEC", "Pago en efectivo", "Pago en efectivo"),
-("TB", "Transferencia bancaria", "Pago por transferencia bancaria");
+("EFEC", "Pago en efectivo", "Pago en efectivo");
 
 -- Employee Database
 INSERT INTO tripulation_role (name, description) VALUES

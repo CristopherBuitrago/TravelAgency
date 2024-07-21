@@ -485,3 +485,169 @@ this_proc:BEGIN
     -- set a successful message
     SET response = "Trip booking updated successfully!";
 END$$
+
+-- payments
+
+CREATE PROCEDURE create_payment_tc (
+    IN in_card_number VARCHAR(10),
+    IN in_payment_amount DOUBLE,
+    IN in_payment_date DATE,
+    IN in_customer_id INT,
+    IN in_trip_id INT,
+    OUT response VARCHAR(200)
+)
+this_proc:BEGIN
+    DECLARE customerExists INT;
+    DECLARE tripExists INT;
+    DECLARE paymentChange DOUBLE;
+    
+    -- verify if the customer exists
+    SELECT COUNT(*) INTO customerExists
+    FROM customer
+    WHERE id = in_customer_id;
+    
+    IF (customerExists = 0) THEN
+        -- if customer doesn't exist set an error message
+        SET response = "Ups! it seems that the client doesn't exist. Please try again";
+        -- leave this procedure
+        LEAVE this_proc;
+    END IF;
+    
+    -- verify if the trip exists
+    SELECT COUNT(*) INTO tripExists
+    FROM trip
+    WHERE id = in_trip_id;
+    
+    IF (tripExists = 0) THEN
+        -- if the trip doesn't exist set an error message
+        SET response = "Ups! it seems that the trip doesn't exist. Please try again.";
+        -- leave this procedure
+        LEAVE this_proc;
+    END IF;
+    
+    -- verify if it is a bad payment
+    SET paymentChange = calculate_change(in_payment_amount, in_trip_id);
+    
+    IF (paymentChange < 0.0) THEN
+        -- if the client doesn't have enough money set an error message
+        SET response = "Ups! it seems that the payment does not match the price of the trip.";
+        -- leave this procedure
+        LEAVE this_proc;
+    END IF;
+    
+    -- insert the data
+    INSERT INTO payment (paymentMethod, cardNumber, amount, `change`, paymentDate, customer, purchasedTrip) 
+    VALUES ("TC", in_card_number, in_payment_amount, paymentChange, in_payment_date, in_customer_id, in_trip_id);
+    
+    -- set successful message
+    SET response = CONCAT("Payment created successfully. Total change: ", paymentChange);
+END$$
+
+CREATE PROCEDURE create_payment_td (
+    IN in_card_number VARCHAR(10),
+    IN in_payment_amount DOUBLE,
+    IN in_payment_date DATE,
+    IN in_customer_id INT,
+    IN in_trip_id INT,
+    OUT response VARCHAR(200)
+)
+this_proc:BEGIN
+    DECLARE customerExists INT;
+    DECLARE tripExists INT;
+    DECLARE paymentChange DOUBLE;
+    
+    -- verify if the customer exists
+    SELECT COUNT(*) INTO customerExists
+    FROM customer
+    WHERE id = in_customer_id;
+    
+    IF (customerExists = 0) THEN
+        -- if customer doesn't exist set an error message
+        SET response = "Ups! it seems that the client doesn't exist. Please try again";
+        -- leave this procedure
+        LEAVE this_proc;
+    END IF;
+    
+    -- verify if the trip exists
+    SELECT COUNT(*) INTO tripExists
+    FROM trip
+    WHERE id = in_trip_id;
+    
+    IF (tripExists = 0) THEN
+        -- if the trip doesn't exist set an error message
+        SET response = "Ups! it seems that the trip doesn't exist. Please try again.";
+        -- leave this procedure
+        LEAVE this_proc;
+    END IF;
+    
+    -- verify if it is a bad payment
+    SET paymentChange = calculate_change(in_payment_amount, in_trip_id);
+    
+    IF (paymentChange < 0.0) THEN
+        -- if the client doesn't have enough money set an error message
+        SET response = "Ups! it seems that the payment does not match the price of the trip.";
+        -- leave this procedure
+        LEAVE this_proc;
+    END IF;
+    
+    -- insert the data
+    INSERT INTO payment (paymentMethod, cardNumber, amount, `change`, paymentDate, customer, purchasedTrip) 
+    VALUES ("TD", in_card_number, in_payment_amount, paymentChange, in_payment_date, in_customer_id, in_trip_id);
+    
+    -- set successful message
+    SET response = CONCAT("Payment created successfully. Total change: ", paymentChange);
+END$$
+
+CREATE PROCEDURE create_payment_efec (
+    IN in_payment_amount DOUBLE,
+    IN in_payment_date DATE,
+    IN in_customer_id INT,
+    IN in_trip_id INT,
+    OUT response VARCHAR(200)
+)
+this_proc:BEGIN
+    DECLARE customerExists INT;
+    DECLARE tripExists INT;
+    DECLARE paymentChange DOUBLE;
+    
+    -- verify if the customer exists
+    SELECT COUNT(*) INTO customerExists
+    FROM customer
+    WHERE id = in_customer_id;
+    
+    IF (customerExists = 0) THEN
+        -- if customer doesn't exist set an error message
+        SET response = "Ups! it seems that the client doesn't exist. Please try again";
+        -- leave this procedure
+        LEAVE this_proc;
+    END IF;
+    
+    -- verify if the trip exists
+    SELECT COUNT(*) INTO tripExists
+    FROM trip
+    WHERE id = in_trip_id;
+    
+    IF (tripExists = 0) THEN
+        -- if the trip doesn't exist set an error message
+        SET response = "Ups! it seems that the trip doesn't exist. Please try again.";
+        -- leave this procedure
+        LEAVE this_proc;
+    END IF;
+    
+    -- verify if it is a bad payment
+    SET paymentChange = calculate_change(in_payment_amount, in_trip_id);
+    
+    IF (paymentChange < 0.0) THEN
+        -- if the client doesn't have enough money set an error message
+        SET response = "Ups! it seems that the payment does not match the price of the trip.";
+        -- leave this procedure
+        LEAVE this_proc;
+    END IF;
+    
+    -- insert the data
+    INSERT INTO payment (paymentMethod, cardNumber, amount, `change`, paymentDate, customer, purchasedTrip) 
+    VALUES ("EFEC", NULL, in_payment_amount, paymentChange, in_payment_date, in_customer_id, in_trip_id);
+    
+    -- set successful message
+    SET response = CONCAT("Payment created successfully. Total change: ", paymentChange);
+END$$
