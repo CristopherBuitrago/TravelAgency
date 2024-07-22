@@ -16,7 +16,7 @@ public class AuthController {
     private final LoginView loginView;
     private final RegisterView registerView;
     private final Scanner scanner;
-    
+
     // controller
     public AuthController(Scanner scanner) {
         // get the repository
@@ -32,16 +32,40 @@ public class AuthController {
     }
 
     // run method
-    public void start () {
-        while (true) {
+    public void start() {
+        boolean starApp = true;
+
+        while (starApp == true) {
             try {
                 // intro message
-                System.out.println("WELCOME");
-                System.out.println("1. Login");
-                System.out.println("2. Register");
-                System.out.println("3. Exit");
+                MyUtils.clearScreen();
+                System.out.println(  "╔═══════════════════════════════════════════════════════╗\n" +
+                                     "║                                                       ║\n" +
+                                     "║        ╔╦╗┬─┐┌─┐┬  ┬┌─┐┬    ╔═╗┌─┐┌─┐┌┐┌┌─┐┬ ┬        ║\n" +
+                                     "║         ║ ├┬┘├─┤└┐┌┘├┤ │    ╠═╣│ ┬├┤ ││││  └┬┘        ║\n" +
+                                     "║         ╩ ┴└─┴ ┴ └┘ └─┘┴─┘  ╩ ╩└─┘└─┘┘└┘└─┘ ┴         ║\n" +
+                                     "║                                                       ║\n" +
+                                     "║                          ░█                           ║\n" +
+                                     "║                         ▄▄█▄▄                         ║\n" +
+                                     "║                     ▀▀▀██▀▀▀██▀▀▀                     ║\n" +
+                                     "║                 ▄▄▄▄▄▄▄███████▄▄▄▄▄▄▄                 ║\n" +
+                                     "║                  ░█▄█  ▀██▄██▀ ░█▄█                   ║\n" +
+                                     "║                                                       ║\n" +
+                                     "╔═══════════════════════════════════════════════════════╗\n" +
+                                     "║                  W E L C O M E   T O                  ║\n" +
+                                     "║                T R A V E L A G E N C Y                ║\n" +
+                                     "╚═══════════════════════════════════════════════════════╝");
+
+                // menu options
+                System.out.println("║                   Choose an option:                   ║");
+                System.out.println("╚══════════════════                   ══════════════════╝");
+                System.out.println("                     1. Login");
+                System.out.println("                     2. Register");
+                System.out.println("                     3. Exit");
+                System.out.println("╔═══════════════════════════════════════════════════════╗");
 
                 // get the option
+                System.out.print("║→");
                 int option = scanner.nextInt();
                 scanner.nextLine();
 
@@ -60,6 +84,7 @@ public class AuthController {
                     case 3:
                         // exit
                         MyUtils.displayMessageAndClearScreen("Exiting the application...", 2);
+                        starApp = false;
                         break;
                     default:
                         MyUtils.displayMessageAndClearScreen("Choose a valid option", 2);
