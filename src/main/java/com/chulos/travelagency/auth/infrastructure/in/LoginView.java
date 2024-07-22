@@ -27,9 +27,9 @@ public class LoginView {
         while (true) {
             try {
                 // intro message
-                System.out.println("===============================");
-                System.out.println("|            LOGIN            |");
-                System.out.println("===============================");
+                System.out.println("╔═════════════════════════════════════════╗");
+                System.out.println("║                  LOGIN                  ║");
+                System.out.println("╚═════════════════════════════════════════╝");
                 String email = getInput("\nInput Email(30): ");
                 String password = getPassword("Input Password(30): ");
 
@@ -41,7 +41,6 @@ public class LoginView {
                     // register and get response
                     String response = loginUseCase.execute(auth);
                     MyUtils.displayMessageAndClearScreen(response, 3);
-                    MyUtils.displayMessageAndClearScreen("Login Successful!", 3);
                     break;
                 } else {
                     attempts--;

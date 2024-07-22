@@ -9,6 +9,7 @@ import com.chulos.travelagency.auth.domain.entity.Auth;
 import com.chulos.travelagency.auth.domain.service.AuthService;
 import com.chulos.travelagency.config.DatabaseConfig;
 import com.chulos.travelagency.user.domain.entity.User;
+import com.chulos.travelagency.utils.MyUtils;
 
 public class AuthRepository implements AuthService{
     // attributes
@@ -29,9 +30,9 @@ public class AuthRepository implements AuthService{
             // Get connection
             connection = DatabaseConfig.getConnection();
             if (connection != null) {
-                System.out.println("===========================================");
-                System.out.println("|     Successful Database Connection!     |");
-                System.out.println("===========================================");
+                System.out.println("\n╭─────────────────────────────────────╮");
+                System.out.println(  "│   Successful Database Connection!   │");
+                System.out.println(  "╰─────────────────────────────────────╯");
             }
             // Prepare call
             callableStatement = connection.prepareCall(sql);
@@ -54,17 +55,36 @@ public class AuthRepository implements AuthService{
             // Remove any leading/trailing whitespace
             if (role != null) {
                 role = role.trim();
-                System.out.println("Role from DB (trimmed): " + role);
+                // System.out.println("Role from DB (trimmed): " + role);
 
                 switch (role) {
                     case "ADMIN":
-                        System.out.println("I'm an Admin");
+                        MyUtils.displayMessageAndClearScreen("Login Successful!", 3);
+                        System.out.println("╔═════════════════════════════════════════╗");
+                        System.out.println("║              ADMINISTRATOR              ║");
+                        System.out.println("╚═════════════════════════════════════════╝");
+
                         break;
                     case "MTECH":
-                        System.out.println("I'm a Mechanic");
+                        MyUtils.displayMessageAndClearScreen("Login Successful!", 3);
+                        System.out.println("╔══════════════════════════════════════════╗");
+                        System.out.println("║          MAINTENANCE TECHNICIAN          ║");
+                        System.out.println("╚══════════════════════════════════════════╝");
+
+                        break;
+                    case "SA":
+                        MyUtils.displayMessageAndClearScreen("Login Successful!", 3);
+                        System.out.println("╔═════════════════════════════════════════╗");
+                        System.out.println("║               SALES AGENT               ║");
+                        System.out.println("╚═════════════════════════════════════════╝");
+
                         break;
                     case "CUSTOMER":
-                        System.out.println("I'm a Mechanic");
+                        MyUtils.displayMessageAndClearScreen("Login Successful!", 3);
+                        System.out.println("╔══════════════════════════════════════════╗");
+                        System.out.println("║                 CUSTOMER                 ║");
+                        System.out.println("╚══════════════════════════════════════════╝");
+                        
                         break;
                     default:
                         System.out.println("Unrecognized role.");

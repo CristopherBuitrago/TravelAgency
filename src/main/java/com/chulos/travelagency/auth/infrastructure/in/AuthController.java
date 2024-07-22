@@ -39,22 +39,22 @@ public class AuthController {
             try {
                 // intro message
                 MyUtils.clearScreen();
-                System.out.println( "╔═══════════════════════════════════════════════════════╗\n" +
-                                    "║                                                       ║\n" +
-                                    "║        ╔╦╗┬─┐┌─┐┬  ┬┌─┐┬    ╔═╗┌─┐┌─┐┌┐┌┌─┐┬ ┬        ║\n" +
-                                    "║         ║ ├┬┘├─┤└┐┌┘├┤ │    ╠═╣│ ┬├┤ ││││  └┬┘        ║\n" +
-                                    "║         ╩ ┴└─┴ ┴ └┘ └─┘┴─┘  ╩ ╩└─┘└─┘┘└┘└─┘ ┴         ║\n" +
-                                    "║                                                       ║\n" +
-                                    "║                          ░█                           ║\n" +
-                                    "║                         ▄▄█▄▄                         ║\n" +
-                                    "║                     ▀▀▀██▀▀▀██▀▀▀                     ║\n" +
-                                    "║                 ▄▄▄▄▄▄▄███████▄▄▄▄▄▄▄                 ║\n" +
-                                    "║                  ░█▄█  ▀██▄██▀ ░█▄█                   ║\n" +
-                                    "║                                                       ║\n" +
-                                    "╔═══════════════════════════════════════════════════════╗\n" +
-                                    "║                  W E L C O M E   T O                  ║\n" +
-                                    "║                T R A V E L A G E N C Y                ║\n" +
-                                    "╚═══════════════════════════════════════════════════════╝");
+                System.out.println(  "╔═══════════════════════════════════════════════════════╗\n" +
+                                     "║                                                       ║\n" +
+                                     "║        ╔╦╗┬─┐┌─┐┬  ┬┌─┐┬    ╔═╗┌─┐┌─┐┌┐┌┌─┐┬ ┬        ║\n" +
+                                     "║         ║ ├┬┘├─┤└┐┌┘├┤ │    ╠═╣│ ┬├┤ ││││  └┬┘        ║\n" +
+                                     "║         ╩ ┴└─┴ ┴ └┘ └─┘┴─┘  ╩ ╩└─┘└─┘┘└┘└─┘ ┴         ║\n" +
+                                     "║                                                       ║\n" +
+                                     "║                          ░█                           ║\n" +
+                                     "║                         ▄▄█▄▄                         ║\n" +
+                                     "║                     ▀▀▀██▀▀▀██▀▀▀                     ║\n" +
+                                     "║                 ▄▄▄▄▄▄▄███████▄▄▄▄▄▄▄                 ║\n" +
+                                     "║                  ░█▄█  ▀██▄██▀ ░█▄█                   ║\n" +
+                                     "║                                                       ║\n" +
+                                     "╔═══════════════════════════════════════════════════════╗\n" +
+                                     "║                  W E L C O M E   T O                  ║\n" +
+                                     "║                T R A V E L A G E N C Y                ║\n" +
+                                     "╚═══════════════════════════════════════════════════════╝");
 
                 // menu options
                 System.out.println("║                   Choose an option:                   ║");
@@ -65,7 +65,7 @@ public class AuthController {
                 System.out.println("╔═══════════════════════════════════════════════════════╗");
 
                 // get the option
-                System.out.print("║>");
+                System.out.print("║→");
                 int option = scanner.nextInt();
                 scanner.nextLine();
 
@@ -83,7 +83,7 @@ public class AuthController {
                         break;
                     case 3:
                         // exit
-                        MyUtils.displayMessageAndClearScreen("Exiting the application...", 3);
+                        MyUtils.displayMessageAndClearScreen("Exiting the application...", 2);
                         starApp = false;
                         break;
                     default:
