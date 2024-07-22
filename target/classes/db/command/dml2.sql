@@ -717,35 +717,51 @@ END$$
 CREATE VIEW `available_pilots` AS
 SELECT e.id, CONCAT(e.name, " ", e.lastName) AS employee, tr.name AS role
 FROM employee e
-JOIN tripulation_role tr 
-ON tr.id = e.tripulationRole
+JOIN tripulation_role tr ON tr.id = e.tripulationRole
 WHERE e.tripulationRole = 1
 AND e.id NOT IN (
     SELECT tc.employee
     FROM trip_crew tc
 );
 
+
 CREATE VIEW `available_copilots` AS
-SELECT e.id, CONCAT(e.name," ",e.lastName) AS employee, tr.name AS role
-FROM trip_crew tc
-JOIN employee e
-ON e.id NOT IN (
-	SELECT employee
-    FROM trip_crew
-)
-JOIN tripulation_role tr
-ON tr.id = e.tripulationRole
-WHERE e.tripulationRole = 2;
+SELECT e.id, CONCAT(e.name, " ", e.lastName) AS employee, tr.name AS role
+FROM employee e
+JOIN tripulation_role tr ON tr.id = e.tripulationRole
+WHERE e.tripulationRole = 2
+AND e.id NOT IN (
+    SELECT tc.employee
+    FROM trip_crew tc
+);
 
 
 CREATE VIEW `available_engineers` AS
-SELECT e.id, CONCAT(e.name," ",e.lastName) AS employee, tr.name AS role
-FROM trip_crew tc
-JOIN employee e
-ON e.id NOT IN (
-	SELECT employee
+SELECT e.id, CONCAT(e.name, " ", e.lastName) AS employee, tr.name AS role
+FROM employee e
+JOIN tripulation_role tr ON tr.id = e.tripulationRole
+WHERE e.tripulationRole = 6
+AND e.id NOT IN (
+    SELECT tc.employee
+    FROM trip_crew tc
+);
+
+CREATE VIEW `available_attendants` AS
+SELECT e.id, CONCAT(e.name, " ", e.lastName) AS employee, tr.name AS role
+FROM employee e
+JOIN tripulation_role tr ON tr.id = e.tripulationRole
+WHERE e.tripulationRole = 4
+AND e.id NOT IN (
+    SELECT tc.employee
+    FROM trip_crew tc
+);
+
+CREATE VIEW `available_flights` AS
+SELECT fc.id, fc.connectionNumber AS connection_number
+FROM flight_connection fc
+JOIN trip_crew tc
+ON tc.flightConnection = fc.id
+WHERE fc.id NOT IN (
+	SELECT flightConnection
     FROM trip_crew
-)
-JOIN tripulation_role tr
-ON tr.id = e.tripulationRole
-WHERE e.tripulationRole = 6;
+);
