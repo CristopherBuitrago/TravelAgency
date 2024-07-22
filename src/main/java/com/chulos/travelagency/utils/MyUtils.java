@@ -2,6 +2,9 @@ package com.chulos.travelagency.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -85,7 +88,7 @@ public class MyUtils {
         double input = scanner.nextDouble();
         scanner.nextLine(); // clear buffer
         return input;
-    }
+    }   
 
     // method to get an int
     public static int getIntInput(String prompt, Scanner scanner) throws InputMismatchException{
@@ -100,5 +103,12 @@ public class MyUtils {
         System.out.print(prompt);
         String input = scanner.nextLine();
         return input;
+    }
+
+    public static LocalTime getTimeInput(String prompt, Scanner scanner) throws DateTimeParseException {
+        System.out.print(prompt);
+        String input = scanner.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        return LocalTime.parse(input, formatter);
     }
 }
