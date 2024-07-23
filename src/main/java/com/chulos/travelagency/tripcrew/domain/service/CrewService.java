@@ -7,8 +7,8 @@ import com.chulos.travelagency.flight.domain.entity.Flight;
 public interface CrewService {
     List<Flight> getFlights();
     String selectFlight(int flightId);
-    String addPilot(int employeeId);
-    String addCopilot(int employeeId);
-    String addAttendant(int employeeId);
-    String addTechnical(int employeeId);
+    String addPilot(int employeeId, int flightId);
+    String addCopilot(int employeeId, int flightId);
+    String addAttendant(int employeeId, int flightId);
+    String addTechnical(int employeeId, int flightId);
 }
