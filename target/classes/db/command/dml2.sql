@@ -828,3 +828,40 @@ this_proc:BEGIN
 	-- set successful message
     SET response = "Flight created successfully!";
 END$
+
+-- trip crew
+
+CREATE DEFINER=`root`@`%` PROCEDURE `select_flight`(
+	IN in_flight_id INT,
+    OUT response VARCHAR(200)
+)
+this_proc:BEGIN
+	DECLARE flightExists INT;
+    DECLARE flightInList INT;
+    
+    -- verify if the flight exists int available flights
+    SELECT COUNT(*) INTO flightExists
+    FROM available_flights af
+    WHERE af.id = in_flight_id;
+    
+    IF (flightExists = 0) THEN
+		-- set error message
+        SET response = "Ups! it seems that the flight does not available. Please try again";
+        LEAVE this_proc;
+	END IF;
+    
+    -- verify if the flight exists into trip_crew
+    SELECT COUNT(*) INTO flightInList
+	FROM trip_crew tc
+    WHERE tc.flightConnection = in_flight_id;
+    
+    IF (flightInList > 0) THEN
+		-- set error message
+        SET response = "Ups! It appears that the flight has been recorded before.";
+        LEAVE this_proc;
+	END IF;
+    
+    -- set successful message
+    SET response = "Flight chosen successful!";
+END$$
+

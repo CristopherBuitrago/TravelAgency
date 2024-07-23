@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +23,23 @@ public class CrewRepository implements CrewService{
 
     @Override
     public String selectFlight(int flightId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'selectFlight'");
+        String sql = "{CALL select_flight(?,?)}";
+        try {
+            connection = DatabaseConfig.getConnection();
+            callableStatement = connection.prepareCall(sql);
+            // set parameters
+            callableStatement.setInt(1, flightId);
+            callableStatement.registerOutParameter(2, Types.VARCHAR);
+            // execute
+            callableStatement.execute();
+            // get response
+            response = callableStatement.getString(2);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return response;
     }
 
     @Override
