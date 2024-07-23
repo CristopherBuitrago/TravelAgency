@@ -765,3 +765,66 @@ WHERE fc.id NOT IN (
 	SELECT flightConnection
     FROM trip_crew
 );
+
+-- procedures
+
+CREATE PROCEDURE `create_flight`(
+	IN in_connection_number INT,
+    IN in_trip_id INT,
+    IN in_plane_id INT,
+	IN in_departure_time TIME,
+    IN in_arrival_time TIME,
+    OUT response VARCHAR(200)
+)
+this_proc:BEGIN
+	DECLARE flightExists INT;
+    DECLARE numberChairs INT;
+    DECLARE tripExists INT;
+    DECLARE planeExists INT;
+    
+    -- verify if the flight exists
+	SELECT COUNT(*) INTO flightExists
+    FROM flight_connection fc
+    WHERE fc.trip = in_trip_id
+    AND fc.plane = in_plane_id;
+    
+    IF (flightExists > 0) THEN
+		-- set an error message
+        SET response = "Ups! it seems that the flight already exists. Please try again";
+        LEAVE this_proc;
+	END IF;
+    
+    -- verify if the trip exists
+    SELECT COUNT(*) INTO tripExists
+    FROM trip t
+    WHERE t.id = in_trip_id;
+    
+    IF (tripExists = 0) THEN
+		-- set error message
+        SET response = "Ups! it seems that the trip does not exists";
+		LEAVE this_proc;
+	END IF;
+    
+    -- verify if the plane exists
+    SELECT COUNT(*) INTO planeExists
+    FROM plane p
+    WHERE p.id = in_plane_id;
+    
+    IF (planeExists = 0) THEN
+		-- set error message
+        SET response = "Ups! it seems that the plane does not exists";
+        LEAVE this_proc;
+	END IF;
+    
+    -- calculate total chair's number
+    SELECT p.chairs INTO numberChairs
+    FROM plane p
+    WHERE p.id = in_plane_id;
+    
+    -- insert the data
+    INSERT INTO flight_connection (connectionNumber, trip, plane, departureTime, arrivalTime, availableChairs)
+	VALUES (in_connection_number, in_trip_id, in_plane_id, in_departure_time, in_arrival_time, numberChairs);
+    
+	-- set successful message
+    SET response = "Flight created successfully!";
+END$
