@@ -43,25 +43,25 @@ public class CrewRepository implements CrewService{
     }
 
     @Override
-    public String addPilot(int employeeId) {
+    public String addPilot(int employeeId, int flightId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addPilot'");
     }
 
     @Override
-    public String addCopilot(int employeeId) {
+    public String addCopilot(int employeeId, int flightId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addCopilot'");
     }
 
     @Override
-    public String addAttendant(int employeeId) {
+    public String addAttendant(int employeeId, int flightId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addAttendant'");
     }
 
     @Override
-    public String addTechnical(int employeeId) {
+    public String addTechnical(int employeeId, int flightId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addTechnical'");
     }
