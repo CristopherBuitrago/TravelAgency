@@ -960,4 +960,20 @@ this_proc:BEGIN
             SET response = "Invalid role ID.";
             LEAVE this_proc;
     END CASE;
-END
+END$$
+
+CREATE PROCEDURE `get_employees_by_role` (
+	IN in_role_type INT
+)
+BEGIN
+	CASE
+		WHEN in_role_type = 1 THEN
+			SELECT * FROM available_pilots;
+		WHEN in_role_type = 2 THEN
+			SELECT * FROM available_copilots;
+		WHEN in_role_type = 4 THEN
+			SELECT * FROM available_attendants;
+		WHEN in_role_type = 6 THEN
+			SELECT * FROM available_engineers;
+	END CASE;
+END$$

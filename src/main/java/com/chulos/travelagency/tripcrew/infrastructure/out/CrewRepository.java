@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.chulos.travelagency.config.DatabaseConfig;
+import com.chulos.travelagency.employee.domain.Employee;
 import com.chulos.travelagency.flight.domain.entity.Flight;
 import com.chulos.travelagency.tripcrew.domain.service.CrewService;
 
@@ -58,6 +59,8 @@ public class CrewRepository implements CrewService{
             callableStatement.setInt(3, flightId);
             // register our parameters
             callableStatement.registerOutParameter(4, Types.VARCHAR);
+            // execute the call
+            callableStatement.execute();
             // get response
             response = callableStatement.getString(4);
         } catch (SQLException e) {
@@ -83,6 +86,8 @@ public class CrewRepository implements CrewService{
             callableStatement.setInt(3, flightId);
             // register our parameters
             callableStatement.registerOutParameter(4, Types.VARCHAR);
+            // execute the call
+            callableStatement.execute();
             // get response
             response = callableStatement.getString(4);
         } catch (SQLException e) {
@@ -108,6 +113,8 @@ public class CrewRepository implements CrewService{
             callableStatement.setInt(3, flightId);
             // register our parameters
             callableStatement.registerOutParameter(4, Types.VARCHAR);
+            // execute the call
+            callableStatement.execute();
             // get response
             response = callableStatement.getString(4);
         } catch (SQLException e) {
@@ -133,6 +140,8 @@ public class CrewRepository implements CrewService{
             callableStatement.setInt(3, flightId);
             // register our parameters
             callableStatement.registerOutParameter(4, Types.VARCHAR);
+            // execute the call
+            callableStatement.execute();
             // get response
             response = callableStatement.getString(4);
         } catch (SQLException e) {
@@ -182,6 +191,38 @@ public class CrewRepository implements CrewService{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Employee> getEmployees(int roleType) {
+        String sql = "{CALL get_employees_by_role(?)}";
+        List<Employee> availableEmployees = new ArrayList<>();
+        try {
+            // get connection
+            connection = DatabaseConfig.getConnection();
+            // prepare the statement
+            callableStatement = connection.prepareCall(sql);
+            // set parameters
+            callableStatement.setInt(1, roleType);
+            // execute the statement and save the data into a set
+            resultSet = callableStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Employee employee = new Employee();
+                // get data
+                employee.setId(resultSet.getInt("id"));
+                employee.setFullName(resultSet.getString("employee"));
+                employee.setRole(resultSet.getString("role"));
+                // add to list
+                availableEmployees.add(employee);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources();
+        }
+
+        return availableEmployees;
     }
  
 }

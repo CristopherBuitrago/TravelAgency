@@ -8,6 +8,7 @@ import com.chulos.travelagency.utils.MyUtils;
 public class GetFlightsView {
     // get app and scanner
     private final GetFlightsUseCase getFlightsUseCase;
+    private boolean isEmpty;
 
     // constructor
     public GetFlightsView(GetFlightsUseCase getFlightsUseCase) {
@@ -15,7 +16,7 @@ public class GetFlightsView {
     }
 
     // start method
-    public void start() {
+    public boolean start() {
         // get flights
         List<Flight> flights = getFlightsUseCase.execute();
 
@@ -33,6 +34,9 @@ public class GetFlightsView {
             System.out.format("+------+-------------------+%n");
         } else {
             MyUtils.displayMessageAndClearScreen("Ups! it seems that there are not records yet. Please try again", 3);
+            isEmpty = true;
         }
+
+        return isEmpty;
     }
 }
