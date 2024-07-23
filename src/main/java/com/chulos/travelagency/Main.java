@@ -2,7 +2,7 @@ package com.chulos.travelagency;
 
 import java.util.Scanner;
 
-import com.chulos.travelagency.auth.infrastructure.in.AuthController;
+// import com.chulos.travelagency.auth.infrastructure.in.AuthController;
 import com.chulos.travelagency.flight.infrastructure.in.FlightController;
 
 public class Main {
