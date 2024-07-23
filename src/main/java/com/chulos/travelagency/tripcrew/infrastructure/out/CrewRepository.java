@@ -37,6 +37,8 @@ public class CrewRepository implements CrewService{
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            closeResources();
         }
 
         return response;
@@ -44,26 +46,102 @@ public class CrewRepository implements CrewService{
 
     @Override
     public String addPilot(int employeeId, int flightId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addPilot'");
+        String sql = "{CALL add_employee_flight(?,?,?,?)}";
+
+        try {
+            // get connection
+            connection = DatabaseConfig.getConnection();
+            callableStatement = connection.prepareCall(sql);
+            //set parameters
+            callableStatement.setInt(1, 1);
+            callableStatement.setInt(2, employeeId);
+            callableStatement.setInt(3, flightId);
+            // register our parameters
+            callableStatement.registerOutParameter(4, Types.VARCHAR);
+            // get response
+            response = callableStatement.getString(4);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources();
+        }
+
+        return response;
     }
 
     @Override
     public String addCopilot(int employeeId, int flightId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addCopilot'");
+        String sql = "{CALL add_employee_flight(?,?,?,?)}";
+
+        try {
+            // get connection
+            connection = DatabaseConfig.getConnection();
+            callableStatement = connection.prepareCall(sql);
+            //set parameters
+            callableStatement.setInt(1, 2);
+            callableStatement.setInt(2, employeeId);
+            callableStatement.setInt(3, flightId);
+            // register our parameters
+            callableStatement.registerOutParameter(4, Types.VARCHAR);
+            // get response
+            response = callableStatement.getString(4);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources();
+        }
+
+        return response;
     }
 
     @Override
     public String addAttendant(int employeeId, int flightId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addAttendant'");
+        String sql = "{CALL add_employee_flight(?,?,?,?)}";
+
+        try {
+            // get connection
+            connection = DatabaseConfig.getConnection();
+            callableStatement = connection.prepareCall(sql);
+            //set parameters
+            callableStatement.setInt(1, 4);
+            callableStatement.setInt(2, employeeId);
+            callableStatement.setInt(3, flightId);
+            // register our parameters
+            callableStatement.registerOutParameter(4, Types.VARCHAR);
+            // get response
+            response = callableStatement.getString(4);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources();
+        }
+
+        return response;
     }
 
     @Override
     public String addTechnical(int employeeId, int flightId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addTechnical'");
+        String sql = "{CALL add_employee_flight(?,?,?,?)}";
+
+        try {
+            // get connection
+            connection = DatabaseConfig.getConnection();
+            callableStatement = connection.prepareCall(sql);
+            //set parameters
+            callableStatement.setInt(1, 6);
+            callableStatement.setInt(2, employeeId);
+            callableStatement.setInt(3, flightId);
+            // register our parameters
+            callableStatement.registerOutParameter(4, Types.VARCHAR);
+            // get response
+            response = callableStatement.getString(4);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources();
+        }
+
+        return response;
     }
 
     @Override
@@ -88,9 +166,22 @@ public class CrewRepository implements CrewService{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            closeResources();
         }
 
         return availableFlights;
     }
     
+    private void closeResources () {
+        try {
+            if (connection != null) connection.close();
+            if (preparedStatement != null) preparedStatement.close();
+            if (callableStatement != null) callableStatement.close();
+            if (resultSet != null) resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+ 
 }
