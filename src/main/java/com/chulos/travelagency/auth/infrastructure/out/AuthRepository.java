@@ -22,9 +22,6 @@ public class AuthRepository implements AuthService{
     @Override
     public String login(Auth auth) {
         String sql = "{CALL login(?,?,?,?)}";
-        String response;
-        Connection connection = null;
-        CallableStatement callableStatement = null;
 
         try {
             // Get connection
