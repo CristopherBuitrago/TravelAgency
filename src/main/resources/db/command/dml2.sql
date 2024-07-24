@@ -18,9 +18,9 @@ BEGIN
 END$$
 
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`%` 
-    SQL SECURITY DEFINER
+    
+    
+    
 VIEW `TravelAgency`.`available_attendants` AS
     SELECT 
         `e`.`id` AS `id`,
@@ -37,11 +37,7 @@ VIEW `TravelAgency`.`available_attendants` AS
                 `TravelAgency`.`trip_crew` `tc`)
             IS FALSE)$$
 
-CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`%` 
-    SQL SECURITY DEFINER
-VIEW `TravelAgency`.`available_copilots` AS
+CREATE VIEW `TravelAgency`.`available_copilots` AS
     SELECT 
         `e`.`id` AS `id`,
         CONCAT(`e`.`name`, ' ', `e`.`lastName`) AS `employee`,
@@ -57,11 +53,7 @@ VIEW `TravelAgency`.`available_copilots` AS
                 `TravelAgency`.`trip_crew` `tc`)
             IS FALSE)$$
 
-CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`%` 
-    SQL SECURITY DEFINER
-VIEW `TravelAgency`.`available_engineers` AS
+CREATE VIEW `TravelAgency`.`available_engineers` AS
     SELECT 
         `e`.`id` AS `id`,
         CONCAT(`e`.`name`, ' ', `e`.`lastName`) AS `employee`,
@@ -78,9 +70,9 @@ VIEW `TravelAgency`.`available_engineers` AS
             IS FALSE) $$
 
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`%` 
-    SQL SECURITY DEFINER
+    
+    
+    
 VIEW `TravelAgency`.`available_flights` AS
     SELECT 
         `fc`.`id` AS `id`,
@@ -96,9 +88,9 @@ VIEW `TravelAgency`.`available_flights` AS
             IS FALSE$$
 
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`%` 
-    SQL SECURITY DEFINER
+    
+    
+    
 VIEW `TravelAgency`.`available_pilots` AS
     SELECT 
         `e`.`id` AS `id`,
@@ -116,9 +108,9 @@ VIEW `TravelAgency`.`available_pilots` AS
             IS FALSE)$$
 
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`%` 
-    SQL SECURITY DEFINER
+    
+    
+    
 VIEW `TravelAgency`.`user_view` AS
     SELECT 
         `u`.`id` AS `id`,
@@ -322,7 +314,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE PROCEDURE `create_flight`(
+CREATE  PROCEDURE `create_flight`(
 	IN in_connection_number INT,
     IN in_trip_id INT,
     IN in_plane_id INT,
