@@ -1,7 +1,6 @@
 package com.chulos.travelagency.plane.infrastructure.in;
 
-import java.text.ParseException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -33,7 +32,7 @@ public class CreatePlaneView {
                 int chairs = getIntInput("Input plane last chairs: ");
                 int status = getIntInput("Input plane status: ");
                 int model = getIntInput("Input model: ");
-                Date fabricationDate = MyUtils.getDateInput("Input fabrication date (DD-MM-YYYY): ", scanner);
+                LocalDate fabricationDate = MyUtils.getLocalDateInput("Input fabrication date (DD-MM-YYYY): ", scanner);
                 int airline = getIntInput("Input airline: ");
 
                 if (isInputValid(plate, chairs, status, model, fabricationDate, airline)) {
@@ -54,9 +53,6 @@ public class CreatePlaneView {
             } catch (IllegalStateException e) {
                 MyUtils.displayMessageAndClearScreen("Ups! the scanner is closed", 2);
                 break;
-            } catch (ParseException e) {
-                MyUtils.displayMessageAndClearScreen("Ups! the scanner is closed BECAUSE DE PARSE", 2);
-                break;
             }
         }
     }
@@ -73,7 +69,7 @@ public class CreatePlaneView {
         return input;
     }
 
-    private boolean isInputValid(String plate, int chairs, int status, int model, Date fabricationDate, int airline) {
+    private boolean isInputValid(String plate, int chairs, int status, int model, LocalDate fabricationDate, int airline) {
         return plate.length() <= MAX_PLATE_NAME;
     }
 }

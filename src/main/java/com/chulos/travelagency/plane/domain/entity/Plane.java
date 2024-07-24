@@ -1,13 +1,13 @@
 package com.chulos.travelagency.plane.domain.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Plane {
     private String plate;
     private int chairs;
     private int status;
     private int model;
-    private Date fabricationDate;
+    private LocalDate fabricationDate;
     private int airline;
 
     // empty constructor
@@ -15,7 +15,7 @@ public class Plane {
     }
 
     // full constructor
-    public Plane(String plate, int chairs, int status, int model, Date fabricationDate, int airline) {
+    public Plane(String plate, int chairs, int status, int model, LocalDate fabricationDate, int airline) {
         this.plate = plate;
         this.chairs = chairs;
         this.status = status;
@@ -41,11 +41,11 @@ public class Plane {
         this.chairs = chairs;
     }
 
-    public Date getFabricationDate() {
+    public LocalDate getFabricationDate() {
         return fabricationDate;
     }
 
-    public void setFabricationDate(Date fabricationDate) {
+    public void setFabricationDate(LocalDate fabricationDate) {
         this.fabricationDate = fabricationDate;
     }
 

@@ -28,8 +28,8 @@ public class PlaneRepository implements PlaneService {
             connection = DatabaseConfig.getConnection();
             if (connection != null) {
                 System.out.println("\n╭─────────────────────────────────────╮");
-                System.out.println(  "│   Successful Database Connection!   │");
-                System.out.println(  "╰─────────────────────────────────────╯");
+                System.out.println("│   Successful Database Connection!   │");
+                System.out.println("╰─────────────────────────────────────╯");
             }
             // Prepare the call statement
             callableStatement = connection.prepareCall(sql);
@@ -39,7 +39,7 @@ public class PlaneRepository implements PlaneService {
             callableStatement.setInt(2, plane.getChairs());
             callableStatement.setInt(3, plane.getStatus());
             callableStatement.setInt(4, plane.getModel());
-            callableStatement.setDate(5, (Date) plane.getFabricationDate());
+            callableStatement.setDate(5, Date.valueOf(plane.getFabricationDate()));
             callableStatement.setInt(6, plane.getAirline());
 
             // Register out parameters
@@ -48,11 +48,9 @@ public class PlaneRepository implements PlaneService {
             // Execute the call
             callableStatement.execute();
 
-            // Get the result
-            resultSet = callableStatement.getResultSet();
-            if (resultSet.next()) {
-                response = "Avión creado correctamente";
-            } else {
+            // Get the output parameter result
+            response = callableStatement.getString(7);
+            if (response == null || response.isEmpty()) {
                 response = "Error al crear el avión";
             }
 

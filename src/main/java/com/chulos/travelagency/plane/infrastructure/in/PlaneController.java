@@ -46,7 +46,6 @@ public class PlaneController {
                         // create menu
                         MyUtils.clearScreen();
                         createPlaneView.start();
-                        MyUtils.displayMessageAndClearScreen("Creating a new plane...", 1);
                         break;
                     case 2:
                         System.out.println("Exiting the application...");
