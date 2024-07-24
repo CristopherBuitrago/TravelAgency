@@ -4,16 +4,10 @@ import java.util.Scanner;
 
 import com.chulos.travelagency.auth.domain.service.IMenuController;
 import com.chulos.travelagency.customer.infrastructure.in.CustomerController;
-import com.chulos.travelagency.flight.domain.entity.Flight;
 import com.chulos.travelagency.flight.infrastructure.in.FlightController;
 import com.chulos.travelagency.plane.infrastructure.in.PlaneController;
-import com.chulos.travelagency.trip.application.UpdateTripUseCase;
-import com.chulos.travelagency.trip.domain.service.TripService;
 import com.chulos.travelagency.trip.infrastructure.in.TripController;
-import com.chulos.travelagency.trip.infrastructure.in.UpdateTripView;
-import com.chulos.travelagency.trip.infrastructure.out.TripRepository;
 import com.chulos.travelagency.tripcrew.infrastructure.in.CrewController;
-import com.chulos.travelagency.utils.MyUtils;
 
 public class RolAdminController implements IMenuController {
     private final Scanner scanner;
