@@ -54,6 +54,9 @@ public class RolAdminController implements IMenuController {
                     CustomerController customerController = new CustomerController(scanner);
                     customerController.run();
                     break;
+                case 6:
+                    System.out.println("Saliendo...");
+                    break;
                 default:
                     System.out.println("Opción no válida. Intente nuevamente.");
             }
