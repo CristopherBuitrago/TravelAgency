@@ -3,7 +3,17 @@ package com.chulos.travelagency.auth.infrastructure.in.rol_controller;
 import java.util.Scanner;
 
 import com.chulos.travelagency.auth.domain.service.IMenuController;
+import com.chulos.travelagency.customer.infrastructure.in.CustomerController;
+import com.chulos.travelagency.flight.domain.entity.Flight;
+import com.chulos.travelagency.flight.infrastructure.in.FlightController;
 import com.chulos.travelagency.plane.infrastructure.in.PlaneController;
+import com.chulos.travelagency.trip.application.UpdateTripUseCase;
+import com.chulos.travelagency.trip.domain.service.TripService;
+import com.chulos.travelagency.trip.infrastructure.in.TripController;
+import com.chulos.travelagency.trip.infrastructure.in.UpdateTripView;
+import com.chulos.travelagency.trip.infrastructure.out.TripRepository;
+import com.chulos.travelagency.tripcrew.infrastructure.in.CrewController;
+import com.chulos.travelagency.utils.MyUtils;
 
 public class RolAdminController implements IMenuController {
     private final Scanner scanner;
@@ -21,32 +31,10 @@ public class RolAdminController implements IMenuController {
             System.out.println("├═══════════════════════════════════════════┤");
             System.out.println("║ 1. Registrar Avión                        ║");
             System.out.println("║ 2. Asignar Tripulación a Trayecto         ║");
-            System.out.println("║ 3. Consultar Información de Avión         ║");
-            System.out.println("║ 4. Consultar Información de Trayecto      ║");
-            System.out.println("║ 5. Registrar Aeropuerto                   ║");
-            System.out.println("║ 6. Consultar Información de Aeropuerto    ║");
-            System.out.println("║ 7. Actualizar Información de Avión        ║");
-            System.out.println("║ 8. Eliminar Avión                         ║");
-            System.out.println("║ 9. Asignar Aeronave a Trayecto            ║");
-            System.out.println("║ 10. Actualizar Información de Trayecto    ║");
-            System.out.println("║ 11. Eliminar Trayecto                     ║");
-            System.out.println("║ 12. Actualizar Información de Aeropuerto  ║");
-            System.out.println("║ 13. Eliminar Aeropuerto                   ║");
-            System.out.println("║ 14. Eliminar Trayecto                     ║");
-            System.out.println("║ 15. Eliminar Trayecto                     ║");
-            System.out.println("║ 16. Eliminar Trayecto                     ║");
-            System.out.println("║ 17. Eliminar Trayecto                     ║");
-            System.out.println("║ 18. Eliminar Trayecto                     ║");
-            System.out.println("║ 19. Eliminar Trayecto                     ║");
-            System.out.println("║ 20. Eliminar Trayecto                     ║");
-            System.out.println("║ 21. Eliminar Trayecto                     ║");
-            System.out.println("║ 22. Eliminar Trayecto                     ║");
-            System.out.println("║ 23. Eliminar Trayecto                     ║");
-            System.out.println("║ 24. Eliminar Trayecto                     ║");
-            System.out.println("║ 25. Eliminar Trayecto                     ║");
-            System.out.println("║ 26. Eliminar Trayecto                     ║");
-            System.out.println("║ 27. Eliminar Trayecto                     ║");
-            System.out.println("║ 28. Salir                                 ║");
+            System.out.println("║ 3. Crear vuelo                            ║");
+            System.out.println("║ 4. Trayectos                              ║");
+            System.out.println("║ 5. Customer                               ║");
+            System.out.println("║ 6. Salir                                  ║");
             System.out.println("╚═══════════════════════════════════════════╝");
             System.out.print("Seleccione una opción: ");
             option = scanner.nextInt();
@@ -55,43 +43,26 @@ public class RolAdminController implements IMenuController {
                 case 1:
                     PlaneController planecontroller = new PlaneController(scanner);
                     planecontroller.run();
-
+                    break;
                 case 2:
-                    System.out.println(" - Lógica no implementada aún");
+                    CrewController crewController = new CrewController(scanner);
+                    crewController.run();
                     break;
                 case 3:
-                    System.out.println(" - Lógica no implementada aún");
+                    FlightController flightController = new FlightController(scanner);
+                    flightController.run();
                     break;
                 case 4:
-                    System.out.println(" - Lógica no implementada aún");
+                    TripController tripController = new TripController(scanner);
+                    tripController.run();
                     break;
                 case 5:
-                    System.out.println(" - Lógica no implementada aún");
-                    break;
-                case 6:
-                    System.out.println(" - Lógica no implementada aún");
-                    break;
-                case 7:
-                    System.out.println(" - Lógica no implementada aún");
-                    break;
-                case 8:
-                    System.out.println(" - Lógica no implementada aún");
-                    break;
-                case 9:
-                    System.out.println(" - Lógica no implementada aún");
-                    break;
-                case 10:
-                    System.out.println(" - Lógica no implementada aún");
-                    break;
-                case 11:
-                    System.out.println(" - Lógica no implementada aún");
-                    break;
-                case 12:
-                    System.out.println("Saliendo...");
+                    CustomerController customerController = new CustomerController(scanner);
+                    customerController.run();
                     break;
                 default:
                     System.out.println("Opción no válida. Intente nuevamente.");
             }
-        } while (option != 28);
+        } while (option != 5);
     }
 }
