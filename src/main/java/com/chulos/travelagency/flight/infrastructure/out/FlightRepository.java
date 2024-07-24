@@ -51,7 +51,7 @@ public class FlightRepository implements FlightService{
         try {
             if(connection != null) connection.close();
             if(callableStatement != null) callableStatement.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
