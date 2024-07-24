@@ -3,6 +3,7 @@ package com.chulos.travelagency.auth.infrastructure.in.rol_controller;
 import java.util.Scanner;
 
 import com.chulos.travelagency.auth.domain.service.IMenuController;
+import com.chulos.travelagency.customer.infrastructure.in.CustomerController;
 import com.chulos.travelagency.plane.infrastructure.in.PlaneController;
 import com.chulos.travelagency.tripbooking.infrastructure.in.TripBookingController;
 import com.chulos.travelagency.utils.MyUtils;
@@ -34,7 +35,8 @@ public class RolSalesAgentController implements IMenuController{
                     tripBookingController.run();     
                     break;       
                 case 2:
-                    System.out.println(" - Lógica no implementada aún");
+                    CustomerController customerController = new CustomerController(scanner);
+                    customerController.run();
                     break;
                 case 3:
                     MyUtils.displayMessageAndClearScreen("Exiting", 2);
