@@ -1,8 +1,10 @@
 DELIMITER $$
 
-CREATE FUNCTION calculate_change(amount DOUBLE, tripId INT) RETURNS double
+CREATE FUNCTION calculate_change(amount DOUBLE, tripId INT) 
+RETURNS DOUBLE
+DETERMINISTIC
 BEGIN
-	DECLARE tripPrice  DOUBLE;
+    DECLARE tripPrice DOUBLE;
     DECLARE totalChange DOUBLE;
     
     -- select the trip's price
@@ -14,8 +16,8 @@ BEGIN
     SET totalChange = (amount - tripPrice);
     
     -- return the value
-	RETURN totalChange;
-END$$
+    RETURN totalChange;
+END;
 
 CREATE VIEW available_attendants AS
     SELECT 
@@ -406,7 +408,7 @@ this_proc:BEGIN
     END IF;
     
     -- insert the data
-    INSERT INTO payment (paymentMethod, cardNumber, amount, change, paymentDate, customer, purchasedTrip) 
+    INSERT INTO payment (paymentMethod, cardNumber, amount, `change`, paymentDate, customer, purchasedTrip) 
     VALUES ("EFEC", NULL, in_payment_amount, paymentChange, in_payment_date, in_customer_id, in_trip_id);
     
     -- set successful message
@@ -474,7 +476,7 @@ this_proc:BEGIN
     END IF;
     
     -- insert the data
-    INSERT INTO payment (paymentMethod, cardNumber, amount, change, paymentDate, customer, purchasedTrip) 
+    INSERT INTO payment (paymentMethod, cardNumber, amount, `change`, paymentDate, customer, purchasedTrip) 
     VALUES ("TC", in_card_number, in_payment_amount, paymentChange, in_payment_date, in_customer_id, in_trip_id);
     
     -- set successful message
@@ -542,7 +544,7 @@ this_proc:BEGIN
     END IF;
     
     -- insert the data
-    INSERT INTO payment (paymentMethod, cardNumber, amount, change, paymentDate, customer, purchasedTrip) 
+    INSERT INTO payment (paymentMethod, cardNumber, amount, `change`, paymentDate, customer, purchasedTrip) 
     VALUES ("TD", in_card_number, in_payment_amount, paymentChange, in_payment_date, in_customer_id, in_trip_id);
     
     -- set successful message
