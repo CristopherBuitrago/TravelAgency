@@ -1,6 +1,6 @@
 DELIMITER $$
 
-CREATE DEFINER=`root`@`%` FUNCTION `calculate_change`(amount DOUBLE, tripId INT) RETURNS double
+CREATE FUNCTION `calculate_change`(amount DOUBLE, tripId INT) RETURNS double
 BEGIN
 	DECLARE tripPrice  DOUBLE;
     DECLARE totalChange DOUBLE;
@@ -129,7 +129,7 @@ VIEW `TravelAgency`.`user_view` AS
         (`TravelAgency`.`user` `u`
         JOIN `TravelAgency`.`role` `r` ON ((`r`.`code` = `u`.`role`)))$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `add_employee_flight`(
+CREATE PROCEDURE `add_employee_flight`(
     IN in_role_id INT,
     IN in_employee_id INT,
     IN in_flight_id INT,
@@ -226,7 +226,7 @@ this_proc:BEGIN
     END CASE;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `add_trip_booking`(
+CREATE PROCEDURE `add_trip_booking`(
     IN in_customer_id INT,
     IN in_trip_id INT,
     IN in_booking_date DATE,
@@ -294,7 +294,7 @@ this_proc:BEGIN
     SET response = "Trip booking registered successfully!";
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `create_customer`(
+CREATE PROCEDURE `create_customer`(
     IN in_name VARCHAR(45),
     IN in_last_name VARCHAR(45),
     IN in_age INT,
@@ -322,7 +322,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `create_flight`(
+CREATE PROCEDURE `create_flight`(
 	IN in_connection_number INT,
     IN in_trip_id INT,
     IN in_plane_id INT,
@@ -383,7 +383,7 @@ this_proc:BEGIN
     SET response = "Flight created successfully!";
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `create_payment_efec`(
+CREATE PROCEDURE `create_payment_efec`(
     IN in_payment_amount DOUBLE,
     IN in_payment_date DATE,
     IN in_customer_id INT,
@@ -450,7 +450,7 @@ this_proc:BEGIN
     SET response = CONCAT("Payment created successfully. Total change: ", paymentChange);
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `create_payment_tc`(
+CREATE PROCEDURE `create_payment_tc`(
     IN in_card_number VARCHAR(10),
     IN in_payment_amount DOUBLE,
     IN in_payment_date DATE,
@@ -518,7 +518,7 @@ this_proc:BEGIN
     SET response = CONCAT("Payment created successfully. Total change: ", paymentChange);
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `create_payment_td`(
+CREATE PROCEDURE `create_payment_td`(
     IN in_card_number VARCHAR(10),
     IN in_payment_amount DOUBLE,
     IN in_payment_date DATE,
@@ -586,7 +586,7 @@ this_proc:BEGIN
     SET response = CONCAT("Payment created successfully. Total change: ", paymentChange);
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `create_plane`(
+CREATE PROCEDURE `create_plane`(
     IN p_plate VARCHAR(10),
     IN p_chairs INT,
     IN p_status INT,
@@ -615,7 +615,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `create_trip`(
+CREATE PROCEDURE `create_trip`(
 	IN in_date DATE,
     IN in_price DOUBLE,
     IN in_flight_fare_id INT,
@@ -642,7 +642,7 @@ BEGIN
 	END IF;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `create_user`(
+CREATE PROCEDURE `create_user`(
     IN username VARCHAR(40),
     IN email VARCHAR(40),
     IN password VARCHAR(40),
@@ -666,7 +666,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `delete_trip`(
+CREATE PROCEDURE `delete_trip`(
 	IN in_trip_id INT,
     OUT response VARCHAR(200)
 )
@@ -690,7 +690,7 @@ BEGIN
 	END IF;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `delete_trip_booking`(
+CREATE PROCEDURE `delete_trip_booking`(
 	IN in_trip_booking_id INT,
     OUT response VARCHAR(200)
 )
@@ -714,7 +714,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `delete_user`(
+CREATE PROCEDURE `delete_user`(
 	IN id INT,
     OUT response VARCHAR(40)
 )
@@ -738,7 +738,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `find_booking_customer`(
+CREATE PROCEDURE `find_booking_customer`(
 	IN in_customer_id INT
 )
 BEGIN
@@ -754,7 +754,7 @@ BEGIN
 	WHERE cr.customer = in_customer_id;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `find_booking_id`(
+CREATE PROCEDURE `find_booking_id`(
 	IN in_trip_booking_id INT
 )
 BEGIN
@@ -768,7 +768,7 @@ BEGIN
     WHERE cr.id = in_trip_booking_id;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `find_customer`(
+CREATE PROCEDURE `find_customer`(
     IN in_id INT
 )
 BEGIN    
@@ -778,7 +778,7 @@ BEGIN
     WHERE c.id = in_id;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `find_trip`(
+CREATE PROCEDURE `find_trip`(
 	IN in_trip_id INT
 )
 BEGIN
@@ -790,7 +790,7 @@ BEGIN
     WHERE t.id = in_trip_id;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `find_user`(
+CREATE PROCEDURE `find_user`(
     IN id INT
 )
 BEGIN
@@ -802,7 +802,7 @@ BEGIN
     WHERE u.id = id;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `get_employees_by_role`(
+CREATE PROCEDURE `get_employees_by_role`(
 	IN in_role_type INT
 )
 BEGIN
@@ -818,13 +818,13 @@ BEGIN
 	END CASE;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `get_users`()
+CREATE PROCEDURE `get_users`()
 BEGIN 
     -- select user_view
     SELECT * FROM user_view;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `login`(
+CREATE PROCEDURE `login`(
     IN in_email VARCHAR(40),
     IN in_password VARCHAR(40),
     OUT response VARCHAR(100),
@@ -864,7 +864,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `register`(
+CREATE PROCEDURE `register`(
     IN username VARCHAR(40),
     IN email VARCHAR(40),
     IN password VARCHAR(40),
@@ -890,7 +890,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `select_flight`(
+CREATE PROCEDURE `select_flight`(
 	IN in_flight_id INT,
     OUT response VARCHAR(200)
 )
@@ -924,7 +924,7 @@ this_proc:BEGIN
     SET response = "Flight chosen successful!";
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `update_customer`(
+CREATE PROCEDURE `update_customer`(
     IN in_id INT,
     IN in_name VARCHAR(45),
     IN in_last_name VARCHAR(45),
@@ -968,7 +968,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `update_trip`(
+CREATE PROCEDURE `update_trip`(
 	IN in_trip_id INT,
     IN in_new_date DATE,
     IN in_new_price DOUBLE,
@@ -1010,7 +1010,7 @@ BEGIN
 	END IF;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `update_trip_booking`(
+CREATE PROCEDURE `update_trip_booking`(
 	IN in_trip_booking_id INT,
     IN in_customer_id INT,
     IN in_trip_id INT,
@@ -1078,7 +1078,7 @@ this_proc:BEGIN
     SET response = "Trip booking updated successfully!";
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `update_user`(
+CREATE PROCEDURE `update_user`(
     IN id INT,
     IN newUsername VARCHAR(40),
     IN newEmail VARCHAR(40),
