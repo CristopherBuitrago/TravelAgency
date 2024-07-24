@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,32 +23,125 @@ public class CrewRepository implements CrewService{
 
     @Override
     public String selectFlight(int flightId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'selectFlight'");
+        String sql = "{CALL select_flight(?,?)}";
+        try {
+            connection = DatabaseConfig.getConnection();
+            callableStatement = connection.prepareCall(sql);
+            // set parameters
+            callableStatement.setInt(1, flightId);
+            callableStatement.registerOutParameter(2, Types.VARCHAR);
+            // execute
+            callableStatement.execute();
+            // get response
+            response = callableStatement.getString(2);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources();
+        }
+
+        return response;
     }
 
     @Override
-    public String addPilot(int employeeId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addPilot'");
+    public String addPilot(int employeeId, int flightId) {
+        String sql = "{CALL add_employee_flight(?,?,?,?)}";
+
+        try {
+            // get connection
+            connection = DatabaseConfig.getConnection();
+            callableStatement = connection.prepareCall(sql);
+            //set parameters
+            callableStatement.setInt(1, 1);
+            callableStatement.setInt(2, employeeId);
+            callableStatement.setInt(3, flightId);
+            // register our parameters
+            callableStatement.registerOutParameter(4, Types.VARCHAR);
+            // get response
+            response = callableStatement.getString(4);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources();
+        }
+
+        return response;
     }
 
     @Override
-    public String addCopilot(int employeeId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addCopilot'");
+    public String addCopilot(int employeeId, int flightId) {
+        String sql = "{CALL add_employee_flight(?,?,?,?)}";
+
+        try {
+            // get connection
+            connection = DatabaseConfig.getConnection();
+            callableStatement = connection.prepareCall(sql);
+            //set parameters
+            callableStatement.setInt(1, 2);
+            callableStatement.setInt(2, employeeId);
+            callableStatement.setInt(3, flightId);
+            // register our parameters
+            callableStatement.registerOutParameter(4, Types.VARCHAR);
+            // get response
+            response = callableStatement.getString(4);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources();
+        }
+
+        return response;
     }
 
     @Override
-    public String addAttendant(int employeeId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addAttendant'");
+    public String addAttendant(int employeeId, int flightId) {
+        String sql = "{CALL add_employee_flight(?,?,?,?)}";
+
+        try {
+            // get connection
+            connection = DatabaseConfig.getConnection();
+            callableStatement = connection.prepareCall(sql);
+            //set parameters
+            callableStatement.setInt(1, 4);
+            callableStatement.setInt(2, employeeId);
+            callableStatement.setInt(3, flightId);
+            // register our parameters
+            callableStatement.registerOutParameter(4, Types.VARCHAR);
+            // get response
+            response = callableStatement.getString(4);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources();
+        }
+
+        return response;
     }
 
     @Override
-    public String addTechnical(int employeeId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addTechnical'");
+    public String addTechnical(int employeeId, int flightId) {
+        String sql = "{CALL add_employee_flight(?,?,?,?)}";
+
+        try {
+            // get connection
+            connection = DatabaseConfig.getConnection();
+            callableStatement = connection.prepareCall(sql);
+            //set parameters
+            callableStatement.setInt(1, 6);
+            callableStatement.setInt(2, employeeId);
+            callableStatement.setInt(3, flightId);
+            // register our parameters
+            callableStatement.registerOutParameter(4, Types.VARCHAR);
+            // get response
+            response = callableStatement.getString(4);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources();
+        }
+
+        return response;
     }
 
     @Override
@@ -72,9 +166,22 @@ public class CrewRepository implements CrewService{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            closeResources();
         }
 
         return availableFlights;
     }
     
+    private void closeResources () {
+        try {
+            if (connection != null) connection.close();
+            if (preparedStatement != null) preparedStatement.close();
+            if (callableStatement != null) callableStatement.close();
+            if (resultSet != null) resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+ 
 }
