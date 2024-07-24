@@ -41,7 +41,7 @@ public class RolSalesAgentController implements IMenuController {
                         customerController.run();
                         break;
                     case 3:
-                        MyUtils.displayMessageAndClearScreen("Exiting", 2);
+                        MyUtils.displayMessageAndClearScreen("Saliendo...", 2);
                         break;
                     default:
                         System.out.println("Opción no válida. Intente nuevamente.");

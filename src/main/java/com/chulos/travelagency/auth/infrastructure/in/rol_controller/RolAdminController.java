@@ -10,6 +10,7 @@ import com.chulos.travelagency.flight.infrastructure.in.FlightController;
 import com.chulos.travelagency.plane.infrastructure.in.PlaneController;
 import com.chulos.travelagency.trip.infrastructure.in.TripController;
 import com.chulos.travelagency.tripcrew.infrastructure.in.CrewController;
+import com.chulos.travelagency.user.infrastructure.in.UserController;
 import com.chulos.travelagency.utils.MyUtils;
 
 public class RolAdminController implements IMenuController {
@@ -32,7 +33,8 @@ public class RolAdminController implements IMenuController {
                 System.out.println("║ 3. Crear vuelo                            ║");
                 System.out.println("║ 4. Sección Trayectos                      ║");
                 System.out.println("║ 5. Sección Clientes                       ║");
-                System.out.println("║ 6. Salir                                  ║");
+                System.out.println("║ 6. Sección Usuarios                       ║");
+                System.out.println("║ 7. Salir                                  ║");
                 System.out.println("╚═══════════════════════════════════════════╝");
                 System.out.print("Seleccione una opción: ");
                 option = scanner.nextInt();
@@ -59,7 +61,11 @@ public class RolAdminController implements IMenuController {
                         customerController.run();
                         break;
                     case 6:
-                        System.out.println("Saliendo...");
+                        UserController userController = new UserController(scanner);
+                        userController.run();
+                        break;
+                    case 7:
+                        MyUtils.displayMessageAndClearScreen("Saliendo...", 2);
                         break;
                     default:
                         System.out.println("Opción no válida. Intente nuevamente.");
@@ -76,6 +82,6 @@ public class RolAdminController implements IMenuController {
                 return;
             }
 
-        } while (option != 6);
+        } while (option != 7);
     }
 }

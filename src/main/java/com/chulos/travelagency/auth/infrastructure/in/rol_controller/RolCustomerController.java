@@ -57,7 +57,7 @@ public class RolCustomerController implements IMenuController {
                         updateBookingView.start();
                         break;
                     case 4:
-                        System.out.println("Saliendo...");
+                        MyUtils.displayMessageAndClearScreen("Saliendo...", 2);
                         break;
 
                     default:

@@ -45,7 +45,7 @@ public class RolMaintenanceTechController implements IMenuController {
                         System.out.println(" - Lógica no implementada aún");
                         break;
                     case 5:
-                        System.out.println("Saliendo...");
+                        MyUtils.displayMessageAndClearScreen("Saliendo...", 2);
                         break;
                     default:
                         System.out.println("Opción no válida. Intente nuevamente.");
