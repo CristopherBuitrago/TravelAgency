@@ -392,3 +392,6 @@ INSERT INTO role_has_permission (role, permission) VALUES
 INSERT INTO role_has_permission (role, permission) VALUES
 ('CUSTOMER', 43), ('CUSTOMER', 44), ('CUSTOMER', 45), ('CUSTOMER', 46), 
 ('CUSTOMER', 47), ('CUSTOMER', 48);
+
+INSERT INTO user (id, username, email, password, role) VALUES
+(1, "Admin", "admin@admin", "f", "ADMIN");
