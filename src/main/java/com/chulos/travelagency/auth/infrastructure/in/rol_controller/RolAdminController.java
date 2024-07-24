@@ -26,8 +26,8 @@ public class RolAdminController implements IMenuController {
             System.out.println("║ 1. Registrar Avión                        ║");
             System.out.println("║ 2. Asignar Tripulación a Trayecto         ║");
             System.out.println("║ 3. Crear vuelo                            ║");
-            System.out.println("║ 4. Trayectos                              ║");
-            System.out.println("║ 5. Customer                               ║");
+            System.out.println("║ 4. Sección Trayectos                      ║");
+            System.out.println("║ 5. Sección Clientes                       ║");
             System.out.println("║ 6. Salir                                  ║");
             System.out.println("╚═══════════════════════════════════════════╝");
             System.out.print("Seleccione una opción: ");
