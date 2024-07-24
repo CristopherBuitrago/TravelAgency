@@ -32,7 +32,7 @@ public class CreatePlaneView {
                 int chairs = getIntInput("Input plane last chairs: ");
                 int status = getIntInput("Input plane status: ");
                 int model = getIntInput("Input model: ");
-                LocalDate fabricationDate = MyUtils.getLocalDateInput("Input fabrication date (DD-MM-YYYY): ", scanner);
+                LocalDate fabricationDate = MyUtils.getLocalDateInput("Input fabrication date (yyyy-MM-dd): ", scanner);
                 int airline = getIntInput("Input airline: ");
 
                 if (isInputValid(plate, chairs, status, model, fabricationDate, airline)) {
