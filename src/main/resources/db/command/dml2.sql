@@ -1,6 +1,6 @@
 DELIMITER $$
 
-CREATE FUNCTION `calculate_change`(amount DOUBLE, tripId INT) RETURNS double
+CREATE FUNCTION calculate_change(amount DOUBLE, tripId INT) RETURNS double
 BEGIN
 	DECLARE tripPrice  DOUBLE;
     DECLARE totalChange DOUBLE;
@@ -17,111 +17,82 @@ BEGIN
 	RETURN totalChange;
 END$$
 
-CREATE 
-    
-    
-    
-VIEW `TravelAgency`.`available_attendants` AS
+CREATE VIEW available_attendants AS
     SELECT 
-        `e`.`id` AS `id`,
-        CONCAT(`e`.`name`, ' ', `e`.`lastName`) AS `employee`,
-        `tr`.`name` AS `role`
-    FROM
-        (`TravelAgency`.`employee` `e`
-        JOIN `TravelAgency`.`tripulation_role` `tr` ON ((`tr`.`id` = `e`.`tripulationRole`)))
-    WHERE
-        ((`e`.`tripulationRole` = 4)
-            AND `e`.`id` IN (SELECT 
-                `tc`.`employee`
-            FROM
-                `TravelAgency`.`trip_crew` `tc`)
-            IS FALSE)$$
+        e.id AS id,
+        CONCAT(e.name, ' ', e.lastName) AS employee,
+        tr.name AS role
+    FROM 
+        employee e
+    JOIN 
+        tripulation_role tr ON tr.id = e.tripulationRole
+    WHERE 
+        e.tripulationRole = 4
+        AND e.id NOT IN (SELECT tc.employee FROM trip_crew tc)$$
 
-CREATE VIEW `TravelAgency`.`available_copilots` AS
+CREATE VIEW available_copilots AS
     SELECT 
-        `e`.`id` AS `id`,
-        CONCAT(`e`.`name`, ' ', `e`.`lastName`) AS `employee`,
-        `tr`.`name` AS `role`
-    FROM
-        (`TravelAgency`.`employee` `e`
-        JOIN `TravelAgency`.`tripulation_role` `tr` ON ((`tr`.`id` = `e`.`tripulationRole`)))
-    WHERE
-        ((`e`.`tripulationRole` = 2)
-            AND `e`.`id` IN (SELECT 
-                `tc`.`employee`
-            FROM
-                `TravelAgency`.`trip_crew` `tc`)
-            IS FALSE)$$
+        e.id AS id,
+        CONCAT(e.name, ' ', e.lastName) AS employee,
+        tr.name AS role
+    FROM 
+        employee e
+    JOIN 
+        tripulation_role tr ON tr.id = e.tripulationRole
+    WHERE 
+        e.tripulationRole = 2
+        AND e.id NOT IN (SELECT tc.employee FROM trip_crew tc)$$
 
-CREATE VIEW `TravelAgency`.`available_engineers` AS
+CREATE VIEW available_engineers AS
     SELECT 
-        `e`.`id` AS `id`,
-        CONCAT(`e`.`name`, ' ', `e`.`lastName`) AS `employee`,
-        `tr`.`name` AS `role`
-    FROM
-        (`TravelAgency`.`employee` `e`
-        JOIN `TravelAgency`.`tripulation_role` `tr` ON ((`tr`.`id` = `e`.`tripulationRole`)))
-    WHERE
-        ((`e`.`tripulationRole` = 6)
-            AND `e`.`id` IN (SELECT 
-                `tc`.`employee`
-            FROM
-                `TravelAgency`.`trip_crew` `tc`)
-            IS FALSE) $$
+        e.id AS id,
+        CONCAT(e.name, ' ', e.lastName) AS employee,
+        tr.name AS role
+    FROM 
+        employee e
+    JOIN 
+        tripulation_role tr ON tr.id = e.tripulationRole
+    WHERE 
+        e.tripulationRole = 6
+        AND e.id NOT IN (SELECT tc.employee FROM trip_crew tc)$$
 
-CREATE 
-    
-    
-    
-VIEW `TravelAgency`.`available_flights` AS
+CREATE VIEW available_flights AS
     SELECT 
-        `fc`.`id` AS `id`,
-        `fc`.`connectionNumber` AS `connection_number`
-    FROM
-        (`TravelAgency`.`flight_connection` `fc`
-        LEFT JOIN `TravelAgency`.`trip_crew` `tc` ON ((`tc`.`flightConnection` = `fc`.`id`)))
-    WHERE
-        `fc`.`id` IN (SELECT 
-                `TravelAgency`.`trip_crew`.`flightConnection`
-            FROM
-                `TravelAgency`.`trip_crew`)
-            IS FALSE$$
+        fc.id AS id,
+        fc.connectionNumber AS connection_number
+    FROM 
+        flight_connection fc
+    LEFT JOIN 
+        trip_crew tc ON tc.flightConnection = fc.id
+    WHERE 
+        fc.id NOT IN (SELECT trip_crew.flightConnection FROM trip_crew)$$
 
-CREATE 
-    
-    
-    
-VIEW `TravelAgency`.`available_pilots` AS
+CREATE VIEW available_pilots AS
     SELECT 
-        `e`.`id` AS `id`,
-        CONCAT(`e`.`name`, ' ', `e`.`lastName`) AS `employee`,
-        `tr`.`name` AS `role`
-    FROM
-        (`TravelAgency`.`employee` `e`
-        JOIN `TravelAgency`.`tripulation_role` `tr` ON ((`tr`.`id` = `e`.`tripulationRole`)))
-    WHERE
-        ((`e`.`tripulationRole` = 1)
-            AND `e`.`id` IN (SELECT 
-                `tc`.`employee`
-            FROM
-                `TravelAgency`.`trip_crew` `tc`)
-            IS FALSE)$$
+        e.id AS id,
+        CONCAT(e.name, ' ', e.lastName) AS employee,
+        tr.name AS role
+    FROM 
+        employee e
+    JOIN 
+        tripulation_role tr ON tr.id = e.tripulationRole
+    WHERE 
+        e.tripulationRole = 1
+        AND e.id NOT IN (SELECT tc.employee FROM trip_crew tc)$$
 
-CREATE 
-    
-    
-    
-VIEW `TravelAgency`.`user_view` AS
+CREATE VIEW user_view AS
     SELECT 
-        `u`.`id` AS `id`,
-        `u`.`username` AS `username`,
-        `u`.`email` AS `email`,
-        `r`.`name` AS `role`
-    FROM
-        (`TravelAgency`.`user` `u`
-        JOIN `TravelAgency`.`role` `r` ON ((`r`.`code` = `u`.`role`)))$$
+        u.id AS id,
+        u.username AS username,
+        u.email AS email,
+        r.name AS role
+    FROM 
+        user u
+    JOIN 
+        role r ON r.code = u.role$$
 
-CREATE PROCEDURE `add_employee_flight`(
+
+CREATE PROCEDURE add_employee_flight(
     IN in_role_id INT,
     IN in_employee_id INT,
     IN in_flight_id INT,
@@ -218,7 +189,7 @@ this_proc:BEGIN
     END CASE;
 END$$
 
-CREATE PROCEDURE `add_trip_booking`(
+CREATE PROCEDURE add_trip_booking(
     IN in_customer_id INT,
     IN in_trip_id INT,
     IN in_booking_date DATE,
@@ -286,7 +257,7 @@ this_proc:BEGIN
     SET response = "Trip booking registered successfully!";
 END$$
 
-CREATE PROCEDURE `create_customer`(
+CREATE PROCEDURE create_customer(
     IN in_name VARCHAR(45),
     IN in_last_name VARCHAR(45),
     IN in_age INT,
@@ -314,7 +285,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE  PROCEDURE `create_flight`(
+CREATE  PROCEDURE create_flight(
 	IN in_connection_number INT,
     IN in_trip_id INT,
     IN in_plane_id INT,
@@ -375,7 +346,7 @@ this_proc:BEGIN
     SET response = "Flight created successfully!";
 END$$
 
-CREATE PROCEDURE `create_payment_efec`(
+CREATE PROCEDURE create_payment_efec(
     IN in_payment_amount DOUBLE,
     IN in_payment_date DATE,
     IN in_customer_id INT,
@@ -435,14 +406,14 @@ this_proc:BEGIN
     END IF;
     
     -- insert the data
-    INSERT INTO payment (paymentMethod, cardNumber, amount, `change`, paymentDate, customer, purchasedTrip) 
+    INSERT INTO payment (paymentMethod, cardNumber, amount, change, paymentDate, customer, purchasedTrip) 
     VALUES ("EFEC", NULL, in_payment_amount, paymentChange, in_payment_date, in_customer_id, in_trip_id);
     
     -- set successful message
     SET response = CONCAT("Payment created successfully. Total change: ", paymentChange);
 END$$
 
-CREATE PROCEDURE `create_payment_tc`(
+CREATE PROCEDURE create_payment_tc(
     IN in_card_number VARCHAR(10),
     IN in_payment_amount DOUBLE,
     IN in_payment_date DATE,
@@ -503,14 +474,14 @@ this_proc:BEGIN
     END IF;
     
     -- insert the data
-    INSERT INTO payment (paymentMethod, cardNumber, amount, `change`, paymentDate, customer, purchasedTrip) 
+    INSERT INTO payment (paymentMethod, cardNumber, amount, change, paymentDate, customer, purchasedTrip) 
     VALUES ("TC", in_card_number, in_payment_amount, paymentChange, in_payment_date, in_customer_id, in_trip_id);
     
     -- set successful message
     SET response = CONCAT("Payment created successfully. Total change: ", paymentChange);
 END$$
 
-CREATE PROCEDURE `create_payment_td`(
+CREATE PROCEDURE create_payment_td(
     IN in_card_number VARCHAR(10),
     IN in_payment_amount DOUBLE,
     IN in_payment_date DATE,
@@ -571,14 +542,14 @@ this_proc:BEGIN
     END IF;
     
     -- insert the data
-    INSERT INTO payment (paymentMethod, cardNumber, amount, `change`, paymentDate, customer, purchasedTrip) 
+    INSERT INTO payment (paymentMethod, cardNumber, amount, change, paymentDate, customer, purchasedTrip) 
     VALUES ("TD", in_card_number, in_payment_amount, paymentChange, in_payment_date, in_customer_id, in_trip_id);
     
     -- set successful message
     SET response = CONCAT("Payment created successfully. Total change: ", paymentChange);
 END$$
 
-CREATE PROCEDURE `create_plane`(
+CREATE PROCEDURE create_plane(
     IN p_plate VARCHAR(10),
     IN p_chairs INT,
     IN p_status INT,
@@ -607,7 +578,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE PROCEDURE `create_trip`(
+CREATE PROCEDURE create_trip(
 	IN in_date DATE,
     IN in_price DOUBLE,
     IN in_flight_fare_id INT,
@@ -634,7 +605,7 @@ BEGIN
 	END IF;
 END$$
 
-CREATE PROCEDURE `create_user`(
+CREATE PROCEDURE create_user(
     IN username VARCHAR(40),
     IN email VARCHAR(40),
     IN password VARCHAR(40),
@@ -658,7 +629,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE PROCEDURE `delete_trip`(
+CREATE PROCEDURE delete_trip(
 	IN in_trip_id INT,
     OUT response VARCHAR(200)
 )
@@ -682,7 +653,7 @@ BEGIN
 	END IF;
 END$$
 
-CREATE PROCEDURE `delete_trip_booking`(
+CREATE PROCEDURE delete_trip_booking(
 	IN in_trip_booking_id INT,
     OUT response VARCHAR(200)
 )
@@ -706,7 +677,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE PROCEDURE `delete_user`(
+CREATE PROCEDURE delete_user(
 	IN id INT,
     OUT response VARCHAR(40)
 )
@@ -730,7 +701,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE PROCEDURE `find_booking_customer`(
+CREATE PROCEDURE find_booking_customer(
 	IN in_customer_id INT
 )
 BEGIN
@@ -746,7 +717,7 @@ BEGIN
 	WHERE cr.customer = in_customer_id;
 END$$
 
-CREATE PROCEDURE `find_booking_id`(
+CREATE PROCEDURE find_booking_id(
 	IN in_trip_booking_id INT
 )
 BEGIN
@@ -760,7 +731,7 @@ BEGIN
     WHERE cr.id = in_trip_booking_id;
 END$$
 
-CREATE PROCEDURE `find_customer`(
+CREATE PROCEDURE find_customer(
     IN in_id INT
 )
 BEGIN    
@@ -770,7 +741,7 @@ BEGIN
     WHERE c.id = in_id;
 END$$
 
-CREATE PROCEDURE `find_trip`(
+CREATE PROCEDURE find_trip(
 	IN in_trip_id INT
 )
 BEGIN
@@ -782,7 +753,7 @@ BEGIN
     WHERE t.id = in_trip_id;
 END$$
 
-CREATE PROCEDURE `find_user`(
+CREATE PROCEDURE find_user(
     IN id INT
 )
 BEGIN
@@ -794,7 +765,7 @@ BEGIN
     WHERE u.id = id;
 END$$
 
-CREATE PROCEDURE `get_employees_by_role`(
+CREATE PROCEDURE get_employees_by_role(
 	IN in_role_type INT
 )
 BEGIN
@@ -810,13 +781,13 @@ BEGIN
 	END CASE;
 END$$
 
-CREATE PROCEDURE `get_users`()
+CREATE PROCEDURE get_users()
 BEGIN 
     -- select user_view
     SELECT * FROM user_view;
 END$$
 
-CREATE PROCEDURE `login`(
+CREATE PROCEDURE login(
     IN in_email VARCHAR(40),
     IN in_password VARCHAR(40),
     OUT response VARCHAR(100),
@@ -856,7 +827,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE PROCEDURE `register`(
+CREATE PROCEDURE register(
     IN username VARCHAR(40),
     IN email VARCHAR(40),
     IN password VARCHAR(40),
@@ -882,7 +853,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE PROCEDURE `select_flight`(
+CREATE PROCEDURE select_flight(
 	IN in_flight_id INT,
     OUT response VARCHAR(200)
 )
@@ -916,7 +887,7 @@ this_proc:BEGIN
     SET response = "Flight chosen successful!";
 END$$
 
-CREATE PROCEDURE `update_customer`(
+CREATE PROCEDURE update_customer(
     IN in_id INT,
     IN in_name VARCHAR(45),
     IN in_last_name VARCHAR(45),
@@ -960,7 +931,7 @@ BEGIN
     END IF;
 END$$
 
-CREATE PROCEDURE `update_trip`(
+CREATE PROCEDURE update_trip(
 	IN in_trip_id INT,
     IN in_new_date DATE,
     IN in_new_price DOUBLE,
@@ -1002,7 +973,7 @@ BEGIN
 	END IF;
 END$$
 
-CREATE PROCEDURE `update_trip_booking`(
+CREATE PROCEDURE update_trip_booking(
 	IN in_trip_booking_id INT,
     IN in_customer_id INT,
     IN in_trip_id INT,
@@ -1070,7 +1041,7 @@ this_proc:BEGIN
     SET response = "Trip booking updated successfully!";
 END$$
 
-CREATE PROCEDURE `update_user`(
+CREATE PROCEDURE update_user(
     IN id INT,
     IN newUsername VARCHAR(40),
     IN newEmail VARCHAR(40),
