@@ -765,3 +765,215 @@ WHERE fc.id NOT IN (
 	SELECT flightConnection
     FROM trip_crew
 );
+
+-- procedures
+
+CREATE PROCEDURE `create_flight`(
+	IN in_connection_number INT,
+    IN in_trip_id INT,
+    IN in_plane_id INT,
+	IN in_departure_time TIME,
+    IN in_arrival_time TIME,
+    OUT response VARCHAR(200)
+)
+this_proc:BEGIN
+	DECLARE flightExists INT;
+    DECLARE numberChairs INT;
+    DECLARE tripExists INT;
+    DECLARE planeExists INT;
+    
+    -- verify if the flight exists
+	SELECT COUNT(*) INTO flightExists
+    FROM flight_connection fc
+    WHERE fc.trip = in_trip_id
+    AND fc.plane = in_plane_id;
+    
+    IF (flightExists > 0) THEN
+		-- set an error message
+        SET response = "Ups! it seems that the flight already exists. Please try again";
+        LEAVE this_proc;
+	END IF;
+    
+    -- verify if the trip exists
+    SELECT COUNT(*) INTO tripExists
+    FROM trip t
+    WHERE t.id = in_trip_id;
+    
+    IF (tripExists = 0) THEN
+		-- set error message
+        SET response = "Ups! it seems that the trip does not exists";
+		LEAVE this_proc;
+	END IF;
+    
+    -- verify if the plane exists
+    SELECT COUNT(*) INTO planeExists
+    FROM plane p
+    WHERE p.id = in_plane_id;
+    
+    IF (planeExists = 0) THEN
+		-- set error message
+        SET response = "Ups! it seems that the plane does not exists";
+        LEAVE this_proc;
+	END IF;
+    
+    -- calculate total chair's number
+    SELECT p.chairs INTO numberChairs
+    FROM plane p
+    WHERE p.id = in_plane_id;
+    
+    -- insert the data
+    INSERT INTO flight_connection (connectionNumber, trip, plane, departureTime, arrivalTime, availableChairs)
+	VALUES (in_connection_number, in_trip_id, in_plane_id, in_departure_time, in_arrival_time, numberChairs);
+    
+	-- set successful message
+    SET response = "Flight created successfully!";
+END$
+
+-- trip crew
+
+CREATE DEFINER=`root`@`%` PROCEDURE `select_flight`(
+	IN in_flight_id INT,
+    OUT response VARCHAR(200)
+)
+this_proc:BEGIN
+	DECLARE flightExists INT;
+    DECLARE flightInList INT;
+    
+    -- verify if the flight exists int available flights
+    SELECT COUNT(*) INTO flightExists
+    FROM available_flights af
+    WHERE af.id = in_flight_id;
+    
+    IF (flightExists = 0) THEN
+		-- set error message
+        SET response = "Ups! it seems that the flight does not available. Please try again";
+        LEAVE this_proc;
+	END IF;
+    
+    -- verify if the flight exists into trip_crew
+    SELECT COUNT(*) INTO flightInList
+	FROM trip_crew tc
+    WHERE tc.flightConnection = in_flight_id;
+    
+    IF (flightInList > 0) THEN
+		-- set error message
+        SET response = "Ups! It appears that the flight has been recorded before.";
+        LEAVE this_proc;
+	END IF;
+    
+    -- set successful message
+    SET response = "Flight chosen successful!";
+END$$
+
+CREATE DEFINER=`root`@`%` PROCEDURE `add_employee_flight`(
+    IN in_role_id INT,
+    IN in_employee_id INT,
+    IN in_flight_id INT,
+    OUT response VARCHAR(200)
+)
+this_proc:BEGIN
+    DECLARE validEmployee INT;
+
+    -- switch
+    CASE
+        WHEN in_role_id = 1 THEN
+            -- verify if the pilot is into available pilots
+            SELECT COUNT(*) INTO validEmployee
+            FROM available_pilots ap
+            WHERE ap.id = in_employee_id;
+
+            IF (validEmployee = 0) THEN
+                -- set error message
+                SET response = "Ups! it seems that the pilot is not available. Please try again";
+                LEAVE this_proc;
+            END IF;
+
+            -- insert data
+            INSERT INTO trip_crew (employee, flightConnection)
+            VALUES (in_employee_id, in_flight_id);
+
+            -- set successful message
+            SET response = "Pilot added successful!";
+            LEAVE this_proc;
+
+        WHEN in_role_id = 2 THEN
+            -- verify if the co-pilot is into available co-pilots
+            SELECT COUNT(*) INTO validEmployee
+            FROM available_copilots ac
+            WHERE ac.id = in_employee_id;
+
+            IF (validEmployee = 0) THEN
+                -- set error message
+                SET response = "Ups! it seems that the co-pilot is not available. Please try again";
+                LEAVE this_proc;
+            END IF;
+
+            -- insert data
+            INSERT INTO trip_crew (employee, flightConnection)
+            VALUES (in_employee_id, in_flight_id);
+
+            -- set successful message
+            SET response = "Co-pilot added successful!";
+            LEAVE this_proc;
+
+        WHEN in_role_id = 4 THEN
+            -- verify if the attendant is into available attendants
+            SELECT COUNT(*) INTO validEmployee
+            FROM available_attendants aa
+            WHERE aa.id = in_employee_id;
+
+            IF (validEmployee = 0) THEN
+                -- set error message
+                SET response = "Ups! it seems that the attendant is not available. Please try again";
+                LEAVE this_proc;
+            END IF;
+
+            -- insert data
+            INSERT INTO trip_crew (employee, flightConnection)
+            VALUES (in_employee_id, in_flight_id);
+
+            -- set successful message
+            SET response = "Attendant added successful!";
+            LEAVE this_proc;
+
+        WHEN in_role_id = 6 THEN
+            -- verify if the engineer is into available engineers
+            SELECT COUNT(*) INTO validEmployee
+            FROM available_engineers ae
+            WHERE ae.id = in_employee_id;
+
+            IF (validEmployee = 0) THEN
+                -- set error message
+                SET response = "Ups! it seems that the engineer is not available. Please try again";
+                LEAVE this_proc;
+            END IF;
+
+            -- insert data
+            INSERT INTO trip_crew (employee, flightConnection)
+            VALUES (in_employee_id, in_flight_id);
+
+            -- set successful message
+            SET response = "Engineer added successful!";
+            LEAVE this_proc;
+            
+        ELSE
+            SET response = "Invalid role ID.";
+            LEAVE this_proc;
+    END CASE;
+END$$
+
+CREATE PROCEDURE `get_employees_by_role` (
+	IN in_role_type INT
+)
+BEGIN
+	CASE
+		WHEN in_role_type = 1 THEN
+			SELECT * FROM available_pilots;
+		WHEN in_role_type = 2 THEN
+			SELECT * FROM available_copilots;
+		WHEN in_role_type = 4 THEN
+			SELECT * FROM available_attendants;
+		WHEN in_role_type = 6 THEN
+			SELECT * FROM available_engineers;
+	END CASE;
+END$$

@@ -1,5 +1,7 @@
 package com.chulos.travelagency.flight.domain.service;
 
-public interface FlightService {
+import com.chulos.travelagency.flight.domain.entity.Flight;
 
+public interface FlightService {
+    String createFlight (Flight flight);
 }
