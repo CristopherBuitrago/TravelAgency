@@ -1,27 +1,27 @@
 package com.chulos.travelagency.plane.domain.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Plane {
     private String plate;
     private int chairs;
-    private Date fabricationDate;
     private int status;
-    private int airline;
     private int model;
+    private Date fabricationDate;
+    private int airline;
 
     // empty constructor
     public Plane() {
     }
 
     // full constructor
-    public Plane(String plate, int chairs, Date fabricationDate, int status, int airline, int model) {
+    public Plane(String plate, int chairs, int status, int model, Date fabricationDate, int airline) {
         this.plate = plate;
         this.chairs = chairs;
-        this.fabricationDate = fabricationDate;
         this.status = status;
-        this.airline = airline;
         this.model = model;
+        this.fabricationDate = fabricationDate;
+        this.airline = airline;
     }
 
     // getters and setters

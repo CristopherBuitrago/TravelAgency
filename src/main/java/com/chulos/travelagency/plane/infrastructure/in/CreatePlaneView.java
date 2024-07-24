@@ -1,11 +1,11 @@
 package com.chulos.travelagency.plane.infrastructure.in;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import com.chulos.travelagency.customer.domain.entity.Customer;
 import com.chulos.travelagency.plane.application.CreatePlaneUseCase;
 import com.chulos.travelagency.plane.domain.entity.Plane;
 import com.chulos.travelagency.utils.MyUtils;
@@ -33,7 +33,7 @@ public class CreatePlaneView {
                 int chairs = getIntInput("Input plane last chairs: ");
                 int status = getIntInput("Input plane status: ");
                 int model = getIntInput("Input model: ");
-                Date fabricationDate = MyUtils.getDateInput("Input fabrication date (AAAA-MM-DD): ", scanner);
+                Date fabricationDate = MyUtils.getDateInput("Input fabrication date (DD-MM-YYYY): ", scanner);
                 int airline = getIntInput("Input airline: ");
 
                 if (isInputValid(plate, chairs, status, model, fabricationDate, airline)) {
@@ -53,6 +53,9 @@ public class CreatePlaneView {
                 break;
             } catch (IllegalStateException e) {
                 MyUtils.displayMessageAndClearScreen("Ups! the scanner is closed", 2);
+                break;
+            } catch (ParseException e) {
+                MyUtils.displayMessageAndClearScreen("Ups! the scanner is closed BECAUSE DE PARSE", 2);
                 break;
             }
         }

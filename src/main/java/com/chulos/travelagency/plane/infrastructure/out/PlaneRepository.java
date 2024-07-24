@@ -2,6 +2,7 @@ package com.chulos.travelagency.plane.infrastructure.out;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -38,7 +39,7 @@ public class PlaneRepository implements PlaneService {
             callableStatement.setInt(2, plane.getChairs());
             callableStatement.setInt(3, plane.getStatus());
             callableStatement.setInt(4, plane.getModel());
-            callableStatement.setDate(5, plane.getFabricationDate());
+            callableStatement.setDate(5, (Date) plane.getFabricationDate());
             callableStatement.setInt(6, plane.getAirline());
 
             // Register out parameters
