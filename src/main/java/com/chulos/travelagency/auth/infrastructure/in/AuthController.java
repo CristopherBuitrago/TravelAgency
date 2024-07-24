@@ -66,7 +66,7 @@ public class AuthController {
 
                 // get the option
                 // SYMBOLS (→) 
-                System.out.print("║[-]");
+                System.out.print("║[-] ");
                 int option = scanner.nextInt();
                 scanner.nextLine();
 
