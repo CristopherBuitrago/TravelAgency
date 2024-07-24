@@ -112,7 +112,7 @@ CREATE TABLE payment (
     paymentMethod VARCHAR(10) NOT NULL,
     cardNumber VARCHAR(10) DEFAULT NULL,
     amount DOUBLE NOT NULL,
-    change DOUBLE,
+    `change` DOUBLE,
     paymentDate DATE NOT NULL,
     customer INT NOT NULL,
     purchasedTrip INT NOT NULL,
