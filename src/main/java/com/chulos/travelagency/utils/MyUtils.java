@@ -2,6 +2,7 @@ package com.chulos.travelagency.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -80,6 +81,20 @@ public class MyUtils {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         formatter.setLenient(false); // Strict date parsing
         return formatter.parse(input);
+    }
+
+    // method to get a LocalDate
+    public static LocalDate getLocalDateInput(String prompt, Scanner scanner) {
+        System.out.print(prompt);
+        String input = scanner.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        
+        try {
+            return LocalDate.parse(input, formatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Fecha inválida. Por favor, use el formato yyyy-MM-dd.");
+            return getLocalDateInput(prompt, scanner); // Vuelve a pedir la entrada si el formato es incorrecto
+        }
     }
 
     // method to get a double
