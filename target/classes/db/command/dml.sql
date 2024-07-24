@@ -395,3 +395,21 @@ INSERT INTO role_has_permission (role, permission) VALUES
 
 INSERT INTO user (id, username, email, password, role) VALUES
 (1, "Admin", "admin@admin", "f", "ADMIN");
+
+INSERT INTO employee (id, name, lastName, age, tripulationRole, admissionDate, airline, airport) VALUES
+(1, 'Felipe', 'Mendoza', 34, 1, '1999-08-09', 1, 1),
+(2, 'Pedro', 'Carreño', 45, 1, '2007-09-08', 2, 1),
+(3, 'Gabriel', 'Gamboa', 28, 1, '2007-07-09', 3, 2),
+(4, 'Daniel', 'Navas', 23, 1, '2000-07-03', 1, 2),
+(5, 'Lichvosky', 'Recaurduic', 38, 2, '2023-07-09', 3, 3),
+(6, 'Drawel', 'Schavoskyv', 56, 2, '1998-05-03', 3, 1),
+(9, 'Reden', 'Fallot', 39, 2, '1999-04-05', 1, 5),
+(10, 'David', 'Holland', 25, 2, '2017-04-01', 2, 8),
+(11, 'Maria', 'Pineda', 24, 4, '2023-05-03', 3, 10),
+(12, 'Wendy', 'Woolord', 23, 4, '2019-02-28', 1, 20),
+(13, 'Estela', 'Forwards', 22, 4, '2018-02-03', 2, 13),
+(14, 'Valery', 'Rangel', 27, 4, '2016-03-04', 3, 12),
+(15, 'William', 'Ospina', 40, 6, '1998-03-05', 1, 1),
+(16, 'Carlos', 'Palomino', 44, 6, '1994-02-01', 2, 21),
+(17, 'Camilo', 'Perez', 21, 6, '2024-03-04', 3, 2),
+(18, 'Farwecdas', 'Dervadin', 45, 6, '2024-04-03', 1, 22);
