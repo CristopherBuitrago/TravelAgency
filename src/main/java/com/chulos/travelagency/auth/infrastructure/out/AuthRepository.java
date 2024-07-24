@@ -4,19 +4,26 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Scanner;
 
 import com.chulos.travelagency.auth.domain.entity.Auth;
 import com.chulos.travelagency.auth.domain.service.AuthService;
+import com.chulos.travelagency.auth.domain.service.IMenuController;
+import com.chulos.travelagency.auth.infrastructure.in.rol_controller.RolAdminController;
+import com.chulos.travelagency.auth.infrastructure.in.rol_controller.RolCustomerController;
+import com.chulos.travelagency.auth.infrastructure.in.rol_controller.RolMaintenanceTechController;
+import com.chulos.travelagency.auth.infrastructure.in.rol_controller.RolSalesAgentController;
 import com.chulos.travelagency.config.DatabaseConfig;
 import com.chulos.travelagency.user.domain.entity.User;
 import com.chulos.travelagency.utils.MyUtils;
 
-public class AuthRepository implements AuthService{
+public class AuthRepository implements AuthService {
+    Scanner scanner = new Scanner(System.in);
     // attributes
     Connection connection = null;
     CallableStatement callableStatement = null;
-    String response  = null;
-    
+    String response = null;
+
     // =================================================
     // Logica LOGIN
     @Override
@@ -28,8 +35,8 @@ public class AuthRepository implements AuthService{
             connection = DatabaseConfig.getConnection();
             if (connection != null) {
                 System.out.println("\n╭─────────────────────────────────────╮");
-                System.out.println(  "│   Successful Database Connection!   │");
-                System.out.println(  "╰─────────────────────────────────────╯");
+                System.out.println("│   Successful Database Connection!   │");
+                System.out.println("╰─────────────────────────────────────╯");
             }
             // Prepare call
             callableStatement = connection.prepareCall(sql);
@@ -60,29 +67,33 @@ public class AuthRepository implements AuthService{
                         System.out.println("╔═════════════════════════════════════════╗");
                         System.out.println("║              ADMINISTRATOR              ║");
                         System.out.println("╚═════════════════════════════════════════╝");
+                        IMenuController menuAdmin = new RolAdminController(scanner);
+                        menuAdmin.showMenu();
 
-                        break;
                     case "MTECH":
                         MyUtils.displayMessageAndClearScreen("Login Successful!", 3);
                         System.out.println("╔══════════════════════════════════════════╗");
                         System.out.println("║          MAINTENANCE TECHNICIAN          ║");
                         System.out.println("╚══════════════════════════════════════════╝");
+                        IMenuController menuMT = new RolMaintenanceTechController(scanner);
+                        menuMT.showMenu();
 
-                        break;
                     case "SA":
                         MyUtils.displayMessageAndClearScreen("Login Successful!", 3);
                         System.out.println("╔═════════════════════════════════════════╗");
                         System.out.println("║               SALES AGENT               ║");
                         System.out.println("╚═════════════════════════════════════════╝");
+                        IMenuController menuSA = new RolSalesAgentController(scanner);
+                        menuSA.showMenu();
 
-                        break;
                     case "CUSTOMER":
                         MyUtils.displayMessageAndClearScreen("Login Successful!", 3);
                         System.out.println("╔══════════════════════════════════════════╗");
                         System.out.println("║                 CUSTOMER                 ║");
                         System.out.println("╚══════════════════════════════════════════╝");
-                        
-                        break;
+                        IMenuController menuCustomer = new RolCustomerController(scanner);
+                        menuCustomer.showMenu();
+
                     default:
                         System.out.println("Unrecognized role.");
                         break;
@@ -150,11 +161,13 @@ public class AuthRepository implements AuthService{
     // Close resources method
     private void closeResources() {
         try {
-            if (callableStatement != null) callableStatement.close();
-            if (connection != null) connection.close();
+            if (callableStatement != null)
+                callableStatement.close();
+            if (connection != null)
+                connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
 }
