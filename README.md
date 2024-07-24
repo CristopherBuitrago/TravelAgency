@@ -1,7 +1,7 @@
 # Travel Agency ✈️
 
-### Nombre CHULO 1
-### Nombre CHULO 2
+### Cristopher Buitragp
+### Daniel Navas
 
 Bienvenido a **Travel Agency**, una plataforma integral para la gestión de vuelos y reservas. Desarrollada por Cristopher Buitrago y Daniel Navas, esta aplicación ofrece una variedad de funcionalidades para facilitar la experiencia de viaje.
 
